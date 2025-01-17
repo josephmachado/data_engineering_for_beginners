@@ -1,0 +1,33 @@
+project:
+  type: book
+
+book:
+  title: "Hands on Data Engineering for Beginners"
+  author: "Joseph Machado"
+  date: "1/17/2025"
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - setup.qmd
+    - sql.qmd
+    - data_model.qmd
+    - python.qmd
+    - docker.qmd
+    - dbt.qmd
+    - data_quality.qmd
+    - orchestrator.qmd
+    - git.qmd
+    - cloud.qmd
+    - summary.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+
+
