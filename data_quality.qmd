@@ -4,5 +4,5 @@
 ## Adding DQ checks to out dbt pipeline
 ## Save time by ensuring inputs to your pipeline are accurate
 ## Define how late your data can be (SLA)
-## DQ is business/context dependent
+## DQ is business and context dependent
 

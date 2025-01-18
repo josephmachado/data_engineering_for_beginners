@@ -1,6 +1,6 @@
 # Use GitHub codespaces to run your code
 
 ## Create a free GitHub account
-## Codespaces = a "free" computer you can rent from GitHub
+## Codespaces is a free computer you can rent from GitHub
 ## Creating your own codespace is easy
-## terminal = a way to run code & interact with files on your computer
+## terminal is a way to run code and interact with files on your computer

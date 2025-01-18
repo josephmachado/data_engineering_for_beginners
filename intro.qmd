@@ -2,10 +2,12 @@
 
 ## Help users analyze data
   Build dashboards for business users; Create datasets with appropriate information for DS/DA; Create access layers that other systems can access
+
 ## Build systems to get data to users
   Build system to get data ready for end user
   Work with users to identify what data to build
   Resolve data issues 
+
 ## Create long term plans to enable effective data use
   Work with users to identify types of data theyd need
   Build software foundations that standardizes DEs work

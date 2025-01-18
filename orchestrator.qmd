@@ -2,7 +2,7 @@
 
 
 ## Orchestrator enables you to define the execution order of your data pipeline
-## Let's orchestrate our Python script and dbt pipeline
+## Orchestrate our Python script and dbt pipeline
 ## Scheduler enables you to run your pipelines on a schedule
 ## Schedule our data pipeline
 
