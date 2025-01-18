@@ -1,3 +1,14 @@
 /_book/
 
 /.quarto/
+
+*.pdf.md
+
+*.log
+
+*.aux
+
+*.pdf
+
+*.tex
+*.toc

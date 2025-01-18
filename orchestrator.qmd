@@ -1,5 +1,10 @@
-# Define data flow and run them as required with Airflow
+# Define order of execution of steps in a data pipeline with an Orchestrator
 
-This is a book created from markdown and executable code.
 
-See @knuth84 for additional discussion of literate programming.
+- Orchestrator enables you to define the execution order of your data pipeline
+- Let's orchestrate our Python script and dbt pipeline
+- Scheduler enables you to run your pipelines on a schedule
+- Schedule our data pipeline
+
+
+

@@ -1,5 +1,8 @@
 # Ensure your data is accurate before presenting to end users
 
-This is a book created from markdown and executable code.
+- Make sure data is accurate before users use it (WAP pattern)
+- Adding DQ checks to out dbt pipeline
+- Save time by ensuring inputs to your pipeline are accurate
+- Define how late your data can be (SLA)
+- DQ is business/context dependent
 
-See @knuth84 for additional discussion of literate programming.

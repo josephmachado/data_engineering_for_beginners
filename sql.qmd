@@ -1,5 +1,8 @@
 # Transform data with SQL
 
-This is a book created from markdown and executable code.
+- Most data is tabular
+- SQL is effective with data transformation
+- 7 Key SQL commands
+- Window function
+- database engines are software which take your SQL and executes them
 
-See @knuth84 for additional discussion of literate programming.

@@ -1,5 +1,7 @@
 # Python is the glue that holds your data pipeline together
 
-This is a book created from markdown and executable code.
-
-See @knuth84 for additional discussion of literate programming.
+- Disk is for storage & RAM is for processing
+- Python can read data from & write data to most systems
+- Most data tools enable you to use Python
+- Reading & writing data: API, Database, Filesystems, etc
+- Moving data from source to destination (ETL) with Python

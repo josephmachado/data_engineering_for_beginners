@@ -1,5 +1,13 @@
-# Introduction
+# Data engineers enable effective use of data
 
-This is a book created from markdown and executable code.
-
-See @knuth84 for additional discussion of literate programming.
+- Help users analyze data
+  1. Build dashboards for business users
+  2. Create datasets with appropriate information for DS/DA
+  3. Create access layers that other systems can access
+- Build systems to get data to users
+  1. Build system to get data ready for end user
+  2. Work with users to identify what data to build
+  3. Resolve data issues 
+- Create long term plans to enable effective data use
+  1. Work with users to identify types of data theyd need
+  2. Build software foundations that standardizes DEs work
