@@ -1,6 +1,6 @@
 # Make working on same code easy using git
 
-- git is a way for multile people to work on the same code
-- A branch is your copy of the code, which you can merge into the main branch
-- Most companies use a technique called feature branching during development
-- A git server is a central system to store your company's code
+## git is a way for multile people to work on the same code
+## A branch is your copy of the code, which you can merge into the main branch
+## Most companies use a technique called feature branching during development
+## A git server is a central system to store your company's code

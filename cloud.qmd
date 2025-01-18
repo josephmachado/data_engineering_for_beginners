@@ -1,6 +1,6 @@
 # Cloud = well maintained & secure computers you can rent
 
-- Cloud providers rent computers with specific software preinstalled
-- Cloud providers make it easy to start running your code
-- A SAAS is similar to cloud provider, but only runs a specific software
-- Let's use AWS to host our data pipeline
+## Cloud providers rent computers with specific software preinstalled
+## Cloud providers make it easy to start running your code
+## A SAAS is similar to cloud provider, but only runs a specific software
+## Let's use AWS to host our data pipeline

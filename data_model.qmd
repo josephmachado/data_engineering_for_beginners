@@ -1,7 +1,7 @@
 # Data warehouse is where users can analyze historical data
 
-- Data warehouse enables users to analyze historical data
-- Data warehouse is a process not a specific technology
-- Data modeling is a process to get data ready for end user
-- Follow standard data modeling techniques
+## Data warehouse enables users to analyze historical data
+## Data warehouse is a process not a specific technology
+## Data modeling is a process to get data ready for end user
+## Follow standard data modeling techniques
 

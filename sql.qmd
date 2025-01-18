@@ -1,8 +1,8 @@
 # Transform data with SQL
 
-- Most data is tabular
-- SQL is effective with data transformation
-- 7 Key SQL commands
-- Window function
-- database engines are software which take your SQL and executes them
+## Most data is tabular
+## SQL is effective with data transformation
+## 7 Key SQL commands
+## Window function
+## database engines are software which take your SQL and executes them
 

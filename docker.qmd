@@ -1,7 +1,7 @@
 # Ensure your code works anywhere with Docker
 
-- Define your OS with a docker image
-- A container refers to an isolated OS
-- Use docker to run any number of containers
-- Docker has multiple options to communicate between containers
+## Define your OS with a docker image
+## A container refers to an isolated OS
+## Use docker to run any number of containers
+## Docker has multiple options to communicate between containers
 

@@ -1,10 +1,9 @@
 # Data from source needs to be transformed into the right shape
 
-- Data from multiple source systems are hard to analyze
-- Data engineers define how data is presented to the end user
-- Data engineers are responsible for transforming data for analytics
-- Builing a data pipeline with dbt
-  1. dbt quick primer
-  2. Use standard 3 hop architecture to transform your data
+## Data from multiple source systems are hard to analyze
+## Data engineers define how data is presented to the end user
+## Data engineers are responsible for transforming data for analytics
+## Builing a data pipeline with dbt
+dbt quick primer & Use standard 3 hop architecture to transform your data
 
 
