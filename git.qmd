@@ -1,6 +1,8 @@
-# Make working on same code easy using git
+# [git] is a tool to help multiple engineers work with the same code
 
-## git is a way for multile people to work on the same code
-## A branch is your copy of the code, which you can merge into the main branch
-## Most companies use a technique called feature branching during development
-## A git server is a central system to store your company's code
+## Most companies have multiple data engineers working on the same code simultaneously
+
+## The pattern most data teams use is called feature branching
+
+## A SAAS like GitHub or GitLab stores your code in a web-based system
+

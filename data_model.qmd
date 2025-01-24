@@ -1,7 +1,11 @@
-# Data warehouse is where users can analyze historical data
+# [Data warehouse]-ing is a process to get data ready for analysis
 
-## Data warehouse enables users to analyze historical data
-## Data warehouse is a process not a specific technology
-## Data modeling is a process to get data ready for end user
-## Follow standard data modeling techniques
+## The objective of a data warehouse is to enable effective analysis of all your company's data
 
+## Data modeling is the process of defining the shape of data 
+
+## Data warehouse can be any suitable technology
+
+## Don't reinvent the wheel, most data modeling standards have been well established since the 90s
+
+## [Project] Transforming data with SQL

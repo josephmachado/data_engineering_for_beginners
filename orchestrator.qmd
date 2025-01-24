@@ -1,10 +1,10 @@
-# Define order of execution of steps in a data pipeline with an Orchestrator
+# [Scheduler & Orchestrator] to define when and how to run your data pipelines
 
+## A scheduler is a system that runs your pipeline as you need it to
 
-## Orchestrator enables you to define the execution order of your data pipeline
-## Orchestrate our Python script and dbt pipeline
-## Scheduler enables you to run your pipelines on a schedule
-## Schedule our data pipeline
+## An orchestrator is a sytem that runs your code where & how you want it to run
 
+## Some tools are only schedulers (cron) and others are both schedulers and orchestrators (Airflow)
 
+## [Project] Use Apache Airflow to schedule your dat pipeline
 

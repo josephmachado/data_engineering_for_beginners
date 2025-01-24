@@ -1,7 +1,10 @@
-# Ensure your code works anywhere with Docker
+# Use [Docker] to ensure your code is able to run on any machine
 
-## Define your OS with a docker image
-## A container refers to an isolated OS
-## Use docker to run any number of containers
-## Docker has multiple options to communicate between containers
+## Create a blueprint of what you want your operating system to be with a docker image
+
+## Use a docker image to start running an operating system (aka a container)
+
+## Docker enables you to run multiple containers
+
+## Docker compose provides a way to define which and how to run containers
 

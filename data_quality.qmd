@@ -1,8 +1,14 @@
-# Ensure your data is accurate before presenting to end users
+# [Data quality] Always ensure your data is accurate before anyone using it 
 
-## Make sure data is accurate before users use it (WAP pattern)
-## Adding DQ checks to out dbt pipeline
+## WAP pattern is how you ensure data correctness before exposing data to users
+
+## There are 3 main types of data quality checks you can use
+
+## Start your data quality journey by checking your output first
+
+## [Project] Adding DQ checks to our dbt pipeline
+
 ## Save time by ensuring inputs to your pipeline are accurate
+
 ## Define how late your data can be (SLA)
-## DQ is business and context dependent
 

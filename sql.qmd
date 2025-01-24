@@ -1,8 +1,14 @@
-# Transform data with SQL
+# [SQL] Thinking in SQL is 90% of data engineering
 
-## Most data is tabular
-## SQL is effective with data transformation
-## 7 Key SQL commands
-## Window function
-## database engines are software which take your SQL and executes them
+## Most business data to analyze are in the form of tables
+
+## Let's understand how our (fictional) employer's company works
+
+## The term SQL is used interchangebly to mean the software that manipulates data and the code that you write
+
+## Visualizing tables and its processing before writing code is key to effective data processing
+
+## There are 7 critical SQL concepts to understand
+
+## Imagine sliding a window over the rows in a table with Window functions
 
