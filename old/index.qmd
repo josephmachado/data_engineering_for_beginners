@@ -1,0 +1,33 @@
+# Start here {.unnumbered}
+
+Are you trying to break into a high paying data engineering job, but 
+
+> Don't know where to start?
+
+> Feel overwhelmed by the amount of tools, system, topics, frameworks to master
+
+> Trying to switch from an adjacent field, but the switch is harder than you had assumed
+
+Then this book is for you. This book is for anyone who wants to get into data engineering, but feels stuck, confused and end up spending a lot of time going in circles. This book is designed to help you lay the foundations for a great career in the field of data.
+
+As a data engineering your primary mission will be to enable stakeholders to effectively use data to make decisions. The entierity of this book will focus on how you can do this.
+
+## How to use this book
+
+This book is written in order to guide you from not knowing much about data engineering to being proficient in the core ideas that underpins modern  data engineering.
+
+I recommend you read the book in order and follow along with the code examples. Each chapter has exercises, the solutions for which you will receive via emails (sign up here add:link).
+
+## Setup
+
+Follow the steps here for [setup](https://github.com/josephmachado/data_engineering_for_beginners_code/tree/main?tab=readme-ov-file#setup).
+
+In order to follow along with code, please make a copy of this [starter notebook](https://github.com/josephmachado/data_engineering_for_beginners_code/blob/main/notebooks/starter_template.ipynb) and follow along.
+
+## Data 
+
+We will use the TPCH dataset for exercises and example throughout this book. he TPC-H data represents a car parts seller’s data warehouse, where we record orders, items that make up that order (lineitem), supplier, customer, part (parts sold), region, nation, and partsupp (parts supplier). 
+
+**Note**: Have a copy of the data model as you follow along; this will help in understanding the examples provided and in answering exercise questions.
+
+![](./tpch_erd.png)

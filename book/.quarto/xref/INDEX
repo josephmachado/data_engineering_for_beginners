@@ -1,0 +1,17 @@
+{
+  "sql_basics.qmd": {
+    "sql_basics.html": "77e0da89"
+  },
+  "index.qmd": {
+    "index.html": "11454f21"
+  },
+  "summary.qmd": {
+    "summary.html": "cd5193d1"
+  },
+  "references.qmd": {
+    "references.html": "e08a8199"
+  },
+  "sql.qmd": {
+    "sql.html": "b59dd7a5"
+  }
+}

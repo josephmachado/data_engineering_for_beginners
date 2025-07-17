@@ -1,0 +1,25 @@
+project:
+  type: book
+
+book:
+  title: "Data Engineering For Beginners"
+  author: "Joseph Machado"
+  date: "6/30/2025"
+  page-navigation: true
+  # page-footer: "Copyright 2025, Joseph Machado" 
+  chapters:
+    - index.qmd
+    - part: sql.qmd
+      chapters:
+        - sql_basics.qmd
+    - summary.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    toc-depth: 4
+  pdf:
+    documentclass: scrreprt

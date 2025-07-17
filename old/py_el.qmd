@@ -1,0 +1,113 @@
+## Python has libraries to read and write data to (almost) any system
+
+add: image 
+
+Python has multiple libraries that enable reading from and writing to various systems. Almost all systems these days have a Python libraries to interact with it.
+
+For data engineering this means that one can use Python to interact with any part of the stack. Let's look at the types of systems for reading and writing and how Python is used there:
+
+1. **`Database drivers`**: These are libraries that you can use to connect to a database. Database drivers require you to use credentials to create a connection to your database. Once you have the connection object, you can run queries, read data from your database in Python, etc. Some examples are psycopg2, sqlite3, duckdb, etc.
+2. **`Cloud SDKs`**: Most cloud providers (AWS, GCP, Azure) provide their own SDK(Software Development Kit). You can use the SDK to work with any of the cloud services. In data pipelines, you would typically use the SDK to extract/load data from/to a cloud storage system(S3, GCP Cloud store, etc). Some examples of SDK are AWS, which has boto3; GCP, which has gsutil; etc.
+3. **`APIs`**: Some systems expose data via APIs. Essentially, a server will accept an HTTPS request and return some data based on the parameters. Python has the popular `requests` library to work with APIs. 
+4. **`Files`**: Python enables you to read/write data into files with standard libraries(e.g., `csv`). Python has a plethora of libraries available for specialized files like XML, xlsx, parquet, etc.
+5. **`SFTP/FTP`**: These are servers typically used to provide data to clients outside your company. Python has tools like paramiko, ftplib, etc., to access the data on these servers.
+6. **`Queuing systems`**: These are systems that queue data (e.g., Kafka, AWS Kinesis, Redpanda, etc.). Python has libraries to read data from and write data to these systems, e.g., [pykafka](https://pykafka.readthedocs.io/en/latest/), etc.
+
+```python
+# Extract: Process to pull data from Source system
+# Load: Process to write data to a destination system
+
+# Common upstream & downstream systems
+# OLTP Databases: Postgres, MySQL, sqlite3, etc
+# OLAP Databases: Snowflake, BigQuery, Clickhouse, DuckDB, etc
+# Cloud data storage: AWS S3, GCP Cloud Store, Minio, etc
+# Queue systems: Kafka, Redpanda, etc
+# API
+# Local disk: csv, excel, json, xml files
+# SFTP\FTP server
+
+# Databases: When reading or writing to a database we use a database driver. Database drivers are libraries that we can use to read or write to a database.
+# Question: How do you read data from a sqlite3 database and write to a DuckDB database?
+# Hint: Look at importing the database libraries for sqlite3 and duckdb and create connections to talk to the respective databases
+
+# Fetch data from the SQLite Customer table
+
+# Insert data into the DuckDB Customer table
+
+# Hint: Look for Commit and close the connections
+# Commit tells the DB connection to send the data to the database and commit it, if you don't commit the data will not be inserted
+
+# We should close the connection, as DB connections are expensive
+
+# Cloud storage
+# Question: How do you read data from the S3 location given below and write the data to a DuckDB database?
+# Data source: https://docs.opendata.aws/noaa-ghcn-pds/readme.html station data at path "csv.gz/by_station/ASN00002022.csv.gz"
+# Hint: Use boto3 client with UNSIGNED config to access the S3 bucket
+# Hint: The data will be zipped you have to unzip it and decode it to utf-8
+
+# AWS S3 bucket and file details
+bucket_name = "noaa-ghcn-pds"
+file_key = "csv.gz/by_station/ASN00002022.csv.gz"
+# Create a boto3 client with anonymous access
+
+# Download the CSV file from S3
+# Decompress the gzip data
+# Read the CSV file using csv.reader
+# Connect to the DuckDB database (assume WeatherData table exists)
+
+# Insert data into the DuckDB WeatherData table
+
+# API
+# Question: How do you read data from the CoinCap API given below and write the data to a DuckDB database?
+# URL: "https://api.coincap.io/v2/exchanges"
+# Hint: use requests library
+
+# Define the API endpoint
+url = "https://api.coincap.io/v2/exchanges"
+
+# Fetch data from the CoinCap API
+# Connect to the DuckDB database
+
+# Insert data into the DuckDB Exchanges table
+# Prepare data for insertion
+# Hint: Ensure that the data types of the data to be inserted is compatible with DuckDBs data column types in ./setup_db.py
+
+
+# Local disk
+# Question: How do you read a CSV file from local disk and write it to a database?
+# Look up open function with csvreader for python
+
+# Web scraping
+# Questions: Use beatiful soup to scrape the below website and print all the links in that website
+# URL of the website to scrape
+url = 'https://example.com'
+```
+
+## Exercises
+
+1. Read data from pokeapi and write data into a local file 
+```python
+data_api = "https://pokeapi.co/api/v2/pokemon/1/"
+local_file = "tmp_file"
+
+# pull data from data_api 
+# write data to local_file
+```
+
+2. Read data from local file and print it
+
+```python
+# use python standard libraries to open the local_file
+# print contents of the local_file
+
+```
+3. Read data from local file and insert it into a sqllite3 table
+
+```python
+# create a sqlite3 table
+# use python standard libraries to open the local_file
+# print contents of the local_file
+# inbsert id, name and base_experience into the above sqlite3 table
+```
+
+

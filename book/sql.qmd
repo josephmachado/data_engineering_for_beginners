@@ -1,0 +1,22 @@
+---
+title: Use SQL to transform data
+format:
+  html:
+    toc: true
+execute:
+  eval: false
+  output: true
+jupyter: python3
+---
+
+
+SQL is the foundation on which data engineering works. Most data pipelines are SQL scripts strung together. While there are caveats for using Python v SQL (add:link) in data engineering, almost always SQL (or SQL-like dataframe) are the way you will code.
+
+In data engineering context, SQL is used for 
+
+1. Analytical querying, which involves large amounts of data and aggeregating them to create metrics that define how well business has been performing (e.g. daily active users for a social media company) and how to predict the future.
+
+2. Data processing, which involves transforming the data from multiple systems into well modelled datasets that can be used for analytics.
+
+In this section we will see how to use SQL to transform data, and how to use window functions to enable complex computations in SQL.
+

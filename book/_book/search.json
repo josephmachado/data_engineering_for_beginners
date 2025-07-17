@@ -1,0 +1,175 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Data Engineering For Beginners",
+    "section": "",
+    "text": "Preface\nThis is a Quarto book.\nTo learn more about Quarto books visit https://quarto.org/docs/books.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "sql_basics.html",
+    "href": "sql_basics.html",
+    "title": "1  Read data, Combine tables, & aggregate numbers to understand business performance",
+    "section": "",
+    "text": "1.1 Setup\n%%capture\n%%bash\npython ./generate_data.py\npython ./run_ddl.py\n%%sql --show\nuse prod.db\nIn this chapter, we will go over SQL basics.",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Read data, Combine tables, & aggregate numbers to understand business performance</span>"
+    ]
+  },
+  {
+    "objectID": "sql_basics.html#a-spark-catalog-can-have-multiple-schemas-schemas-can-have-multiple-tables",
+    "href": "sql_basics.html#a-spark-catalog-can-have-multiple-schemas-schemas-can-have-multiple-tables",
+    "title": "1  Read data, Combine tables, & aggregate numbers to understand business performance",
+    "section": "1.2 A Spark catalog can have multiple schemas, & schemas can have multiple tables",
+    "text": "1.2 A Spark catalog can have multiple schemas, & schemas can have multiple tables\nTypically database servers can have multiple databases; each database can have multiple schemas. Each schema can have multiple tables, and each table can have multiple columns.\nNote: We use Trino, which has catalogs that allow it to connect with the different underlying systems. (e.g., Postgres, Redis, Hive, etc.)\nIn our lab, we use Trino, and we can check the available catalogs, their schemas, the tables in a schema, & the columns in a table, as shown below.\n\n%%sql \nshow catalogs;\n\n\n%%sql\nshow schemas IN demo;\n\n-- Catalog -&gt; schema\n\n\n%%sql\nshow schemas IN prod;\n\n-- schema -&gt; namespace\n\n\n%%sql\nshow tables IN prod.db -- namespace -&gt; Table\n\nNote how, when referencing the table name, we use the full path, i.e., database.schema.table_name. We can skip using the full path of the table if we let Trino know which schema to use by default, as shown below.\n\n%%sql\nDESCRIBE lineitem\n\n\n%%sql\nDESCRIBE extended lineitem",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Read data, Combine tables, & aggregate numbers to understand business performance</span>"
+    ]
+  },
+  {
+    "objectID": "sql_basics.html#use-selectfrom-limit-where-order-by-to-read-the-required-data",
+    "href": "sql_basics.html#use-selectfrom-limit-where-order-by-to-read-the-required-data",
+    "title": "1  Read data, Combine tables, & aggregate numbers to understand business performance",
+    "section": "1.3 Use SELECT…FROM, LIMIT, WHERE, & ORDER BY to read the required data",
+    "text": "1.3 Use SELECT…FROM, LIMIT, WHERE, & ORDER BY to read the required data\nThe most common use for querying is to read data in our tables. We can do this using a SELECT ... FROM statement, as shown below.\n\n%%sql\n-- use * to specify all columns\nSELECT\n  *\nFROM\n  orders\nLIMIT\n  4\n\n\n%%sql\n-- use column names to only read data from those columns\nSELECT\n  o_orderkey,\n  o_totalprice\nFROM\n  orders\nLIMIT\n  4\n\nHowever, running a SELECT ... FROM statement can cause issues when the data set is extensive. If you want to look at the data, use LIMIT n to tell Trino only to get n number of rows.\nWe can use the’ WHERE’ clause if we want to get the rows that match specific criteria. We can specify one or more filters within the’ WHERE’ clause. The WHERE clause with more than one filter can use combinations of AND and OR criteria to combine the filter criteria, as shown below.\n\n%%sql\n-- all customer rows that have c_nationkey = 20\nSELECT\n  *\nFROM\n  customer\nWHERE\n  c_nationkey = 20\nLIMIT\n  10;\n\n\n%%sql\n-- all customer rows that have c_nationkey = 20 and c_acctbal &gt; 1000\nSELECT\n  *\nFROM\n  customer\nWHERE\n  c_nationkey = 20\n  AND c_acctbal &gt; 1000\nLIMIT\n  10;\n\n\n%%sql\n-- all customer rows that have c_nationkey = 20 or c_acctbal &gt; 1000\nSELECT\n  *\nFROM\n  customer\nWHERE\n  c_nationkey = 20\n  OR c_acctbal &gt; 1000\nLIMIT\n  10;\n\n\n%%sql\n-- all customer rows that have (c_nationkey = 20 and c_acctbal &gt; 1000) or rows that have c_nationkey = 11\nSELECT\n  *\nFROM\n  customer\nWHERE\n  (\n    c_nationkey = 20\n    AND c_acctbal &gt; 1000\n  )\n  OR c_nationkey = 11\nLIMIT\n  10;\n\nWe can combine multiple filter clauses, as seen above. We have seen examples of equals (=) and greater than (&gt;) conditional operators. There are 6 conditional operators, they are\n\n&lt; Less than\n&gt; Greater than\n&lt;= Less than or equal to\n&gt;= Greater than or equal to\n= Equal\n&lt;&gt; and != both represent Not equal (some DBs only support one of these)\n\nAdditionally, for string types, we can make pattern matching with like condition. In a like condition, a _ means any single character, and % means zero or more characters, for example.\n\n%%sql\n-- all customer rows where the name has a 381 in it\nSELECT\n  *\nFROM\n  customer\nWHERE\n  c_name LIKE '%381%';\n\n\n%%sql\n-- all customer rows where the name ends with a 381\nSELECT\n  *\nFROM\n  customer\nWHERE\n  c_name LIKE '%381';\n\n\n%%sql\n-- all customer rows where the name starts with a 381\nSELECT\n  *\nFROM\n  customer\nWHERE\n  c_name LIKE '381%';\n\n\n%%sql\n-- all customer rows where the name has a combination of any character and 9 and 1\nSELECT\n  *\nFROM\n  customer\nWHERE\n  c_name LIKE '%_91%';\n\nWe can also filter for more than one value using IN and NOT IN.\n\n%%sql\n-- all customer rows which have nationkey = 10 or nationkey = 20\nSELECT\n  *\nFROM\n  customer\nWHERE\n  c_nationkey IN (10, 20);\n\n\n%%sql\n-- all customer rows which have do not have nationkey as 10 or 20\nSELECT\n  *\nFROM\n  customer\nWHERE\n  c_nationkey NOT IN (10, 20);\n\nWe can get the number of rows in a table using count(*) as shown below.\n\n%%sql\nSELECT\n  COUNT(*)\nFROM\n  customer;\n\n-- 1500\n\n\n%%sql\nSELECT\n  COUNT(*)\nFROM\n  lineitem;\n\n-- 60175\n\nIf we want to get the rows sorted by values in a specific column, we use ORDER BY, for example.\n\n%%sql\n-- Will show the first ten customer records with the lowest custkey\n-- rows are ordered in ASC order by default\nSELECT\n  *\nFROM\n  orders\nORDER BY\n  o_custkey\nLIMIT\n  10;\n\n\n%%sql\n-- Will show the first ten customer's records with the highest custkey\nSELECT\n  *\nFROM\n  orders\nORDER BY\n  o_custkey DESC\nLIMIT\n  10;",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Read data, Combine tables, & aggregate numbers to understand business performance</span>"
+    ]
+  },
+  {
+    "objectID": "sql_basics.html#combine-data-from-multiple-tables-using-joins",
+    "href": "sql_basics.html#combine-data-from-multiple-tables-using-joins",
+    "title": "1  Read data, Combine tables, & aggregate numbers to understand business performance",
+    "section": "1.4 Combine data from multiple tables using JOINs",
+    "text": "1.4 Combine data from multiple tables using JOINs\nWe can combine data from multiple tables using joins. When we write a join query, we have a format as shown below.\nSELECT\n    a.*\nFROM\n    table_a a -- LEFT table a\n    JOIN table_b b -- RIGHT table b\n    ON a.id = b.id\nThe table specified first (table_a) is the left table, whereas the table established second is the right table. When we have multiple tables joined, we consider the joined dataset from the first two tables as the left table and the third table as the right table (The DB optimizes our join for performance).\nSELECT\n    a.*\nFROM\n    table_a a -- LEFT table a\n    JOIN table_b b -- RIGHT table b\n    ON a.id = b.id\n    JOIN table_c c -- LEFT table is the joined data from table_a & table_b, right table is table_c\n    ON a.c_id = c.id\nThere are five main types of joins, they are:\n\n1.4.1 1. Inner join (default): Get rows with same join keys from both tables\n\n%%sql\nSELECT\n  o.o_orderkey,\n  l.l_orderkey\nFROM\n  orders o\n  JOIN lineitem l ON o.o_orderkey = l.l_orderkey\n  AND o.o_orderdate BETWEEN l.l_shipdate - INTERVAL '5' DAY AND l.l_shipdate  + INTERVAL '5' DAY\nLIMIT\n  10;\n\n\n%%sql\nSELECT\n  COUNT(o.o_orderkey) AS order_rows_count,\n  COUNT(l.l_orderkey) AS lineitem_rows_count\nFROM\n  orders o\n  JOIN lineitem l ON o.o_orderkey = l.l_orderkey\n  AND o.o_orderdate BETWEEN l.l_shipdate - INTERVAL '5' DAY AND l.l_shipdate  + INTERVAL '5' DAY;\n-- 2477, 2477\n\nNote: JOIN defaults to INNER JOIN`.\nThe output will have rows from orders and lineitem that found at least one matching row from the other table with the specified join condition (same orderkey and orderdate within ship date +/- 5 days).\nWe can also see that 2,477 rows from orders and lineitem tables matched.\n\n\n1.4.2 2. Left outer join (aka left join): Get all rows from the left table and only matching rows from the right table.\n\n%%sql\n\nSELECT\n  o.o_orderkey,\n  l.l_orderkey\nFROM\n  orders o\n  LEFT JOIN lineitem l ON o.o_orderkey = l.l_orderkey\n  AND o.o_orderdate BETWEEN l.l_shipdate - INTERVAL '5' DAY AND l.l_shipdate  + INTERVAL '5' DAY\nLIMIT\n  10;\n\n\n%%sql\nSELECT\n  COUNT(o.o_orderkey) AS order_rows_count,\n  COUNT(l.l_orderkey) AS lineitem_rows_count\nFROM\n  orders o\n  LEFT JOIN lineitem l ON o.o_orderkey = l.l_orderkey\n  AND o.o_orderdate BETWEEN l.l_shipdate - INTERVAL '5' DAY AND l.l_shipdate  + INTERVAL '5' DAY;\n-- 15197, 2477\n\nThe output will have all the rows from orders and the rows from lineitem that were able to find at least one matching row from the orders table with the specified join condition (same orderkey and orderdate within ship date +/- 5 days).\nWe can also see that the number of rows from the orders table is 15,197 & from the lineitem table is 2,477. The number of rows in orders is 15000, but the join condition produces 15197 since some orders match with multiple lineitems.\n\n\n1.4.3 3. Right outer join (aka right join): Get matching rows from the left and all rows from the right table.\n\n%%sql\nSELECT\n  o.o_orderkey,\n  l.l_orderkey\nFROM\n  orders o\n  RIGHT JOIN lineitem l ON o.o_orderkey = l.l_orderkey\n  AND o.o_orderdate BETWEEN l.l_shipdate - INTERVAL '5' DAY AND l.l_shipdate  + INTERVAL '5' DAY\nLIMIT\n  10;\n\n\n%%sql\nSELECT\n  COUNT(o.o_orderkey) AS order_rows_count,\n  COUNT(l.l_orderkey) AS lineitem_rows_count\nFROM\n  orders o\n  RIGHT JOIN lineitem l ON o.o_orderkey = l.l_orderkey\n  AND o.o_orderdate BETWEEN l.l_shipdate - INTERVAL '5' DAY AND l.l_shipdate  + INTERVAL '5' DAY;\n-- 2477, 60175\n\nThe output will have the rows from orders that found at least one matching row from the lineitem table with the specified join condition (same orderkey and orderdate within ship date +/- 5 days) and all the rows from the lineitem table.\nWe can also see that the number of rows from the orders table is 15,197 & from the lineitem table is 2,477.\n\n\n1.4.4 4. Full outer join: Get matched and un-matched rows from both the tables.\n\n%%sql\nSELECT\n  o.o_orderkey,\n  l.l_orderkey\nFROM\n  orders o\n  FULL OUTER JOIN lineitem l ON o.o_orderkey = l.l_orderkey\n  AND o.o_orderdate BETWEEN l.l_shipdate - INTERVAL '5' DAY AND l.l_shipdate  + INTERVAL '5' DAY\nLIMIT\n  10\n\n\n%%sql\nSELECT\n  COUNT(o.o_orderkey) AS order_rows_count,\n  COUNT(l.l_orderkey) AS lineitem_rows_count\nFROM\n  orders o\n  FULL OUTER JOIN lineitem l ON o.o_orderkey = l.l_orderkey\n  AND o.o_orderdate BETWEEN l.l_shipdate - INTERVAL '5' DAY AND l.l_shipdate  + INTERVAL '5' DAY;\n-- 15197, 60175\n\nThe output will have all the rows from orders that found at least one matching row from the lineitem table with the specified join condition (same orderkey and orderdate within ship date +/- 5 days) and all the rows from the lineitem table.\nWe can also see that the number of rows from the orders table is 15,197 & from the lineitem table is 2,477.\n\n\n1.4.5 5. Cross join: Join every row in left table with every row in the right table\n\n%%sql\nSELECT\n  n.n_name AS nation_c_name,\n  r.r_name AS region_c_name\nFROM\n  nation n\n  CROSS JOIN region r;\n\nThe output will have every row of the nation joined with every row of the region. There are 25 nations and five regions, leading to 125 rows in our result from the cross-join.\nThere are cases where we will need to join a table with itself, called a SELF-join. Lets consider an example.\n\nFor every customer order, get the order placed earlier in the same week (Sunday - Saturday, not the previous seven days). Only show customer orders that have at least one such order.\n\n\n%%sql    \nSELECT\n    o1.o_custkey as o1_custkey,\n    o1.o_totalprice as o1_totalprice,\n    o1.o_orderdate as o1_orderdate,\n    o2.o_totalprice as o2_totalprice,\n    o2.o_orderdate as o2_orderdate\nFROM\n    orders o1\n    JOIN orders o2 ON o1.o_custkey = o2.o_custkey\n    AND year(o1.o_orderdate) = year(o2.o_orderdate)\n    AND weekofyear(o1.o_orderdate) = weekofyear(o2.o_orderdate)\nWHERE\n    o1.o_orderkey != o2.o_orderkey\nLIMIT\n    10;",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Read data, Combine tables, & aggregate numbers to understand business performance</span>"
+    ]
+  },
+  {
+    "objectID": "sql_basics.html#combine-data-from-multiple-rows-into-one-using-group-by",
+    "href": "sql_basics.html#combine-data-from-multiple-rows-into-one-using-group-by",
+    "title": "1  Read data, Combine tables, & aggregate numbers to understand business performance",
+    "section": "1.5 Combine data from multiple rows into one using GROUP BY",
+    "text": "1.5 Combine data from multiple rows into one using GROUP BY\nMost analytical queries require calculating metrics that involve combining data from multiple rows. GROUP BY allows us to perform aggregate calculations on data from a set of rows recognized by values of specified column(s). For example:\n\nCreate a report that shows the number of orders per orderpriority segment.\n\n\n%%sql\nSELECT\n  o_orderpriority,\n  COUNT(*) AS num_orders\nFROM\n  orders\nGROUP BY\n  o_orderpriority;\n\nIn the above query, we group the data by orderpriority, and the calculation count(*) will be applied to the rows having a specific orderpriority value.\nThe calculations allowed are typically SUM/MIN/MAX/AVG/COUNT. However, some databases have more complex aggregate functions; check your DB documentation.\n\n1.5.1 Use HAVING to filter based on the aggregates created by GROUP BY",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Read data, Combine tables, & aggregate numbers to understand business performance</span>"
+    ]
+  },
+  {
+    "objectID": "sql_basics.html#replicate-if.else-logic-with-case-statements",
+    "href": "sql_basics.html#replicate-if.else-logic-with-case-statements",
+    "title": "1  Read data, Combine tables, & aggregate numbers to understand business performance",
+    "section": "1.6 Replicate IF.ELSE logic with CASE statements",
+    "text": "1.6 Replicate IF.ELSE logic with CASE statements\nWe can do conditional logic in the SELECT ... FROM part of our query, as shown below.\n\n%%sql\nSELECT\n    o_orderkey,\n    o_totalprice,\n    CASE\n        WHEN o_totalprice &gt; 100000 THEN 'high'\n        WHEN o_totalprice BETWEEN 25000\n        AND 100000 THEN 'medium'\n        ELSE 'low'\n    END AS order_price_bucket\nFROM\n    orders;\n\nWe can see how we display different values depending on the totalprice column. We can also use multiple criteria as our conditional criteria (e.g., totalprice &gt; 100000 AND orderpriority = ‘2-HIGH’).",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Read data, Combine tables, & aggregate numbers to understand business performance</span>"
+    ]
+  },
+  {
+    "objectID": "sql_basics.html#stack-tables-on-top-of-each-other-with-union-and-union-all-subtract-tables-with-except",
+    "href": "sql_basics.html#stack-tables-on-top-of-each-other-with-union-and-union-all-subtract-tables-with-except",
+    "title": "1  Read data, Combine tables, & aggregate numbers to understand business performance",
+    "section": "1.7 Stack tables on top of each other with UNION and UNION ALL, subtract tables with EXCEPT",
+    "text": "1.7 Stack tables on top of each other with UNION and UNION ALL, subtract tables with EXCEPT\nWhen we want to combine data from tables by stacking them on top of each other, we use UNION or UNION ALL. UNION removes duplicate rows, and UNION ALL does not remove duplicate rows. Let’s look at an example.\n\n%%sql\n\nSELECT c_custkey, c_name FROM customer WHERE c_name LIKE '%_91%' -- 25 rows\n\n\n%%sql\n-- UNION will remove duplicate rows; the below query will produce 25 rows\nSELECT c_custkey, c_name FROM customer WHERE c_name LIKE'%_91%'\nUNION\nSELECT c_custkey, c_name FROM customer WHERE c_name LIKE '%_91%'\nUNION\nSELECT c_custkey, c_name FROM customer WHERE c_name LIKE '%_91'\n\n\n%%sql\n-- UNION ALL will not remove duplicate rows; the below query will produce 75 rows\nSELECT c_custkey, c_name FROM customer WHERE c_name LIKE '%_91%'\nUNION ALL\nSELECT c_custkey, c_name FROM customer WHERE c_name LIKE '%_91%'\nUNION ALL\nSELECT c_custkey, c_name FROM customer WHERE c_name LIKE '%_91%';\n\nWhen we want to get all the rows from the first dataset that are not in the second dataset, we can use EXCEPT.\n\n%%sql\n-- EXCEPT will get the rows in the first query result that is not in the second query result, 0 rows\nSELECT c_custkey, c_name FROM customer WHERE c_name LIKE '%_91%'\nEXCEPT\nSELECT c_custkey, c_name FROM customer WHERE c_name LIKE '%_91%';\n\n\n%%sql\n-- The below query will result in 23 rows; the first query has 25 rows, and the second has two rows\nSELECT c_custkey, c_name FROM customer WHERE c_name LIKE'%_91%'\nEXCEPT\nSELECT c_custkey, c_name FROM customer WHERE c_name LIKE '%191%';",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Read data, Combine tables, & aggregate numbers to understand business performance</span>"
+    ]
+  },
+  {
+    "objectID": "sql_basics.html#sub-query-use-query-instead-of-a-table",
+    "href": "sql_basics.html#sub-query-use-query-instead-of-a-table",
+    "title": "1  Read data, Combine tables, & aggregate numbers to understand business performance",
+    "section": "1.8 Sub-query: Use query instead of a table",
+    "text": "1.8 Sub-query: Use query instead of a table\nWhen we want to use the result of a query as a table in another query, we use subqueries. Let’s consider an example:\n\nCreate a report that shows the nation, how many items it supplied (by suppliers in that nation), and how many items it purchased (by customers in that nation).\n\n\n%%sql\nSELECT\n  n.n_name AS nation_c_name,\n  s.quantity AS supplied_items_quantity,\n  c.quantity AS purchased_items_quantity\nFROM\n  nation n\n  LEFT JOIN (\n    SELECT\n      n.n_nationkey,\n      SUM(l.l_quantity) AS quantity\n    FROM\n      lineitem l\n      JOIN supplier s ON l.l_suppkey = s.s_suppkey\n      JOIN nation n ON s.s_nationkey = n.n_nationkey\n    GROUP BY\n      n.n_nationkey\n  ) s ON n.n_nationkey = s.n_nationkey\n  LEFT JOIN (\n    SELECT\n      n.n_nationkey,\n      SUM(l.l_quantity) AS quantity\n    FROM\n      lineitem l\n      JOIN orders o ON l.l_orderkey = o.o_orderkey\n      JOIN customer c ON o.o_custkey = c.c_custkey\n      JOIN nation n ON c.c_nationkey = n.n_nationkey\n    GROUP BY\n      n.n_nationkey\n  ) c ON n.n_nationkey = c.n_nationkey;\n\nIn the above query, we can see that there are two sub-queries, one to calculate the quantity supplied by a nation and the other to calculate the quantity purchased by the customers of a nation.",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Read data, Combine tables, & aggregate numbers to understand business performance</span>"
+    ]
+  },
+  {
+    "objectID": "sql_basics.html#change-data-types-cast-and-handle-nulls-coalesce",
+    "href": "sql_basics.html#change-data-types-cast-and-handle-nulls-coalesce",
+    "title": "1  Read data, Combine tables, & aggregate numbers to understand business performance",
+    "section": "1.9 Change data types (CAST) and handle NULLS (COALESCE)",
+    "text": "1.9 Change data types (CAST) and handle NULLS (COALESCE)\nEvery column in a table has a specific data type. The data types fall under one of the following categories.\n\nNumerical: Data types used to store numbers.\n\nInteger: Positive and negative numbers. Different types of Integer, such as tinyint, int, and bigint, allow storage of different ranges of values. Integers cannot have decimal digits.\nFloating: These can have decimal digits but stores an approximate value.\nDecimal: These can have decimal digits and store the exact value. The decimal type allows you to specify the scale and precision. Where scale denotes the count of numbers allowed as a whole & precision denotes the count of numbers allowed after the decimal point. E.g., DECIMAL(8,3) allows eight numbers in total, with three allowed after the decimal point.\n\nBoolean: Data types used to store True or False values.\nString: Data types used to store alphanumeric characters.\n\nVarchar(n): Data type allows storage of variable character string, with a permitted max length n.\nChar(n): Data type allows storage of fixed character string. A column of char(n) type adds (length(string) - n) empty spaces to a string that does not have n characters.\n\nDate & time: Data types used to store dates, time, & timestamps(date + time).\nObjects (JSON, ARRAY): Data types used to store JSON and ARRAY data.\n\nSome databases have data types that are unique to them as well. We should check the database documents to understand the data types offered.\nFunctions such as DATE_DIFF and ROUND are specific to a data type. It is best practice to use the appropriate data type for your columns. We can convert data types using the CAST function, as shown below.\nA NULL will be used for that field when a value is not present. In cases where we want to use the first non-NULL value from a list of columns, we use COALESCE as shown below.\nLet’s consider an example as shown below. We can see how when l.orderkey is NULL; the DB uses 999999 as the output.\n\n%%sql\nSELECT\n    o.o_orderkey,\n    o.o_orderdate,\n    COALESCE(l.l_orderkey, 9999999) AS lineitem_orderkey,\n    l.l_shipdate\nFROM\n    orders o\n    LEFT JOIN lineitem l ON o.o_orderkey = l.l_orderkey\n    AND o.o_orderdate BETWEEN l.l_shipdate - INTERVAL '5' DAY\n    AND l.l_shipdate + INTERVAL '5' DAY\nLIMIT\n    10;",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Read data, Combine tables, & aggregate numbers to understand business performance</span>"
+    ]
+  },
+  {
+    "objectID": "sql_basics.html#use-these-standard-inbuilt-db-functions-for-string-time-and-numeric-data-manipulation",
+    "href": "sql_basics.html#use-these-standard-inbuilt-db-functions-for-string-time-and-numeric-data-manipulation",
+    "title": "1  Read data, Combine tables, & aggregate numbers to understand business performance",
+    "section": "1.10 Use these standard inbuilt DB functions for String, Time, and Numeric data manipulation",
+    "text": "1.10 Use these standard inbuilt DB functions for String, Time, and Numeric data manipulation\nWhen processing data, more often than not, we will need to change values in columns; shown below are a few standard functions to be aware of:\n\nString functions\n\nLENGTH is used to calculate the length of a string. E.g., SELECT LENGTH('hi'); will output 2.\nCONCAT combines multiple string columns into one. E.g., SELECT CONCAT(clerk, '-', orderpriority) FROM ORDERS LIMIT 5; will concatenate clear and orderpriority columns with a dash in between them.\nSPLIT is used to split a value into an array based on a given delimiter. E.g., SELECT SPLIT(clerk, '#') FROM ORDERS LIMIT 5; will output a column with arrays formed by splitting clerk values on #.\nSUBSTRING is used to get a sub-string from a value, given the start and end character indices. E.g., SELECT clerk, SUBSTR(clerk, 1, 5) FROM orders LIMIT 5; will get the first five (1 - 5) characters of the clerk column. Note that the indexing starts from 1 in Trino.\nTRIM is used to remove empty spaces to the left and right of the value. E.g., SELECT TRIM(' hi '); will output hi without any spaces around it. LTRIM and RTRIM are similar but only remove spaces before and after the string, respectively.\n\nDate and Time functions\n\nAdding and subtracting dates: Is used to add and subtract periods; the format heavily depends on the DB. E.g., In Trino, the query\n  SELECT\n  date_diff('DAY', DATE '2022-10-01', DATE '2023-11-05') diff_in_days,\n  date_diff('MONTH', DATE '2022-10-01', DATE '2023-11-05') diff_in_months,\n  date_diff('YEAR', DATE '2022-10-01', DATE '2023-11-05') diff_in_years;\nIt will show the difference between the two dates in the specified period. We can also add/subtract an arbitrary period from a date/time column. E.g., SELECT DATE '2022-11-05' + INTERVAL '10' DAY; will show the output 2022-11-15.\nstring &lt;=&gt; date/time conversions: When we want to change the data type of a string to date/time, we can use the DATE 'YYYY-MM-DD' or TIMESTAMP 'YYYY-MM-DD HH:mm:SS functions. But when the data is in a different date/time format such as MM/DD/YYYY, we will need to specify the input structure; we do this using date_parse, E.g. SELECT date_parse('11-05-2023', '%m-%d-%Y');. We can convert a timestamp/date into a string with the required format using date_format. E.g., SELECT DATE_FORMAT(orderdate, '%Y-%m-01') AS first_month_date FROM orders LIMIT 5; will map every orderdate to the first of their month.\nTime frame functions (YEAR/MONTH/DAY): When we want to extract specific periods from a date/time column, we can use these functions. E.g., SELECT year(date '2023-11-05'); will return 2023. Similarly, we have month, day, hour, min, etc.\n\nNumeric\n\nROUND is used to specify the number of digits allowed after the decimal point. E.g. SELECT ROUND(100.102345, 2);",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Read data, Combine tables, & aggregate numbers to understand business performance</span>"
+    ]
+  },
+  {
+    "objectID": "sql_basics.html#save-queries-as-views-for-more-straightforward-reads",
+    "href": "sql_basics.html#save-queries-as-views-for-more-straightforward-reads",
+    "title": "1  Read data, Combine tables, & aggregate numbers to understand business performance",
+    "section": "1.11 Save queries as views for more straightforward reads",
+    "text": "1.11 Save queries as views for more straightforward reads\nWhen we have large/complex queries that we need to run often, we can save them as views. Views are DB objects that operate similarly to a table. The OLAP DB executes the underlying query when we query a view.\nUse views to hide query complexities and limit column access (by exposing only specific table columns) for end-users.\nFor example, we can create a view for the nation-level report from the above section, as shown below.\n\n%%sql\nDROP VIEW IF EXISTS nation_supplied_purchased_quantity\n\n\n%%sql\nCREATE VIEW nation_supplied_purchased_quantity AS\nSELECT\n    n.n_name AS nation_name,\n    s.quantity AS supplied_items_quantity,\n    c.quantity AS purchased_items_quantity\nFROM\n    nation n\n    LEFT JOIN (\n        SELECT\n            n_nationkey as nationkey,\n            sum(l_quantity) AS quantity\n        FROM\n            lineitem l\n            JOIN supplier s ON l.l_suppkey = s.s_suppkey\n            JOIN nation n ON s.s_nationkey = n.n_nationkey\n        GROUP BY\n            n.n_nationkey\n    ) s ON n.n_nationkey = s.nationkey\n    LEFT JOIN (\n        SELECT\n            n_nationkey as nationkey,\n            sum(l_quantity) AS quantity\n        FROM\n            lineitem l\n            JOIN orders o ON l.l_orderkey = o.o_orderkey\n            JOIN customer c ON o.o_custkey = c.c_custkey\n            JOIN nation n ON c.c_nationkey = n.n_nationkey\n        GROUP BY\n            n.n_nationkey\n    ) c ON n.n_nationkey = c.nationkey;\n\n\n%%sql\nSELECT\n    *\nFROM\n    nation_supplied_purchased_quantity;\n\nNow the view nation_supplied_purchased_quantity will run the underlying query when used. Note here we use the minio.tpch schema because catalog tpch does not allow the creation of views. The tpch catalog comes with Trino and only allows read operations. Read more about connectors here.",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Read data, Combine tables, & aggregate numbers to understand business performance</span>"
+    ]
+  },
+  {
+    "objectID": "sql_basics.html#exercises",
+    "href": "sql_basics.html#exercises",
+    "title": "1  Read data, Combine tables, & aggregate numbers to understand business performance",
+    "section": "1.12 Exercises",
+    "text": "1.12 Exercises\n\nCreate a report that shows the number of returns for each region name\nTop 10 most selling parts\nSellers who sell atleast one of the top 10 selling parts\nNumber of returns per order price bucket\n\nAssume the price bucket logic is\n CASE\n        WHEN totalprice &gt; 100000 THEN 'high'\n        WHEN totalprice BETWEEN 25000\n        AND 100000 THEN 'medium'\n        ELSE 'low'\n    END AS order_price_bucket\n\nAverage time (in days) between receiptdate and shipdate for each nation",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Read data, Combine tables, & aggregate numbers to understand business performance</span>"
+    ]
+  },
+  {
+    "objectID": "sql_basics.html#recommended-reading",
+    "href": "sql_basics.html#recommended-reading",
+    "title": "1  Read data, Combine tables, & aggregate numbers to understand business performance",
+    "section": "1.13 Recommended reading",
+    "text": "1.13 Recommended reading\n\nhttps://www.startdataengineering.com/post/improve-sql-skills-de/\nhttps://www.startdataengineering.com/post/n-sql-tips-de/\nhttps://www.startdataengineering.com/post/advanced-sql/",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Read data, Combine tables, & aggregate numbers to understand business performance</span>"
+    ]
+  },
+  {
+    "objectID": "summary.html",
+    "href": "summary.html",
+    "title": "2  Summary",
+    "section": "",
+    "text": "In summary, this book has no content whatsoever.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Summary</span>"
+    ]
+  },
+  {
+    "objectID": "sql.html",
+    "href": "sql.html",
+    "title": "Use SQL to transform data",
+    "section": "",
+    "text": "SQL is the foundation on which data engineering works. Most data pipelines are SQL scripts strung together. While there are caveats for using Python v SQL (add:link) in data engineering, almost always SQL (or SQL-like dataframe) are the way you will code.\nIn data engineering context, SQL is used for\n\nAnalytical querying, which involves large amounts of data and aggeregating them to create metrics that define how well business has been performing (e.g. daily active users for a social media company) and how to predict the future.\nData processing, which involves transforming the data from multiple systems into well modelled datasets that can be used for analytics.\n\nIn this section we will see how to use SQL to transform data, and how to use window functions to enable complex computations in SQL.",
+    "crumbs": [
+      "Use SQL to transform data"
+    ]
+  }
+]

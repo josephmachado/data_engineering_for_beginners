@@ -1,0 +1,107 @@
+## Data warehouse modeling (Kimball) is based off of 2 types of tables: Fact and dimensions
+
+As we saw in the previous chapter, Kimball is by far the most commonly used, while companies don't always follow it to a T, facts and dimensions form the basis of most of the data warehouses in the wild.
+
+## Facts represents events that occured & dimensions the entities to which events occur to
+
+A data warehouse is a database that stores your company's historical data. The main types of tables you need to create to power analytics are:
+
+1. **` Dimension`**: Each row in a dimension table represents a business entity that is important to the business. For example, An car parts seller's data warehouse will have a `customer` dimension table, where each row will represent an individual customer. Other examples of dimension tables in a car parts seller's data warehouse would be `supplier` & `part` tables.
+
+2. **` Facts`**: Each row in a fact table represents a business process that occurred. E.g., In our data warehouse, each row in the `orders` fact table will represent an individual order, and each row in the `lineitem` fact table will represent an item sold as part of an order. Each fact row will have a unique identifier; in our case, it's `orderkey` for orders and a combination of `orderkey & linenumber` for lineitem.
+
+A fact table's **` grain (aka granularity, level)`** refers to what a row in a fact table represents. E.g., In our checkout process, we can have two fact tables, one for the order and another for the individual items in the order. The items table will have one row per item purchased, whereas the order table will have one row per order made.
+
+<!-- ![TPC-H data model](./images/lineitem_order_lvl.png){#id .class width=30px height=20px}-->
+
+```sql
+
+-- calculating the totalprice of an order (with orderkey = 1) from it's individual items
+SELECT
+    orderkey,
+    round( sum(extendedprice * (1 - discount) * (1 + tax)),
+        2
+    ) AS totalprice
+FROM
+    lineitem
+WHERE
+    orderkey = 1
+GROUP BY
+    orderkey;
+
+/*
+ orderkey | totalprice
+----------+------------
+        1 |  172799.56
+*/
+
+-- The totalprice of an order (with orderkey = 1)
+SELECT
+    orderkey,
+    totalprice
+FROM
+    orders
+WHERE
+    orderkey = 1;
+
+/*
+ orderkey | totalprice
+----------+------------
+        1 |  172799.49
+*/
+```
+**Note:** If you notice the slight difference in the decimal digits, it's due to using a `double` datatype which is an inexact data type.
+
+We can see how the `lineitem` table can be "rolled up" to get the data in the `orders` table. But having just the `orders` table is not sufficient since the `lineitem` table will provide us with individual item details such as discount and quantity details.
+
+### Popular dimension types: Full Snapshot & SCD2 
+
+-  Full snapshot
+In this type of dimension, the entire dimension table is  re-loaded each run. As the dimension tables are much smaller than the fact table this is usually an acceptable tradeoff. Typically each run would create a new copy while retaining older copy for a certain time period (say 6 months).
+
+- SCD2 
+SCD2 stands for slowly changing dimension type 2. Any change to a column value will be tracked as a new row. 
+
+If your customer makes an address change in SCD2 it will be created as a new table. SCD2 has 3 key columns that allow us to see historical changes 
+
+1. valid_from
+2. valid_to 
+3. is_current
+
+add: image showing snapshot dimension and SCD2 dimension model
+
+## One Big Table (OBT) is a fact table left joined with all its dimensions
+
+As the number of facts and dimensions grow you will notice that most of the queries that are run to get data for the end users use the same tables and the same joins.
+
+In this scenario the expensive reprocessing of data can be avoided by creating an OBT. In an OBT you left join all the dimensions into a fact table. This big table can then be used to aggregate to different grains as needed for end user reproting.
+
+Note that the OBT should have the same grain as the fact table that it is based on or have the lower grain if you have to join multiple fact tables.
+
+In our bike-part seller warehouse we can create an OBT by joining all the tables to the lineitem table 
+
+```sql
+add: code
+```
+
+## Summary or pre-aggregated tables are stakeholder-team specific tables built for reporting
+
+Stakeholders often require data aggregated at various grains and similar metrics. Creating pre-aggregated or summary tables is creating these report for stakeholders so all they would have to do is select from the table without the need to recompute metrics. This has 2 benefits
+
+1. Same metric formula, as the data engineering will keep the metric definition in the code base, vs each stakeholder using a slightly different version and ending up with different numbers
+2. Avoid unnecessary recomputation as multiple stakeholders can now use the same table
+
+However the down side is that the data may not be as fresh as what a stakeholder would get if they just write a query.
+
+## Exercises
+
+1. What are the fact tables in our TPCH data model?
+2. What source tables in TPCH data model would you consider to create a customer dimension table?
+
+## Recommended reading
+
+1. https://www.startdataengineering.com/post/metrics_sot/
+2. https://www.startdataengineering.com/post/n-steps-avoid-messy-dw/
+3. https://www.startdataengineering.com/post/data-lake-warehouse-diff/
+4. https://www.startdataengineering.com/post/what-is-a-data-warehouse/
+

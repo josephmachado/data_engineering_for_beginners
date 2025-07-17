@@ -1,0 +1,96 @@
+## Python has libraries to tell the data processing engine (Spark, Trino, Duckdb, Polars, etc) what to do
+
+Almost every data processing systems has a Python library to interact with it. 
+
+Pyspark
+Trino Python 
+Snowflake Python
+Duckdb Python 
+Polars Python API
+add: link
+
+The main types of data processing libraries are:
+
+1. **`Python standard libraries`**: Python has a strong set of standard libraries for processing data. When using standard libraries, you'll usually be working on Python native data structures (add: link). Some popular ones are [csv](https://docs.python.org/3/library/csv.html), [json](https://docs.python.org/3/library/json.html), [gzip](https://docs.python.org/3/library/gzip.html) etc.
+2. **`Dataframe libraries`**: Libraries like pandas, polars, and Spark enable you to work with tabular data. These libraries use a dataframe (Python's version of a SQL table) and enable you to do everything (and more) you can do with SQL. **Note** that some of these libraries are meant for data that can be processed in memory.
+3. **`Processing data on SQL via Python`**: You can use [database drivers]({{< ref "/post/python-for-de.md#extract--load-read-and-write-data-to-any-system" >}}) and write SQL queries to process the data. The benefit of this approach is that you don't need to bring data into Python memory and offload it to the database.
+
+**Note**: When we use systems like `Spark`, `Dask`, `Snowflake`, `BigQuery` to process data, you should note that we interact with them via Python. Data is processed by the external systems.
+
+```python
+print(
+    "################################################################################"
+)
+print("Use standard python libraries to do the transformations")
+print(
+    "################################################################################"
+)
+
+# Question: How do you read data from a CSV file at ./data/sample_data.csv into a list of dictionaries?
+
+# Question: How do you remove duplicate rows based on customer ID?
+
+# Question: How do you handle missing values by replacing them with 0?
+
+# Question: How do you remove outliers such as age > 100 or purchase amount > 1000?
+
+# Question: How do you convert the Gender column to a binary format (0 for Female, 1 for Male)?
+
+# Question: How do you split the Customer_Name column into separate First_Name and Last_Name columns?
+
+# Question: How do you calculate the total purchase amount by Gender?
+
+# Question: How do you calculate the average purchase amount by Age group?
+# assume age_groups is the grouping we want
+# hint: Why do we convert to float?
+age_groups = {"18-30": [], "31-40": [], "41-50": [], "51-60": [], "61-70": []}
+
+# Question: How do you print the results for total purchase amount by Gender and average purchase amount by Age group?
+your_total_purchase_amount_by_gender = {} # your results should be assigned to this variable
+average_purchase_by_age_group = {} # your results should be assigned to this variable
+
+print(f"Total purchase amount by Gender: {your_total_purchase_amount_by_gender}")
+print(f"Average purchase amount by Age group: {average_purchase_by_age_group}")
+
+print(
+    "################################################################################"
+)
+print("Use DuckDB to do the transformations")
+print(
+    "################################################################################"
+)
+
+# Question: How do you connect to DuckDB and load data from a CSV file into a DuckDB table?
+# Connect to DuckDB and load data
+
+# Read data from CSV file into DuckDB table
+
+# Question: How do you remove duplicate rows based on customer ID in DuckDB?
+
+# Question: How do you handle missing values by replacing them with 0 in DuckDB?
+
+# Question: 
+# Question: How do you convert the Gender column to a binary format (0 for Female, 1 for Male) in DuckDB?
+
+# Question: How do you split the Customer_Name column into separate First_Name and Last_Name columns in DuckDB?
+
+# Question: How do you calculate the total purchase amount by Gender in DuckDB?
+
+# Question: 
+# Question: How do you print the results for total purchase amount by Gender and average purchase amount by Age group in DuckDB?
+print("====================== Results ======================")
+print("Total purchase amount by Gender:")
+print("Average purchase amount by Age group:")
+```
+
+## Exercises
+
+1. Find the top spending customer using Pyspark dataframe API and Python standard library
+
+## Recommended reading
+
+1. https://www.startdataengineering.com/post/cost-effective-pipelines/
+2. https://www.startdataengineering.com/post/sql-v-python/
+3. https://www.startdataengineering.com/post/test-pyspark/
+
+

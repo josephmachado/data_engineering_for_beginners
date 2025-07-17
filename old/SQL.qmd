@@ -1,0 +1,932 @@
+---
+title: SQL
+format:
+  html:
+    toc: true
+execute:
+  eval: false
+  output: true
+jupyter: python3
+---
+
+
+# Read data, Combine tables, & aggregate numbers to understand business performance
+
+In this chapter, we will go over SQL basics. As you follow along with the jupyter notebook, make sure to add the `%%sql` in the cell block to let jupyter notebook run this as spark sql.
+
+## A Spark catalog can have multiple schemas, & schemas can have multiple tables
+
+Typically database servers can have multiple databases; each database can have multiple schemas. Each schema can have multiple tables, and each table can have multiple columns.
+
+**Note:** We use Trino, which has `catalogs` that allow it to connect with the different underlying systems. (e.g., Postgres, Redis, Hive, etc.)
+
+In our lab, we use Trino, and we can check the available catalogs, their schemas, the tables in a schema, & the columns in a table, as shown below.
+
+
+# Setup
+
+```{python}
+#| scrolled: true
+%%capture
+%%bash
+python ./generate_data.py
+python ./run_ddl.py
+```
+
+```{python}
+%%sql --show
+use prod.db
+```
+
+# Chapter 1
+
+Some text
+
+```{python}
+%%sql
+show catalogs;
+```
+
+```{python}
+%%sql
+show schemas IN demo;
+```
+
+```{python}
+%%sql
+show schemas IN prod;
+```
+
+```{python}
+%%sql
+show tables IN prod.db
+```
+
+```{python}
+#| scrolled: true
+%%sql
+DESCRIBE lineitem
+```
+
+```{python}
+#| scrolled: true
+%%sql
+DESCRIBE extended lineitem
+```
+
+```{python}
+%%sql 
+use prod.db
+```
+
+```{python}
+#| scrolled: true
+%%sql
+SELECT
+  *
+FROM
+  orders
+LIMIT
+  4
+```
+
+```{python}
+%%sql
+SELECT
+  o_orderkey,
+  o_totalprice
+FROM
+  orders
+LIMIT
+  4
+```
+
+```{python}
+%%sql
+SELECT
+  *
+FROM
+  customer
+LIMIT
+  1;
+```
+
+```{python}
+%%sql
+-- use * to specify all columns
+SELECT
+  *
+FROM
+  orders
+LIMIT
+  5;
+```
+
+```{python}
+%%sql
+-- use * to specify all columns
+SELECT
+  *
+FROM
+  orders
+LIMIT
+  5;
+```
+
+```{python}
+%%sql
+-- use column c_names only to read data from those columns
+SELECT
+  o_orderkey,
+  o_totalprice
+FROM
+  orders
+LIMIT
+  5;
+```
+
+```{python}
+%%sql
+-- all customer rows that have c_nationkey = 20
+SELECT
+  *
+FROM
+  customer
+WHERE
+  c_nationkey = 20
+LIMIT
+  10;
+```
+
+```{python}
+%%sql
+-- all customer rows that have c_nationkey = 20 and c_acctbal > 1000
+SELECT
+  *
+FROM
+  customer
+WHERE
+  c_nationkey = 20
+  AND c_acctbal > 1000
+LIMIT
+  10;
+```
+
+```{python}
+%%sql
+-- all customer rows that have c_nationkey = 20 or c_acctbal > 1000
+SELECT
+  *
+FROM
+  customer
+WHERE
+  c_nationkey = 20
+  OR c_acctbal > 1000
+LIMIT
+  10;
+```
+
+```{python}
+%%sql
+-- all customer rows that have (c_nationkey = 20 and c_acctbal > 1000) or rows that have c_nationkey = 11
+SELECT
+  *
+FROM
+  customer
+WHERE
+  (
+    c_nationkey = 20
+    AND c_acctbal > 1000
+  )
+  OR c_nationkey = 11
+LIMIT
+  10;
+```
+
+```{python}
+%%sql
+-- all customer rows where the c_name has a 381 in it
+SELECT
+  *
+FROM
+  customer
+WHERE
+  c_name LIKE '%381%';
+```
+
+```{python}
+%%sql
+-- all customer rows where the c_name ends with a 381
+SELECT
+  *
+FROM
+  customer
+WHERE
+  c_name LIKE '%381';
+```
+
+```{python}
+%%sql
+-- all customer rows where the c_name starts with a 381
+SELECT
+  *
+FROM
+  customer
+WHERE
+  c_name LIKE '381%';
+```
+
+```{python}
+%%sql
+-- all customer rows where the c_name has a combination of any character and 9 and 1
+SELECT
+  *
+FROM
+  customer
+WHERE
+  c_name LIKE '%_91%';
+```
+
+```{python}
+%%sql
+-- all customer rows which have c_nationkey = 10 or c_nationkey = 20
+SELECT
+  *
+FROM
+  customer
+WHERE
+  c_nationkey IN (10, 20);
+```
+
+```{python}
+%%sql
+-- all customer rows which have do not have c_nationkey as 10 or 20
+SELECT
+  *
+FROM
+  customer
+WHERE
+  c_nationkey NOT IN (10, 20);
+```
+
+```{python}
+%%sql
+SELECT
+  COUNT(*)
+FROM
+  customer;
+```
+
+```{python}
+%%sql
+SELECT
+  COUNT(*)
+FROM
+  lineitem;
+```
+
+```{python}
+%%sql
+-- Will show the first ten customer records with the lowest custkey
+-- rows are ordered in ASC order by default
+SELECT
+  *
+FROM
+  orders
+ORDER BY
+  o_custkey
+LIMIT
+  10;
+```
+
+```{python}
+%%sql
+-- Will show the first ten customer's records with the highest custkey
+SELECT
+  *
+FROM
+  orders
+ORDER BY
+  o_custkey DESC
+LIMIT
+  10;
+```
+
+```{python}
+%%sql
+SELECT
+  o.o_orderkey,
+  l.l_orderkey
+FROM
+  orders o
+  JOIN lineitem l ON o.o_orderkey = l.l_orderkey
+  AND o.o_orderdate BETWEEN l.l_shipdate - INTERVAL '5' DAY AND l.l_shipdate  + INTERVAL '5' DAY
+LIMIT
+  100;
+```
+
+```{python}
+%%sql
+SELECT
+  COUNT(o.o_orderkey) AS order_rows_count,
+  COUNT(l.l_orderkey) AS lineitem_rows_count
+FROM
+  orders o
+  JOIN lineitem l ON o.o_orderkey = l.l_orderkey
+  AND o.o_orderdate BETWEEN l.l_shipdate - INTERVAL '5' DAY AND l.l_shipdate  + INTERVAL '5' DAY;
+```
+
+```{python}
+%%sql
+SELECT
+  o.o_orderkey,
+  l.l_orderkey
+FROM
+  orders o
+  LEFT JOIN lineitem l ON o.o_orderkey = l.l_orderkey
+  AND o.o_orderdate BETWEEN l.l_shipdate - INTERVAL '5' DAY AND l.l_shipdate  + INTERVAL '5' DAY
+LIMIT
+  100;
+```
+
+```{python}
+%%sql
+SELECT
+  COUNT(o.o_orderkey) AS order_rows_count,
+  COUNT(l.l_orderkey) AS lineitem_rows_count
+FROM
+  orders o
+  LEFT JOIN lineitem l ON o.o_orderkey = l.l_orderkey
+  AND o.o_orderdate BETWEEN l.l_shipdate - INTERVAL '5' DAY AND l.l_shipdate  + INTERVAL '5' DAY;
+```
+
+```{python}
+%%sql
+SELECT
+  o.o_orderkey,
+  l.l_orderkey
+FROM
+  orders o
+  RIGHT JOIN lineitem l ON o.o_orderkey = l.l_orderkey
+  AND o.o_orderdate BETWEEN l.l_shipdate - INTERVAL '5' DAY AND l.l_shipdate  + INTERVAL '5' DAY
+LIMIT
+  100;
+```
+
+```{python}
+%%sql
+SELECT
+  COUNT(o.o_orderkey) AS order_rows_count,
+  COUNT(l.l_orderkey) AS lineitem_rows_count
+FROM
+  orders o
+  RIGHT JOIN lineitem l ON o.o_orderkey = l.l_orderkey
+  AND o.o_orderdate BETWEEN l.l_shipdate - INTERVAL '5' DAY AND l.l_shipdate  + INTERVAL '5' DAY;
+```
+
+```{python}
+%%sql
+SELECT
+  o.o_orderkey,
+  l.l_orderkey
+FROM
+  orders o
+  FULL OUTER JOIN lineitem l ON o.o_orderkey = l.l_orderkey
+  AND o.o_orderdate BETWEEN l.l_shipdate - INTERVAL '5' DAY AND l.l_shipdate  + INTERVAL '5' DAY
+LIMIT
+  100;
+```
+
+```{python}
+%%sql
+SELECT
+  COUNT(o.o_orderkey) AS order_rows_count,
+  COUNT(l.l_orderkey) AS lineitem_rows_count
+FROM
+  orders o
+  FULL OUTER JOIN lineitem l ON o.o_orderkey = l.l_orderkey
+  AND o.o_orderdate BETWEEN l.l_shipdate - INTERVAL '5' DAY AND l.l_shipdate  + INTERVAL '5' DAY;
+```
+
+```{python}
+#| scrolled: true
+%%sql
+SELECT
+  n.n_name AS nation_c_name,
+  r.r_name AS region_c_name
+FROM
+  nation n
+  CROSS JOIN region r;
+```
+
+```{python}
+%%sql
+SELECT
+  o_orderpriority,
+  COUNT(*) AS num_orders
+FROM
+  orders
+GROUP BY
+  o_orderpriority;
+```
+
+```{python}
+#| scrolled: true
+%%sql
+SELECT
+  n.n_name AS nation_c_name,
+  s.quantity AS supplied_items_quantity,
+  c.quantity AS purchased_items_quantity
+FROM
+  nation n
+  LEFT JOIN (
+    SELECT
+      n.n_nationkey,
+      SUM(l.l_quantity) AS quantity
+    FROM
+      lineitem l
+      JOIN supplier s ON l.l_suppkey = s.s_suppkey
+      JOIN nation n ON s.s_nationkey = n.n_nationkey
+    GROUP BY
+      n.n_nationkey
+  ) s ON n.n_nationkey = s.n_nationkey
+  LEFT JOIN (
+    SELECT
+      n.n_nationkey,
+      SUM(l.l_quantity) AS quantity
+    FROM
+      lineitem l
+      JOIN orders o ON l.l_orderkey = o.o_orderkey
+      JOIN customer c ON o.o_custkey = c.c_custkey
+      JOIN nation n ON c.c_nationkey = n.n_nationkey
+    GROUP BY
+      n.n_nationkey
+  ) c ON n.n_nationkey = c.n_nationkey;
+```
+
+```{python}
+#| scrolled: true
+%%sql
+SELECT
+    o_orderkey,
+    o_totalprice,
+    CASE
+        WHEN o_totalprice > 100000 THEN 'high'
+        WHEN o_totalprice BETWEEN 25000
+        AND 100000 THEN 'medium'
+        ELSE 'low'
+    END AS order_price_bucket
+FROM
+    orders;
+```
+
+
+# Chapter 2
+
+```{python}
+%%sql
+-- CTE definition
+WITH
+  supplier_nation_metrics AS ( -- CTE 1 defined using WITH keyword
+    SELECT
+      n.n_nationkey,
+      SUM(l.l_QUANTITY) AS num_supplied_parts
+    FROM
+      lineitem l
+      JOIN supplier s ON l.l_suppkey = s.s_suppkey
+      JOIN nation n ON s.s_nationkey = n.n_nationkey
+    GROUP BY
+      n.n_nationkey
+  ),
+  buyer_nation_metrics AS ( -- CTE 2 defined just as a name
+    SELECT
+      n.n_nationkey,
+      SUM(l.l_QUANTITY) AS num_purchased_parts
+    FROM
+      lineitem l
+      JOIN orders o ON l.l_orderkey = o.o_orderkey
+      JOIN customer c ON o.o_custkey = c.c_custkey
+      JOIN nation n ON c.c_nationkey = n.n_nationkey
+    GROUP BY
+      n.n_nationkey
+  )
+SELECT -- The final select will not have a comma before it
+  n.n_name AS nation_name,
+  s.num_supplied_parts,
+  b.num_purchased_parts
+FROM
+  nation n
+  LEFT JOIN supplier_nation_metrics s ON n.n_nationkey = s.n_nationkey
+  LEFT JOIN buyer_nation_metrics b ON n.n_nationkey = b.n_nationkey
+LIMIT
+  10;
+```
+
+```{python}
+#| scrolled: true
+%%sql
+WITH
+  lineitem_agg AS (
+    SELECT
+      l_orderkey,
+      SUM(l_extendedprice) AS total_price_without_discount
+    FROM
+      lineitem
+    GROUP BY
+      l_orderkey
+  )
+SELECT
+  o.o_orderkey,
+  o.o_totalprice,
+  l.total_price_without_discount - o.o_totalprice AS amount_lost_to_discount
+FROM
+  orders o
+  JOIN lineitem_agg l ON o.o_orderkey = l.l_orderkey
+ORDER BY
+  o.o_orderkey;
+```
+
+**Casestudy:**
+  
+Read the query below and answer the question
+
+```sql
+%%sql
+with orders as (
+select
+        order_id,
+        customer_id,
+        order_status,
+        order_purchase_timestamp::TIMESTAMP AS order_purchase_timestamp,
+        order_approved_at::TIMESTAMP AS order_approved_at,
+        order_delivered_carrier_date::TIMESTAMP AS order_delivered_carrier_date,
+        order_delivered_customer_date::TIMESTAMP AS order_delivered_customer_date,
+        order_estimated_delivery_date::TIMESTAMP AS order_estimated_delivery_date
+    from raw_layer.orders
+    ),
+ stg_customers as (
+    select
+        customer_id,
+        zipcode,
+        city,
+        state_code,
+        datetime_created::TIMESTAMP as datetime_created,
+        datetime_updated::TIMESTAMP as datetime_updated,
+        dbt_valid_from,
+        dbt_valid_to
+    from customer_snapshot
+),
+state as (
+select
+        state_id::INT as state_id,
+        state_code::VARCHAR(2) as state_code,
+        state_name::VARCHAR(30) as state_name
+    from raw_layer.state
+    ),
+dim_customers as (
+select
+    c.customer_id,
+    c.zipcode,
+    c.city,
+    c.state_code,
+    s.state_name,
+    c.datetime_created,
+    c.datetime_updated,
+    c.dbt_valid_from::TIMESTAMP as valid_from,
+    case
+        when c.dbt_valid_to is NULL then '9999-12-31'::TIMESTAMP
+        else c.dbt_valid_to::TIMESTAMP
+    end as valid_to
+from stg_customers as c
+inner join state as s on c.state_code = s.state_code
+)
+select
+    o.order_id,
+    o.customer_id,
+    o.order_status,
+    o.order_purchase_timestamp,
+    o.order_approved_at,
+    o.order_delivered_carrier_date,
+    o.order_delivered_customer_date,
+    o.order_estimated_delivery_date,
+    c.zipcode as customer_zipcode,
+    c.city as customer_city,
+    c.state_code as customer_state_code,
+    c.state_name as customer_state_name
+from orders as o
+inner join dim_customers as c on
+    o.customer_id = c.customer_id
+    and o.order_purchase_timestamp >= c.valid_from
+    and o.order_purchase_timestamp <= c.valid_to;
+```
+
+[Exercise]
+
+**Time limit during live workshop: 10 min** 
+
+**Scenario**: Assume you are building tables for your data team and creating this CTE.
+    
+**Question**: From a team-wide table reusability perspective, what do you think is wrong with the above query?
+
+**Question**: How would you change this Code so that your colleagues can reuse your work?
+
+
+
+The CTEs created cannot be reused by team members.
+
+To reuse the CTEs the code will need to be duplicated across your code base, which is bad!
+
+You can instead define the CTEs as tables or views that can be reused (e.g. dbt).
+
+
+# Chapter 3
+
+```{python}
+%%sql
+SELECT
+  o_custkey,
+  o_orderdate,
+  o_totalprice,
+  SUM(o_totalprice) -- FUNCTION 
+  OVER (
+    PARTITION BY
+      o_custkey -- PARTITION
+    ORDER BY
+      o_orderdate -- ORDER BY; ASCENDING ORDER unless specified as DESC
+  ) AS running_sum
+FROM
+  orders
+WHERE
+  o_custkey = 4
+ORDER BY
+  o_orderdate
+LIMIT
+  10;
+```
+
+```{python}
+%%sql
+SELECT
+  o_custkey,
+  o_orderdate,
+  o_totalprice,
+  AVG(o_totalprice) -- FUNCTION 
+  OVER (
+    PARTITION BY
+      o_custkey -- PARTITION
+    ORDER BY
+      o_orderdate -- ORDER BY; ASCENDING ORDER unless specified as DESC
+  ) AS running_sum
+FROM
+  orders
+WHERE
+  o_custkey = 4
+ORDER BY
+  o_orderdate
+LIMIT
+  10;
+```
+
+```{python}
+%%sql
+SELECT
+  *
+FROM
+  (
+    SELECT
+      o_orderdate,
+      o_totalprice,
+      o_custkey,
+      RANK() -- RANKING FUNCTION 
+      OVER (
+        PARTITION BY
+          o_orderdate -- PARTITION BY order date
+        ORDER BY
+          o_totalprice DESC -- ORDER rows withing partition by totalprice
+      ) AS rnk
+    FROM
+      orders
+  )
+WHERE
+  rnk <= 3
+ORDER BY
+  o_orderdate
+LIMIT
+  5;
+```
+
+```{python}
+%%sql 
+SELECT
+  *
+FROM
+  (
+    SELECT
+      o_orderdate,
+      o_totalprice,
+      o_custkey,
+      RANK() -- RANKING FUNCTION 
+      OVER (
+        PARTITION BY
+          o_orderdate -- PARTITION BY order date
+        ORDER BY
+          o_totalprice -- ORDER rows withing partition by totalprice
+      ) AS rnk
+    FROM
+      orders
+  )
+WHERE
+  rnk <= 3
+ORDER BY
+  o_orderdate
+LIMIT
+  5;
+```
+
+```{python}
+%%sql
+-- Let's look at an example showing the difference between RANK, DENSE_RANK and ROW_NUMBER
+SELECT
+  order_date,
+  order_id,
+  total_price,
+  ROW_NUMBER() OVER (
+    PARTITION BY
+      order_date
+    ORDER BY
+      total_price
+  ) AS ROW_NUMBER,
+  RANK() OVER (
+    PARTITION BY
+      order_date
+    ORDER BY
+      total_price
+  ) AS RANK,
+  DENSE_RANK() OVER (
+    PARTITION BY
+      order_date
+    ORDER BY
+      total_price
+  ) AS DENSE_RANK
+FROM
+  (
+    SELECT
+      '2024-07-08' AS order_date,
+      'order_1' AS order_id,
+      100 AS total_price
+    UNION ALL
+    SELECT
+      '2024-07-08',
+      'order_2',
+      200
+    UNION ALL
+    SELECT
+      '2024-07-08',
+      'order_3',
+      150
+    UNION ALL
+    SELECT
+      '2024-07-08',
+      'order_4',
+      90
+    UNION ALL
+    SELECT
+      '2024-07-08',
+      'order_5',
+      100
+    UNION ALL
+    SELECT
+      '2024-07-08',
+      'order_6',
+      90
+    UNION ALL
+    SELECT
+      '2024-07-08',
+      'order_7',
+      100
+    UNION ALL
+    SELECT
+      '2024-07-10',
+      'order_8',
+      100
+    UNION ALL
+    SELECT
+      '2024-07-10',
+      'order_9',
+      100
+    UNION ALL
+    SELECT
+      '2024-07-10',
+      'order_10',
+      100
+    UNION ALL
+    SELECT
+      '2024-07-11',
+      'order_11',
+      100
+  ) AS orders
+ORDER BY
+  order_date,
+  ROW_NUMBER;
+```
+
+```{python}
+#| scrolled: true
+%%sql
+SELECT
+  o_orderdate,
+  o_custkey,
+  o_totalprice,
+  o_totalprice - lag (o_totalprice) OVER (
+    PARTITION BY
+      o_custkey
+    ORDER BY
+      o_orderdate
+  ) AS totalprice_diff
+FROM
+  orders
+ORDER BY
+  o_custkey,
+  o_orderdate
+LIMIT
+  50;
+```
+
+```{python}
+%%sql
+SELECT
+  order_month,
+  o_custkey,
+  total_price,
+  ROUND(
+    AVG(total_price) OVER ( -- FUNCTION: RUNNING AVERAGE
+      PARTITION BY
+        o_custkey -- PARTITIONED BY customer
+      ORDER BY
+        order_month ROWS BETWEEN 1 PRECEDING
+        AND 1 FOLLOWING -- WINDOW FRAME DEFINED AS 1 ROW PRECEDING to 1 ROW FOLLOWING
+    ),
+    2
+  ) AS three_mo_total_price_avg
+FROM
+  (
+    SELECT
+      date_format (o_orderdate, 'yyyy-MM') AS order_month,
+      o_custkey,
+      SUM(o_totalprice) AS total_price
+    FROM
+      orders
+    GROUP BY
+      1,
+      2
+  )
+LIMIT
+  5;
+```
+
+```{python}
+#| scrolled: true
+%%sql
+SELECT
+  order_month,
+  o_custkey,
+  total_price,
+  ROUND(
+    AVG(total_price) OVER (
+      PARTITION BY
+        o_custkey
+      ORDER BY
+        CAST(order_month AS DATE) RANGE BETWEEN INTERVAL '1' MONTH PRECEDING
+        AND INTERVAL '1' MONTH FOLLOWING
+    ),
+    2
+  ) AS consecutive_three_mo_total_price_avg,
+  ROUND(
+    AVG(total_price) OVER (
+      PARTITION BY
+        o_custkey
+      ORDER BY
+        order_month ROWS BETWEEN 1 PRECEDING
+        AND 1 FOLLOWING
+    ),
+    2
+  ) AS three_mo_total_price_avg
+FROM
+  (
+    SELECT
+      date_format (o_orderdate, 'yyyy-MM-01') AS order_month,
+      o_custkey,
+      SUM(o_totalprice) AS total_price
+    FROM
+      orders
+    GROUP BY
+      1,
+      2
+  )
+ORDER BY
+  o_custkey,
+  order_month
+LIMIT
+  50;
+```
+

@@ -1,0 +1,5 @@
+## Working in a team
+
+Data engineering has multiple components and its crucial that you have the same environment that runs in production is also aavailable to the dta engineers to test and develop in.
+
+In this section we will see how docker is used to simulate the same running environment across multiple systems.

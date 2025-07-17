@@ -1,0 +1,6 @@
+# Scheduler defines when & Orchestrator defines how to, run your data pipelines
+
+Schedulers define when to start your data pipeline, e.g. cron, Airflow, etc.
+
+Orchestrators defines the order in which the tasks of a data pipeline should run. For example extract before transform, complex branching logic, excuting across multiple systems such as spark and snowflake, etc. E.g., dbt-core, Airflow, etc
+

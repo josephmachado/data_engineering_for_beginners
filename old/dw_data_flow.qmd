@@ -1,0 +1,23 @@
+## Most companies use the multi-hop architecture
+
+Following an established way of processing data accounts for handling common potential issues, and you have plenty of resources to reference. Most industry-standard patterns follow a 3-hop (or layered) architecture. They are 
+
+1. **Raw layer** stores data from upstream sources as is. This layer sometimes involves changing data types and standardizing column names.
+2. **Transformed layer**: Data from the raw layer is transformed based on a chosen modeling principle to form a set of tables. Common modeling principles are Dimensional modeling (Kimball), Data Vault model, entity-relationship data model, etc.
+3. **Consumption layer**: Data from the transformed layer are combined to form datasets that directly map to the end-user use case. The consumption layer typically involves joining and aggregating transformed layer tables to enable end-users to analyze historical performance. **Business-specific metrics** are often defined at this layer.  We should ensure that **a  metric is only defined in one place**.
+4. **Interface layer [Optional]**: Data in the consumption layer often confirms the data warehouse naming/data types, etc. However, the data presented to the end user should be easy to use and understand. An interface layer is often a **view** that acts as an interface between the warehouse table and the consumers of this table.
+
+Most frameworks/tools propose their version of the 3-hop architecture: 
+1. [Apache Spark: Medallion architecture](https://www.databricks.com/glossary/medallion-architecture)
+2. [dbt: Project Structure](https://docs.getdbt.com/guides/best-practices/how-we-structure/1-guide-overview).
+
+Shown below is our project's 3-hop architecture:
+
+![Data architecture](/images/de_best_practices/data_flow.png)
+
+The bronze, silver, gold, and interface layers correspond to the abovementioned raw, transformed, consumption, and interface layers. We have used **[dimensional modeling]({{< ref "/post/what-is-a-data-warehouse.md#3-what-is-a-data-warehouse" >}})** (with **[SCD2]({{< ref "/post/how-to-join-fact-scd2-tables.md#what-is-an-scd2-table-and-why-use-it" >}})** for dim_customers) for our silver layer. 
+
+For a pipeline/transformation function/table, inputs are called **upstream**, and output users are called **downstream** consumers.
+
+At larger companies, multiple teams work on different layers. A data ingestion team may bring the data into the bronze layer, and other teams may build their own silver and gold tables as necessary.
+

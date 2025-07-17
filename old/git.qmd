@@ -1,0 +1,15 @@
+# [git] is a tool to help multiple engineers work with the same code
+
+## Repo 
+
+## Clone 
+
+## Pull 
+
+## Checkout -b 
+
+## rebase 
+
+## Merge conflict
+
+## Pull request

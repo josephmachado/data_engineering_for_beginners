@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.56">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2&nbsp; Read data, Combine tables, &amp; aggregate numbers to understand business performance – Data Engineering For Beginners</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./cte.html" rel="next">
+<link href="./SQL.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./sql.html">Use SQL to transform data</a></li><li class="breadcrumb-item"><a href="./sql_basics.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Read data, Combine tables, &amp; aggregate numbers to understand business performance</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Data Engineering For Beginners</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Start here</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./sql.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Use SQL to transform data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./SQL.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">SQL</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./sql_basics.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Read data, Combine tables, &amp; aggregate numbers to understand business performance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cte.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">CTE (Common Table Expression) improves code readability and reduces repetition</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./windows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Use window function when you need to use values from other rows to compute a value for the current row</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Python connects the different part of your data pipeline</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./py_basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Manipulate data with standard libraries and co-locate code with classes and functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./py_el.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Python has libraries to read and write data to (almost) any system</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./py_transform.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Python has libraries to tell the data processing engine (Spark, Trino, Duckdb, Polars, etc) what to do</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./data_model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data modeling is the process of getting data ready for analytics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./dw.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data warehouse contains historical data and is used to analyze business performance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./dw_table_types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Data warehouse modeling (Kimball) is based off of 2 types of tables: Fact and dimensions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./dw_data_flow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Most companies use the multi-hop architecture</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./working_in_a_team.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working in a team</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./docker.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Docker recreates the same environment for your code in any machine</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./data_pipeline.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Scheduler defines when &amp; Orchestrator defines how to, run your data pipelines</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./airflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Airflow is both a scheduler and an orchestrator</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./dbt.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">dbt-core is an orchestrator that makes managing pipelines simpler</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./capstone_project.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Capstone Project: Spark, dbt, Airflow with Docker</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#a-spark-catalog-can-have-multiple-schemas-schemas-can-have-multiple-tables" id="toc-a-spark-catalog-can-have-multiple-schemas-schemas-can-have-multiple-tables" class="nav-link active" data-scroll-target="#a-spark-catalog-can-have-multiple-schemas-schemas-can-have-multiple-tables"><span class="header-section-number">2.1</span> A Spark catalog can have multiple schemas, &amp; schemas can have multiple tables</a></li>
+  <li><a href="#use-selectfrom-limit-where-order-by-to-read-the-required-data" id="toc-use-selectfrom-limit-where-order-by-to-read-the-required-data" class="nav-link" data-scroll-target="#use-selectfrom-limit-where-order-by-to-read-the-required-data"><span class="header-section-number">2.2</span> Use SELECT…FROM, LIMIT, WHERE, &amp; ORDER BY to read the required data</a></li>
+  <li><a href="#combine-data-from-multiple-tables-using-joins" id="toc-combine-data-from-multiple-tables-using-joins" class="nav-link" data-scroll-target="#combine-data-from-multiple-tables-using-joins"><span class="header-section-number">2.3</span> Combine data from multiple tables using JOINs</a>
+  <ul>
+  <li><a href="#inner-join-default-get-rows-with-same-join-keys-from-both-tables" id="toc-inner-join-default-get-rows-with-same-join-keys-from-both-tables" class="nav-link" data-scroll-target="#inner-join-default-get-rows-with-same-join-keys-from-both-tables"><span class="header-section-number">2.3.1</span> 1. Inner join (default): Get rows with same join keys from both tables</a></li>
+  <li><a href="#left-outer-join-aka-left-join-get-all-rows-from-the-left-table-and-only-matching-rows-from-the-right-table." id="toc-left-outer-join-aka-left-join-get-all-rows-from-the-left-table-and-only-matching-rows-from-the-right-table." class="nav-link" data-scroll-target="#left-outer-join-aka-left-join-get-all-rows-from-the-left-table-and-only-matching-rows-from-the-right-table."><span class="header-section-number">2.3.2</span> 2. Left outer join (aka left join): Get all rows from the left table and only matching rows from the right table.</a></li>
+  <li><a href="#right-outer-join-aka-right-join-get-matching-rows-from-the-left-and-all-rows-from-the-right-table." id="toc-right-outer-join-aka-right-join-get-matching-rows-from-the-left-and-all-rows-from-the-right-table." class="nav-link" data-scroll-target="#right-outer-join-aka-right-join-get-matching-rows-from-the-left-and-all-rows-from-the-right-table."><span class="header-section-number">2.3.3</span> 3. Right outer join (aka right join): Get matching rows from the left and all rows from the right table.</a></li>
+  <li><a href="#full-outer-join-get-matched-and-un-matched-rows-from-both-the-tables." id="toc-full-outer-join-get-matched-and-un-matched-rows-from-both-the-tables." class="nav-link" data-scroll-target="#full-outer-join-get-matched-and-un-matched-rows-from-both-the-tables."><span class="header-section-number">2.3.4</span> 4. Full outer join: Get matched and un-matched rows from both the tables.</a></li>
+  <li><a href="#cross-join-join-every-row-in-left-table-with-every-row-in-the-right-table" id="toc-cross-join-join-every-row-in-left-table-with-every-row-in-the-right-table" class="nav-link" data-scroll-target="#cross-join-join-every-row-in-left-table-with-every-row-in-the-right-table"><span class="header-section-number">2.3.5</span> 5. Cross join: Join every row in left table with every row in the right table</a></li>
+  </ul></li>
+  <li><a href="#combine-data-from-multiple-rows-into-one-using-group-by" id="toc-combine-data-from-multiple-rows-into-one-using-group-by" class="nav-link" data-scroll-target="#combine-data-from-multiple-rows-into-one-using-group-by"><span class="header-section-number">2.4</span> Combine data from multiple rows into one using GROUP BY</a>
+  <ul>
+  <li><a href="#use-having-to-filter-based-on-the-aggregates-created-by-group-by" id="toc-use-having-to-filter-based-on-the-aggregates-created-by-group-by" class="nav-link" data-scroll-target="#use-having-to-filter-based-on-the-aggregates-created-by-group-by"><span class="header-section-number">2.4.1</span> Use HAVING to filter based on the aggregates created by GROUP BY</a></li>
+  </ul></li>
+  <li><a href="#replicate-if.else-logic-with-case-statements" id="toc-replicate-if.else-logic-with-case-statements" class="nav-link" data-scroll-target="#replicate-if.else-logic-with-case-statements"><span class="header-section-number">2.5</span> Replicate IF.ELSE logic with CASE statements</a></li>
+  <li><a href="#stack-tables-on-top-of-each-other-with-union-and-union-all-subtract-tables-with-except" id="toc-stack-tables-on-top-of-each-other-with-union-and-union-all-subtract-tables-with-except" class="nav-link" data-scroll-target="#stack-tables-on-top-of-each-other-with-union-and-union-all-subtract-tables-with-except"><span class="header-section-number">2.6</span> Stack tables on top of each other with UNION and UNION ALL, subtract tables with EXCEPT</a></li>
+  <li><a href="#sub-query-use-query-instead-of-a-table" id="toc-sub-query-use-query-instead-of-a-table" class="nav-link" data-scroll-target="#sub-query-use-query-instead-of-a-table"><span class="header-section-number">2.7</span> Sub-query: Use query instead of a table</a></li>
+  <li><a href="#change-data-types-cast-and-handle-nulls-coalesce" id="toc-change-data-types-cast-and-handle-nulls-coalesce" class="nav-link" data-scroll-target="#change-data-types-cast-and-handle-nulls-coalesce"><span class="header-section-number">2.8</span> Change data types (CAST) and handle NULLS (COALESCE)</a></li>
+  <li><a href="#use-these-standard-inbuilt-db-functions-for-string-time-and-numeric-data-manipulation" id="toc-use-these-standard-inbuilt-db-functions-for-string-time-and-numeric-data-manipulation" class="nav-link" data-scroll-target="#use-these-standard-inbuilt-db-functions-for-string-time-and-numeric-data-manipulation"><span class="header-section-number">2.9</span> Use these standard inbuilt DB functions for String, Time, and Numeric data manipulation</a></li>
+  <li><a href="#save-queries-as-views-for-more-straightforward-reads" id="toc-save-queries-as-views-for-more-straightforward-reads" class="nav-link" data-scroll-target="#save-queries-as-views-for-more-straightforward-reads"><span class="header-section-number">2.10</span> Save queries as views for more straightforward reads</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">2.11</span> Exercises</a></li>
+  <li><a href="#recommended-reading" id="toc-recommended-reading" class="nav-link" data-scroll-target="#recommended-reading"><span class="header-section-number">2.12</span> Recommended reading</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./sql.html">Use SQL to transform data</a></li><li class="breadcrumb-item"><a href="./sql_basics.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Read data, Combine tables, &amp; aggregate numbers to understand business performance</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Read data, Combine tables, &amp; aggregate numbers to understand business performance</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In this chapter, we will go over SQL basics.</p>
+<section id="a-spark-catalog-can-have-multiple-schemas-schemas-can-have-multiple-tables" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="a-spark-catalog-can-have-multiple-schemas-schemas-can-have-multiple-tables"><span class="header-section-number">2.1</span> A Spark catalog can have multiple schemas, &amp; schemas can have multiple tables</h2>
+<p>Typically database servers can have multiple databases; each database can have multiple schemas. Each schema can have multiple tables, and each table can have multiple columns.</p>
+<p><strong>Note:</strong> We use Trino, which has <code>catalogs</code> that allow it to connect with the different underlying systems. (e.g., Postgres, Redis, Hive, etc.)</p>
+<p>In our lab, we use Trino, and we can check the available catalogs, their schemas, the tables in a schema, &amp; the columns in a table, as shown below.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>show catalogs;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>show schemas <span class="kw">IN</span> demo; <span class="co">-- Catalog -&gt; schema</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>show schemas <span class="kw">IN</span> prod; <span class="co">-- schema -&gt; namespace</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>show <span class="kw">tables</span> <span class="kw">IN</span> prod.db <span class="co">-- namespace -&gt; Table</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note how, when referencing the table name, we use the full path, i.e., <code>database.schema.table_name</code>. We can skip using the full path of the table if we let Trino know which schema to use by default, as shown below.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>DESCRIBE lineitem;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>DESCRIBE EXTENDED lineitem;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="use-selectfrom-limit-where-order-by-to-read-the-required-data" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="use-selectfrom-limit-where-order-by-to-read-the-required-data"><span class="header-section-number">2.2</span> Use SELECT…FROM, LIMIT, WHERE, &amp; ORDER BY to read the required data</h2>
+<p>The most common use for querying is to read data in our tables. We can do this using a <code>SELECT ... FROM</code> statement, as shown below.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> prod.db;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- use * to specify all columns</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  orders</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="dv">4</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">-- use column names to only read data from those columns</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  o_orderkey,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  o_totalprice</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  orders</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>However, running a <code>SELECT ... FROM</code> statement can cause issues when the data set is extensive. If you want to look at the data, use <code>LIMIT n</code> to tell Trino only to get n number of rows.</p>
+<p>We can use the’ WHERE’ clause if we want to get the rows that match specific criteria. We can specify one or more filters within the’ WHERE’ clause. The <code>WHERE</code> clause with more than one filter can use combinations of <code>AND</code> and <code>OR</code> criteria to combine the filter criteria, as shown below.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- all customer rows that have c_nationkey = 20</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  customer</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  c_nationkey <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span>;</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">-- all customer rows that have c_nationkey = 20 and c_acctbal &gt; 1000</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  customer</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  c_nationkey <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> c_acctbal <span class="op">&gt;</span> <span class="dv">1000</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span>;</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">-- all customer rows that have c_nationkey = 20 or c_acctbal &gt; 1000</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  customer</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>  c_nationkey <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  <span class="kw">OR</span> c_acctbal <span class="op">&gt;</span> <span class="dv">1000</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span>;</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="co">-- all customer rows that have (c_nationkey = 20 and c_acctbal &gt; 1000) or rows that have c_nationkey = 11</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>  customer</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>  (</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    c_nationkey <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> c_acctbal <span class="op">&gt;</span> <span class="dv">1000</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>  <span class="kw">OR</span> c_nationkey <span class="op">=</span> <span class="dv">11</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can combine multiple filter clauses, as seen above. We have seen examples of equals (<code>=</code>) and greater than (<code>&gt;</code>) conditional operators. There are 6 <strong>conditional operators</strong>, they are</p>
+<ol type="1">
+<li><code>&lt;</code> Less than</li>
+<li><code>&gt;</code> Greater than</li>
+<li><code>&lt;=</code> Less than or equal to</li>
+<li><code>&gt;=</code> Greater than or equal to</li>
+<li><code>=</code> Equal</li>
+<li><code>&lt;&gt;</code> and <code>!=</code> both represent Not equal (some DBs only support one of these)</li>
+</ol>
+<p>Additionally, for string types, we can make <strong>pattern matching with <code>like</code> condition</strong>. In a <code>like</code> condition, a <code>_</code> means any single character, and <code>%</code> means zero or more characters, for example.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">USE</span> tpch.tiny;</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- all customer rows where the name has a 381 in it</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> customer <span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="st">'%381%'</span>;</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">-- all customer rows where the name ends with a 381</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> customer <span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="st">'%381'</span>;</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">-- all customer rows where the name starts with a 381</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> customer <span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="st">'381%'</span>;</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">-- all customer rows where the name has a combination of any character and 9 and 1</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> customer <span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="st">'%_91%'</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can also filter for more than one value using <code>IN</code> and <code>NOT IN</code>.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">USE</span> tpch.tiny;</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- all customer rows which have nationkey = 10 or nationkey = 20</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> customer <span class="kw">WHERE</span> nationkey <span class="kw">IN</span> (<span class="dv">10</span>,<span class="dv">20</span>);</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">-- all customer rows which have do not have nationkey as 10 or 20</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> customer <span class="kw">WHERE</span> nationkey <span class="kw">NOT</span> <span class="kw">IN</span> (<span class="dv">10</span>,<span class="dv">20</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can get the number of rows in a table using <code>count(*)</code> as shown below.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">USE</span> tpch.tiny;</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> customer; <span class="co">-- 1500</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> lineitem; <span class="co">-- 60175</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If we want to get the rows sorted by values in a specific column, we use <code>ORDER BY</code>, for example.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">USE</span> tpch.tiny;</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- Will show the first ten customer records with the lowest custkey</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- rows are ordered in ASC order by default</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> orders <span class="kw">ORDER</span> <span class="kw">BY</span> custkey <span class="kw">LIMIT</span> <span class="dv">10</span>; </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">-- Will show the first ten customer's records with the highest custkey</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> orders <span class="kw">ORDER</span> <span class="kw">BY</span> custkey <span class="kw">DESC</span> <span class="kw">LIMIT</span> <span class="dv">10</span>; </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="combine-data-from-multiple-tables-using-joins" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="combine-data-from-multiple-tables-using-joins"><span class="header-section-number">2.3</span> Combine data from multiple tables using JOINs</h2>
+<p>We can combine data from multiple tables using joins. When we write a join query, we have a format as shown below.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    a.<span class="op">*</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    table_a a <span class="co">-- LEFT table a</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">JOIN</span> table_b b <span class="co">-- RIGHT table b</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">ON</span> a.<span class="kw">id</span> <span class="op">=</span> b.<span class="kw">id</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The table specified first (table_a) is the left table, whereas the table established second is the right table. When we have multiple tables joined, we consider the joined dataset from the first two tables as the left table and the third table as the right table (The DB optimizes our join for performance).</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    a.<span class="op">*</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    table_a a <span class="co">-- LEFT table a</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">JOIN</span> table_b b <span class="co">-- RIGHT table b</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">ON</span> a.<span class="kw">id</span> <span class="op">=</span> b.<span class="kw">id</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">JOIN</span> table_c c <span class="co">-- LEFT table is the joined data from table_a &amp; table_b, right table is table_c</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">ON</span> a.c_id <span class="op">=</span> c.<span class="kw">id</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>There are five main types of joins, they are:</p>
+<section id="inner-join-default-get-rows-with-same-join-keys-from-both-tables" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="inner-join-default-get-rows-with-same-join-keys-from-both-tables"><span class="header-section-number">2.3.1</span> 1. Inner join (default): Get rows with same join keys from both tables</h3>
+<div class="sourceCode" id="cb11"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">USE</span> tpch.tiny;</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    o.orderkey,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    l.orderkey</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    orders o</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">JOIN</span> lineitem l <span class="kw">ON</span> o.orderkey <span class="op">=</span> l.orderkey</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> o.orderdate <span class="kw">BETWEEN</span> l.shipdate <span class="op">-</span> <span class="dt">INTERVAL</span> <span class="st">'5'</span> <span class="dt">DAY</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> l.shipdate <span class="op">+</span> <span class="dt">INTERVAL</span> <span class="st">'5'</span> <span class="dt">DAY</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="dv">100</span>;</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">COUNT</span>(o.orderkey) <span class="kw">AS</span> order_rows_count,</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">COUNT</span>(l.orderkey) <span class="kw">AS</span> lineitem_rows_count</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    orders o</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">JOIN</span> lineitem l <span class="kw">ON</span> o.orderkey <span class="op">=</span> l.orderkey</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> o.orderdate <span class="kw">BETWEEN</span> l.shipdate <span class="op">-</span> <span class="dt">INTERVAL</span> <span class="st">'5'</span> <span class="dt">DAY</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> l.shipdate <span class="op">+</span> <span class="dt">INTERVAL</span> <span class="st">'5'</span> <span class="dt">DAY</span>;</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="co">-- 2477, 2477</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Note:</strong> <code>JOIN</code> defaults to INNER JOIN`.</p>
+<p>The output will have rows from orders and lineitem that found at least one matching row from the other table with the specified join condition (same orderkey and orderdate within ship date +/- 5 days).</p>
+<p>We can also see that 2,477 rows from orders and lineitem tables matched.</p>
+</section>
+<section id="left-outer-join-aka-left-join-get-all-rows-from-the-left-table-and-only-matching-rows-from-the-right-table." class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="left-outer-join-aka-left-join-get-all-rows-from-the-left-table-and-only-matching-rows-from-the-right-table."><span class="header-section-number">2.3.2</span> 2. Left outer join (aka left join): Get all rows from the left table and only matching rows from the right table.</h3>
+<div class="sourceCode" id="cb12"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">USE</span> tpch.tiny;</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    o.orderkey,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    l.orderkey</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    orders o</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">LEFT</span> <span class="kw">JOIN</span> lineitem l <span class="kw">ON</span> o.orderkey <span class="op">=</span> l.orderkey</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> o.orderdate <span class="kw">BETWEEN</span> l.shipdate <span class="op">-</span> <span class="dt">INTERVAL</span> <span class="st">'5'</span> <span class="dt">DAY</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> l.shipdate <span class="op">+</span> <span class="dt">INTERVAL</span> <span class="st">'5'</span> <span class="dt">DAY</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="dv">100</span>;</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">COUNT</span>(o.orderkey) <span class="kw">AS</span> order_rows_count,</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">COUNT</span>(l.orderkey) <span class="kw">AS</span> lineitem_rows_count</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    orders o</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">LEFT</span> <span class="kw">JOIN</span> lineitem l <span class="kw">ON</span> o.orderkey <span class="op">=</span> l.orderkey</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> o.orderdate <span class="kw">BETWEEN</span> l.shipdate <span class="op">-</span> <span class="dt">INTERVAL</span> <span class="st">'5'</span> <span class="dt">DAY</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> l.shipdate <span class="op">+</span> <span class="dt">INTERVAL</span> <span class="st">'5'</span> <span class="dt">DAY</span>;</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="co">-- 15197, 2477</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The output will have all the rows from orders and the rows from lineitem that were able to find at least one matching row from the orders table with the specified join condition (same orderkey and orderdate within ship date +/- 5 days).</p>
+<p>We can also see that the number of rows from the orders table is 15,197 &amp; from the lineitem table is 2,477. The number of rows in orders is 15000, but the join condition produces 15197 since some orders match with multiple lineitems.</p>
+</section>
+<section id="right-outer-join-aka-right-join-get-matching-rows-from-the-left-and-all-rows-from-the-right-table." class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="right-outer-join-aka-right-join-get-matching-rows-from-the-left-and-all-rows-from-the-right-table."><span class="header-section-number">2.3.3</span> 3. Right outer join (aka right join): Get matching rows from the left and all rows from the right table.</h3>
+<div class="sourceCode" id="cb13"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">USE</span> tpch.tiny;</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    o.orderkey,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    l.orderkey</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    orders o</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">RIGHT</span> <span class="kw">JOIN</span> lineitem l <span class="kw">ON</span> o.orderkey <span class="op">=</span> l.orderkey</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> o.orderdate <span class="kw">BETWEEN</span> l.shipdate <span class="op">-</span> <span class="dt">INTERVAL</span> <span class="st">'5'</span> <span class="dt">DAY</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> l.shipdate <span class="op">+</span> <span class="dt">INTERVAL</span> <span class="st">'5'</span> <span class="dt">DAY</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="dv">100</span>;</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">COUNT</span>(o.orderkey) <span class="kw">AS</span> order_rows_count,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">COUNT</span>(l.orderkey) <span class="kw">AS</span> lineitem_rows_count</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    orders o</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">RIGHT</span> <span class="kw">JOIN</span> lineitem l <span class="kw">ON</span> o.orderkey <span class="op">=</span> l.orderkey</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> o.orderdate <span class="kw">BETWEEN</span> l.shipdate <span class="op">-</span> <span class="dt">INTERVAL</span> <span class="st">'5'</span> <span class="dt">DAY</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> l.shipdate <span class="op">+</span> <span class="dt">INTERVAL</span> <span class="st">'5'</span> <span class="dt">DAY</span>;</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="co">-- 2477, 60175</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The output will have the rows from orders that found at least one matching row from the lineitem table with the specified join condition (same orderkey and orderdate within ship date +/- 5 days) and all the rows from the lineitem table.</p>
+<p>We can also see that the number of rows from the orders table is 15,197 &amp; from the lineitem table is 2,477.</p>
+</section>
+<section id="full-outer-join-get-matched-and-un-matched-rows-from-both-the-tables." class="level3" data-number="2.3.4">
+<h3 data-number="2.3.4" class="anchored" data-anchor-id="full-outer-join-get-matched-and-un-matched-rows-from-both-the-tables."><span class="header-section-number">2.3.4</span> 4. Full outer join: Get matched and un-matched rows from both the tables.</h3>
+<div class="sourceCode" id="cb14"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">USE</span> tpch.tiny;</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    o.orderkey,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    l.orderkey</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    orders o</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FULL</span> <span class="kw">OUTER</span> <span class="kw">JOIN</span> lineitem l <span class="kw">ON</span> o.orderkey <span class="op">=</span> l.orderkey</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> o.orderdate <span class="kw">BETWEEN</span> l.shipdate <span class="op">-</span> <span class="dt">INTERVAL</span> <span class="st">'5'</span> <span class="dt">DAY</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> l.shipdate <span class="op">+</span> <span class="dt">INTERVAL</span> <span class="st">'5'</span> <span class="dt">DAY</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="dv">100</span>;</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">COUNT</span>(o.orderkey) <span class="kw">AS</span> order_rows_count,</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">COUNT</span>(l.orderkey) <span class="kw">AS</span> lineitem_rows_count</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    orders o</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FULL</span> <span class="kw">OUTER</span> <span class="kw">JOIN</span> lineitem l <span class="kw">ON</span> o.orderkey <span class="op">=</span> l.orderkey</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> o.orderdate <span class="kw">BETWEEN</span> l.shipdate <span class="op">-</span> <span class="dt">INTERVAL</span> <span class="st">'5'</span> <span class="dt">DAY</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> l.shipdate <span class="op">+</span> <span class="dt">INTERVAL</span> <span class="st">'5'</span> <span class="dt">DAY</span>;</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="co">-- 15197, 60175</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The output will have all the rows from orders that found at least one matching row from the lineitem table with the specified join condition (same orderkey and orderdate within ship date +/- 5 days) and all the rows from the lineitem table.</p>
+<p>We can also see that the number of rows from the orders table is 15,197 &amp; from the lineitem table is 2,477.</p>
+</section>
+<section id="cross-join-join-every-row-in-left-table-with-every-row-in-the-right-table" class="level3" data-number="2.3.5">
+<h3 data-number="2.3.5" class="anchored" data-anchor-id="cross-join-join-every-row-in-left-table-with-every-row-in-the-right-table"><span class="header-section-number">2.3.5</span> 5. Cross join: Join every row in left table with every row in the right table</h3>
+<div class="sourceCode" id="cb15"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">USE</span> tpch.tiny;</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    n.name <span class="kw">AS</span> nation_name,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    r.name <span class="kw">AS</span> region_name</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    nation n</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">CROSS</span> <span class="kw">JOIN</span> region r;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The output will have every row of the nation joined with every row of the region. There are 25 nations and five regions, leading to 125 rows in our result from the cross-join.</p>
+<!-- ![Compare 4 joins](./images/im_27_1.png){#id .class width=30px height=20px} -->
+<!-- ![Cross join](./images/im_27_2.png){#id .class width=30px height=20px} -->
+<p>There are cases where we will need to join a table with itself, called a SELF-join. Let’s consider an example.</p>
+<ol type="1">
+<li>For every customer order, get the order placed earlier in the same week (Sunday - Saturday, not the previous seven days). Only show customer orders that have at least one such order.</li>
+</ol>
+<div class="sourceCode" id="cb16"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">USE</span> tpch.tiny;</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    o1.custkey,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    o1.totalprice,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    o1.orderdate,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    o2.totalprice,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    o2.orderdate</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    orders o1</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">JOIN</span> orders o2 <span class="kw">ON</span> o1.custkey <span class="op">=</span> o2.custkey</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> <span class="dt">year</span>(o1.orderdate) <span class="op">=</span> <span class="dt">year</span>(o2.orderdate)</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> week(o1.orderdate) <span class="op">=</span> week(o2.orderdate)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    o1.orderkey <span class="op">!=</span> o2.orderkey</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="combine-data-from-multiple-rows-into-one-using-group-by" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="combine-data-from-multiple-rows-into-one-using-group-by"><span class="header-section-number">2.4</span> Combine data from multiple rows into one using GROUP BY</h2>
+<p>Most analytical queries require calculating metrics that involve combining data from multiple rows. <code>GROUP BY</code> allows us to perform aggregate calculations on data from a set of rows recognized by values of specified column(s). For example:</p>
+<ol type="1">
+<li>Create a report that shows the number of orders per orderpriority segment.</li>
+</ol>
+<div class="sourceCode" id="cb17"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">USE</span> tpch.tiny;</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    orderpriority,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(<span class="op">*</span>) <span class="kw">AS</span> num_orders</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    orders</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    orderpriority;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In the above query, we group the data by <code>orderpriority</code>, and the calculation <code>count(*)</code> will be applied to the rows having a specific <code>orderpriority</code> value.</p>
+<p>The calculations allowed are typically SUM/MIN/MAX/AVG/COUNT. However, some databases have more complex aggregate functions; check your DB documentation.</p>
+<section id="use-having-to-filter-based-on-the-aggregates-created-by-group-by" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="use-having-to-filter-based-on-the-aggregates-created-by-group-by"><span class="header-section-number">2.4.1</span> Use HAVING to filter based on the aggregates created by GROUP BY</h3>
+</section>
+</section>
+<section id="replicate-if.else-logic-with-case-statements" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="replicate-if.else-logic-with-case-statements"><span class="header-section-number">2.5</span> Replicate IF.ELSE logic with CASE statements</h2>
+<p>We can do conditional logic in the <code>SELECT ... FROM</code> part of our query, as shown below.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">USE</span> tpch.tiny;</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    orderkey,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    totalprice,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">CASE</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">WHEN</span> totalprice <span class="op">&gt;</span> <span class="dv">100000</span> <span class="cf">THEN</span> <span class="st">'high'</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">WHEN</span> totalprice <span class="kw">BETWEEN</span> <span class="dv">25000</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">AND</span> <span class="dv">100000</span> <span class="cf">THEN</span> <span class="st">'medium'</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">ELSE</span> <span class="st">'low'</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">END</span> <span class="kw">AS</span> order_price_bucket</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    orders;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can see how we display different values depending on the <code>totalprice</code> column. We can also use multiple criteria as our conditional criteria (e.g., totalprice &gt; 100000 AND orderpriority = ‘2-HIGH’).</p>
+</section>
+<section id="stack-tables-on-top-of-each-other-with-union-and-union-all-subtract-tables-with-except" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="stack-tables-on-top-of-each-other-with-union-and-union-all-subtract-tables-with-except"><span class="header-section-number">2.6</span> Stack tables on top of each other with UNION and UNION ALL, subtract tables with EXCEPT</h2>
+<p>When we want to combine data from tables by stacking them on top of each other, we use UNION or UNION ALL. <code>UNION</code> removes duplicate rows, and <code>UNION ALL</code> does not remove duplicate rows. Let’s look at an example.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">USE</span> tpch.tiny;</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> custkey, name <span class="kw">FROM</span> customer <span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="st">'%_91%'</span> <span class="co">-- 25 rows</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co">-- UNION will remove duplicate rows; the below query will produce 25 rows</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> custkey, name <span class="kw">FROM</span> customer <span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="st">'%_91%'</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> custkey, name <span class="kw">FROM</span> customer <span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="st">'%_91%'</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> custkey, name <span class="kw">FROM</span> customer <span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="st">'%_91%'</span>;</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co">-- UNION ALL will not remove duplicate rows; the below query will produce 75 rows</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> custkey, name <span class="kw">FROM</span> customer <span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="st">'%_91%'</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span> <span class="kw">ALL</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> custkey, name <span class="kw">FROM</span> customer <span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="st">'%_91%'</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span> <span class="kw">ALL</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> custkey, name <span class="kw">FROM</span> customer <span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="st">'%_91%'</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When we want to get all the rows from the first dataset that are not in the second dataset, we can use <code>EXCEPT</code>.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">USE</span> tpch.tiny;</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- EXCEPT will get the rows in the first query result that is not in the second query result, 0 rows</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> custkey, name <span class="kw">FROM</span> customer <span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="st">'%_91%'</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="kw">EXCEPT</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> custkey, name <span class="kw">FROM</span> customer <span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="st">'%_91%'</span>;</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co">-- The below query will result in 23 rows; the first query has 25 rows, and the second has two rows</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> custkey, name <span class="kw">FROM</span> customer <span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="st">'%_91%'</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="kw">EXCEPT</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> custkey, name <span class="kw">FROM</span> customer <span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="st">'%191%'</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="sub-query-use-query-instead-of-a-table" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="sub-query-use-query-instead-of-a-table"><span class="header-section-number">2.7</span> Sub-query: Use query instead of a table</h2>
+<p>When we want to use the result of a query as a table in another query, we use subqueries. Let’s consider an example:</p>
+<ol type="1">
+<li>Create a report that shows the nation, how many items it supplied (by suppliers in that nation), and how many items it purchased (by customers in that nation).</li>
+</ol>
+<div class="sourceCode" id="cb21"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">USE</span> tpch.tiny;</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    n.name <span class="kw">AS</span> nation_name,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    s.quantity <span class="kw">AS</span> supplied_items_quantity,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    c.quantity <span class="kw">AS</span> purchased_items_quantity</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    nation n</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">LEFT</span> <span class="kw">JOIN</span> (</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>        <span class="kw">SELECT</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>            n.nationkey,</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>            <span class="fu">sum</span>(l.quantity) <span class="kw">AS</span> quantity</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>        <span class="kw">FROM</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>            lineitem l</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>            <span class="kw">JOIN</span> supplier s <span class="kw">ON</span> l.suppkey <span class="op">=</span> s.suppkey</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>            <span class="kw">JOIN</span> nation n <span class="kw">ON</span> s.nationkey <span class="op">=</span> n.nationkey</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>        <span class="kw">GROUP</span> <span class="kw">BY</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>            n.nationkey</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    ) s <span class="kw">ON</span> n.nationkey <span class="op">=</span> s.nationkey</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">LEFT</span> <span class="kw">JOIN</span> (</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>        <span class="kw">SELECT</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>            n.nationkey,</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>            <span class="fu">sum</span>(l.quantity) <span class="kw">AS</span> quantity</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>        <span class="kw">FROM</span></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>            lineitem l</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>            <span class="kw">JOIN</span> orders o <span class="kw">ON</span> l.orderkey <span class="op">=</span> o.orderkey</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>            <span class="kw">JOIN</span> customer c <span class="kw">ON</span> o.custkey <span class="op">=</span> c.custkey</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>            <span class="kw">JOIN</span> nation n <span class="kw">ON</span> c.nationkey <span class="op">=</span> n.nationkey</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>        <span class="kw">GROUP</span> <span class="kw">BY</span></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>            n.nationkey</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>    ) c <span class="kw">ON</span> n.nationkey <span class="op">=</span> c.nationkey;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In the above query, we can see that there are two sub-queries, one to calculate the quantity supplied by a nation and the other to calculate the quantity purchased by the customers of a nation.</p>
+</section>
+<section id="change-data-types-cast-and-handle-nulls-coalesce" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="change-data-types-cast-and-handle-nulls-coalesce"><span class="header-section-number">2.8</span> Change data types (CAST) and handle NULLS (COALESCE)</h2>
+<p>Every column in a table has a specific data type. The data types fall under one of the following categories.</p>
+<ol type="1">
+<li><strong><code>Numerical</code></strong>: Data types used to store numbers.
+<ol type="1">
+<li>Integer: Positive and negative numbers. Different types of Integer, such as tinyint, int, and bigint, allow storage of different ranges of values. Integers cannot have decimal digits.</li>
+<li>Floating: These can have decimal digits but stores an approximate value.</li>
+<li>Decimal: These can have decimal digits and store the exact value. The decimal type allows you to specify the scale and precision. Where scale denotes the count of numbers allowed as a whole &amp; precision denotes the count of numbers allowed after the decimal point. E.g., DECIMAL(8,3) allows eight numbers in total, with three allowed after the decimal point.</li>
+</ol></li>
+<li><strong><code>Boolean</code></strong>: Data types used to store True or False values.</li>
+<li><strong><code>String</code></strong>: Data types used to store alphanumeric characters.
+<ol type="1">
+<li>Varchar(n): Data type allows storage of variable character string, with a permitted max length n.</li>
+<li>Char(n): Data type allows storage of fixed character string. A column of char(n) type adds (length(string) - n) empty spaces to a string that does not have n characters.</li>
+</ol></li>
+<li><strong><code>Date &amp; time</code></strong>: Data types used to store dates, time, &amp; timestamps(date + time).</li>
+<li><strong><code>Objects (JSON, ARRAY)</code></strong>: Data types used to store JSON and ARRAY data.</li>
+</ol>
+<p>Some databases have data types that are unique to them as well. We should check the database documents to understand the data types offered.</p>
+<p>Functions such as <code>DATE_DIFF</code> and <code>ROUND</code> are specific to a data type. It is best practice to use the appropriate data type for your columns. We can convert data types using the <code>CAST</code> function, as shown below.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">USE</span> tpch.tiny;</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    DATE_DIFF(<span class="st">'day'</span>, <span class="st">'2022-10-01'</span>, <span class="st">'2022-10-05'</span>); <span class="co">-- will fail due to in correct data type</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    DATE_DIFF(</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">'day'</span>,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">CAST</span>(<span class="st">'2022-10-01'</span> <span class="kw">AS</span> <span class="dt">DATE</span>),</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">CAST</span>(<span class="st">'2022-10-05'</span> <span class="kw">AS</span> <span class="dt">DATE</span>)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    );</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A <code>NULL</code> will be used for that field when a value is not present. In cases where we want to use the first non-NULL value from a list of columns, we use <code>COALESCE</code> as shown below.</p>
+<p>Let’s consider an example as shown below. We can see how when <code>l.orderkey</code> is NULL; the DB uses <code>999999</code> as the output.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">USE</span> tpch.tiny;</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    o.orderkey,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    o.orderdate,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">COALESCE</span>(l.orderkey, <span class="dv">9999999</span>) <span class="kw">AS</span> lineitem_orderkey,</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    l.shipdate</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    orders o</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">LEFT</span> <span class="kw">JOIN</span> lineitem l <span class="kw">ON</span> o.orderkey <span class="op">=</span> l.orderkey</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> o.orderdate <span class="kw">BETWEEN</span> l.shipdate <span class="op">-</span> <span class="dt">INTERVAL</span> <span class="st">'5'</span> <span class="dt">DAY</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> l.shipdate <span class="op">+</span> <span class="dt">INTERVAL</span> <span class="st">'5'</span> <span class="dt">DAY</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    <span class="dv">100</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="use-these-standard-inbuilt-db-functions-for-string-time-and-numeric-data-manipulation" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="use-these-standard-inbuilt-db-functions-for-string-time-and-numeric-data-manipulation"><span class="header-section-number">2.9</span> Use these standard inbuilt DB functions for String, Time, and Numeric data manipulation</h2>
+<p>When processing data, more often than not, we will need to change values in columns; shown below are a few standard functions to be aware of:</p>
+<ol type="1">
+<li><strong><code>String functions</code></strong>
+<ol type="1">
+<li><strong>LENGTH</strong> is used to calculate the length of a string. E.g., <code>SELECT LENGTH('hi');</code> will output 2.</li>
+<li><strong>CONCAT</strong> combines multiple string columns into one. E.g., <code>SELECT CONCAT(clerk, '-', orderpriority) FROM ORDERS LIMIT 5;</code> will concatenate clear and orderpriority columns with a dash in between them.</li>
+<li><strong>SPLIT</strong> is used to split a value into an array based on a given delimiter. E.g., <code>SELECT SPLIT(clerk, '#') FROM ORDERS LIMIT 5;</code> will output a column with arrays formed by splitting clerk values on <code>#</code>.</li>
+<li><strong>SUBSTRING</strong> is used to get a sub-string from a value, given the start and end character indices. E.g., <code>SELECT clerk, SUBSTR(clerk, 1, 5) FROM orders LIMIT 5;</code> will get the first five (1 - 5) characters of the clerk column. Note that the indexing starts from 1 in Trino.</li>
+<li><strong>TRIM</strong> is used to remove empty spaces to the left and right of the value. E.g., <code>SELECT TRIM(' hi ');</code> will output <code>hi</code> without any spaces around it. LTRIM and RTRIM are similar but only remove spaces before and after the string, respectively.</li>
+</ol></li>
+<li><strong><code>Date and Time functions</code></strong>
+<ol type="1">
+<li><p><strong>Adding and subtracting dates</strong>: Is used to add and subtract periods; the format heavily depends on the DB. E.g., In Trino, the query</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  date_diff(<span class="st">'DAY'</span>, <span class="dt">DATE</span> <span class="st">'2022-10-01'</span>, <span class="dt">DATE</span> <span class="st">'2023-11-05'</span>) diff_in_days,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  date_diff(<span class="st">'MONTH'</span>, <span class="dt">DATE</span> <span class="st">'2022-10-01'</span>, <span class="dt">DATE</span> <span class="st">'2023-11-05'</span>) diff_in_months,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  date_diff(<span class="st">'YEAR'</span>, <span class="dt">DATE</span> <span class="st">'2022-10-01'</span>, <span class="dt">DATE</span> <span class="st">'2023-11-05'</span>) diff_in_years;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>It will show the difference between the two dates in the specified period. We can also add/subtract an arbitrary period from a date/time column. E.g., <code>SELECT DATE '2022-11-05' + INTERVAL '10' DAY;</code> will show the output <code>2022-11-15</code>.</p></li>
+<li><p><strong>string &lt;=&gt; date/time conversions</strong>: When we want to change the data type of a string to date/time, we can use the <code>DATE 'YYYY-MM-DD'</code> or <code>TIMESTAMP 'YYYY-MM-DD HH:mm:SS</code> functions. But when the data is in a different date/time format such as <code>MM/DD/YYYY</code>, we will need to specify the input structure; we do this using <code>date_parse,</code> E.g. <code>SELECT date_parse('11-05-2023', '%m-%d-%Y');</code>. We can convert a timestamp/date into a string with the required format using <code>date_format</code>. E.g., <code>SELECT DATE_FORMAT(orderdate, '%Y-%m-01') AS first_month_date FROM orders LIMIT 5;</code> will map every orderdate to the first of their month.</p></li>
+<li><p><strong>Time frame functions (YEAR/MONTH/DAY)</strong>: When we want to extract specific periods from a date/time column, we can use these functions. E.g., <code>SELECT year(date '2023-11-05');</code> will return 2023. Similarly, we have month, day, hour, min, etc.</p></li>
+</ol></li>
+<li><strong><code>Numeric</code></strong>
+<ol type="1">
+<li><strong>ROUND</strong> is used to specify the number of digits allowed after the decimal point. E.g. <code>SELECT ROUND(100.102345, 2);</code></li>
+</ol></li>
+</ol>
+</section>
+<section id="save-queries-as-views-for-more-straightforward-reads" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="save-queries-as-views-for-more-straightforward-reads"><span class="header-section-number">2.10</span> Save queries as views for more straightforward reads</h2>
+<p>When we have large/complex queries that we need to run often, we can save them as views. Views are DB objects that operate similarly to a table. The OLAP DB executes the underlying query when we query a view.</p>
+<p>Use views to hide query complexities and limit column access (by exposing only specific table columns) for end-users.</p>
+<p>For example, we can create a view for the nation-level report from the above section, as shown below.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">USE</span> minio.warehouse;</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">VIEW</span> nation_supplied_purchased_quantity <span class="kw">AS</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    n.name <span class="kw">AS</span> nation_name,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    s.quantity <span class="kw">AS</span> supplied_items_quantity,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    c.quantity <span class="kw">AS</span> purchased_items_quantity</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    tpch.tiny.nation n</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">LEFT</span> <span class="kw">JOIN</span> (</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>        <span class="kw">SELECT</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>            n.nationkey,</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>            <span class="fu">sum</span>(l.quantity) <span class="kw">AS</span> quantity</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>        <span class="kw">FROM</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>            tpch.tiny.lineitem l</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>            <span class="kw">JOIN</span> tpch.tiny.supplier s <span class="kw">ON</span> l.suppkey <span class="op">=</span> s.suppkey</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>            <span class="kw">JOIN</span> tpch.tiny.nation n <span class="kw">ON</span> s.nationkey <span class="op">=</span> n.nationkey</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>        <span class="kw">GROUP</span> <span class="kw">BY</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>            n.nationkey</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>    ) s <span class="kw">ON</span> n.nationkey <span class="op">=</span> s.nationkey</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">LEFT</span> <span class="kw">JOIN</span> (</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>        <span class="kw">SELECT</span></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>            n.nationkey,</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>            <span class="fu">sum</span>(l.quantity) <span class="kw">AS</span> quantity</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>        <span class="kw">FROM</span></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>            tpch.tiny.lineitem l</span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>            <span class="kw">JOIN</span> tpch.tiny.orders o <span class="kw">ON</span> l.orderkey <span class="op">=</span> o.orderkey</span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>            <span class="kw">JOIN</span> tpch.tiny.customer c <span class="kw">ON</span> o.custkey <span class="op">=</span> c.custkey</span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>            <span class="kw">JOIN</span> tpch.tiny.nation n <span class="kw">ON</span> c.nationkey <span class="op">=</span> n.nationkey</span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>        <span class="kw">GROUP</span> <span class="kw">BY</span></span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>            n.nationkey</span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>    ) c <span class="kw">ON</span> n.nationkey <span class="op">=</span> c.nationkey;</span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span></span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>    nation_supplied_purchased_quantity;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now the view <code>nation_supplied_purchased_quantity</code> will run the underlying query when used. Note here we use the <code>minio.tpch</code> schema because catalog <code>tpch</code> does not allow the creation of views. The <code>tpch</code> catalog comes with Trino and only allows read operations. Read more about <a href="https://trino.io/docs/current/overview/concepts.html#connector">connectors here</a>.</p>
+</section>
+<section id="exercises" class="level2" data-number="2.11">
+<h2 data-number="2.11" class="anchored" data-anchor-id="exercises"><span class="header-section-number">2.11</span> Exercises</h2>
+<ol type="1">
+<li>Create a report that shows the number of returns for each region name</li>
+<li>Top 10 most selling parts</li>
+<li>Sellers who sell atleast one of the top 10 selling parts</li>
+<li>Number of returns per order price bucket</li>
+</ol>
+<p>Assume the price bucket logic is</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a> <span class="cf">CASE</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>        <span class="cf">WHEN</span> totalprice <span class="op">&gt;</span> <span class="dv">100000</span> <span class="cf">THEN</span> <span class="st">'high'</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">WHEN</span> totalprice <span class="kw">BETWEEN</span> <span class="dv">25000</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">AND</span> <span class="dv">100000</span> <span class="cf">THEN</span> <span class="st">'medium'</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">ELSE</span> <span class="st">'low'</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">END</span> <span class="kw">AS</span> order_price_bucket</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="5" type="1">
+<li>Average time (in days) between receiptdate and shipdate for each nation</li>
+</ol>
+</section>
+<section id="recommended-reading" class="level2" data-number="2.12">
+<h2 data-number="2.12" class="anchored" data-anchor-id="recommended-reading"><span class="header-section-number">2.12</span> Recommended reading</h2>
+<ol type="1">
+<li>https://www.startdataengineering.com/post/improve-sql-skills-de/</li>
+<li>https://www.startdataengineering.com/post/n-sql-tips-de/</li>
+<li>https://www.startdataengineering.com/post/advanced-sql/</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./SQL.html" class="pagination-link" aria-label="SQL">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">SQL</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./cte.html" class="pagination-link" aria-label="CTE (Common Table Expression) improves code readability and reduces repetition">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">CTE (Common Table Expression) improves code readability and reduces repetition</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,50 @@
+project:
+  type: book
+
+book:
+  title: "Data Engineering For Beginners"
+  author: "Joseph Machado"
+  date: "6/30/2025"
+  page-navigation: true
+  # page-footer: "Copyright 2025, Joseph Machado" 
+  chapters:
+    - index.qmd
+    - part: sql.qmd
+      chapters:
+        - SQL.qmd
+        - sql_basics.qmd
+        - cte.qmd
+        - windows.qmd
+    - part: python.qmd
+      chapters:
+        - py_basics.qmd
+        - py_el.qmd
+        - py_transform.qmd
+    - part: data_model.qmd
+      chapters:
+        - dw.qmd
+        - dw_table_types.qmd
+        - dw_data_flow.qmd
+    - part: working_in_a_team.qmd
+      chapters:
+        - docker.qmd
+        #- git.qmd
+    - part: data_pipeline.qmd
+      chapters:
+        - airflow.qmd
+        - dbt.qmd
+        - capstone_project.qmd
+    - summary.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    toc-depth: 4
+  pdf:
+    documentclass: scrreprt
+
+
+

@@ -1,0 +1,192 @@
+# dbt-core is an orchestrator that makes managing pipelines simpler
+
+We saw in the data warehouse (add:link) how data warehouse-ing is the process of getting data ready for analytics. In order to do that we need to create fact, dimensions, OBT and pre-aggregated tables.
+
+Building data pipelines to setup and manage these pipelines involve a lot of code especially for functions that are common across pipelines such as data testing, figuring out how to structure the code, etc. This is where dbt-core comes in.
+
+dbt-core is a python library that enables you to build complex data pipelines with only SQL queries. By using a special `ref` function and placing SQL select queries within the appropriate file you can get comples data pipeline graphs, and ability to run pipelines (fully or partially) using the dbt-core library.
+
+In addition dbt-core also enables best practices like
+
+1. data testing
+2. Full snapshot & incremental data processing capabilities
+3. Functionality to easily create SCD2 tables
+4. Version controlled data pipelines
+5. Separation of folder (recommended add:link) based on the multi-hop architecture (add: link)
+and much more.
+
+dbt-core assumes that the data is already accessible to the DB engine that you run it on, and as such it is mostly used for the T (Transform) part of the ETL (not necessarily in that order) pipeline.
+
+We will run dbt inside the airflow container, as shown below
+
+```bash
+docker exec -ti scheduler bash # bash into the running docker container
+cd tpch_analytics # cd into the dbt project directory
+dbt run --profiles-dir . # run dbt models
+dbt test --profiles-dir . # test the created dbt models
+```
+
+## Create tables with select sql files
+
+In dbt every `.sql` file has a `select` statement and is created as a data model (usually a table or a view). The `select` statement defines the data schema of the data model. The name of the `.sql` file defines the name of the data model.
+
+Let's take a look at one of our silver tables (add: link)
+
+```sql
+add: silver table code
+```
+
+We can see how the final select query is created as a data model. Note the `ref` function refers to another table that is defined by the folder path and file name (which is also its data model name).
+
+The setting that defines which data models should be tables/views/materialized views, etc will be defined in the dbt_project.yml file (add: link).
+
+When you run the `dbt run` command all your models will be created as tables.
+
+## Document & test tables with yml files
+
+You can also document what the table and the columns of your tables mean in `yml` files. These `yml` files have to be within the same folder and also reference the data model's name and the column names.
+
+In addition to descriptions you can also specify any tests to be run on the columns as needed.
+
+The documentation will be rendered when you run the `dbt render` command and HTML files will be created which we will view with a `dbt serve` command in a later section.
+
+The tests can be run with the `dbt test` command, note that the tests can only be run after the data is available, so it is not entirely suitable for the WAP pattern.
+
+```yaml
+add: core.yml
+```
+
+Run the tests with `dbt test` command.
+
+## Define db connections in profiles.yml
+
+dbt uses a yml file to define how it connects to your db engine. Let's look at our example
+
+```yaml
+add: profiles.yml
+```
+
+We tell dbt to connect to Apache Spark. The `target` variable defines the environment. The default is dev, but you can specify which environment to run on with `--target` flag in the dbt run command.
+
+By default dbt will look for a profiles.yml in your HOME directory. We can tell dbt to look for the profiles.yml file in a specific folder using the `--profiles-dir` flag as shown below.
+
+```bash
+dbt run --profiles-dir .
+```
+
+## Define your project setting at dbt_project.yml
+
+In `dbt_project.yml` file you specify all the project specific settings that you want applied, such as 
+
+1. The folders to look for the `.sql` files
+2. The folder to look for seeds, downloaded packages, SQL functions (aka macros), etc.
+3. How to materialize a data model (ie. should a data model be created as a table/view/materialized view/temporal table, etc)
+
+Materialization is a variable that controls how dbt creates a model. By default, every model will be a view. This can be overridden in `dbt_project.yml`. We have set the models under `models/marts/core/` to materialize as tables.
+
+```yml
+# Configuring models
+models:
+    sde_dbt_tutorial:
+        # Applies to all files under models/marts/core/
+        marts:
+            core:
+                materialized: table
+```
+
+If you need to define how your dbt project
+
+## dbt recommends the 3-hop architecture with stage, core & data marts
+
+We will see how the customer_orders table is created from the source tables. These transformations follow warehouse and dbt best practices.
+
+### Source
+
+Source tables refer to tables loaded into the warehouse by an EL process. In our case these are the base tpch tables, which are created by the extract step.
+
+We need to define what tables are the sources in the src.yml file, this will be used by the stage tables with `source` function.
+
+```yaml
+source add:
+```
+
+```yaml
+add: usage with source function
+```
+
+### Staging
+
+The staging area is where **raw data is cast into correct data types, given consistent column names, and prepared to be transformed into models used by end-users**.
+
+You can think of this stage as the first layer of transformations. We will place staging data models inside the `staging` folder, as shown below.
+
+add: folder path
+
+Their documentation and tests will be defined in a `yaml` file, as shown below.
+
+```yaml
+add: staging yaml
+```
+
+### Marts
+
+Marts consist of the core tables for end-users and business vertical-specific tables. 
+
+#### Core
+
+The core defines the fact and dimension models to be used by end-users. We define our facts and tables under the `marts/core` folder. 
+add: folder path.
+
+You can see that we store the facts, dimensions and OBT under this folder.
+
+#### Stakeholder team specific 
+
+In this section, we define the models for `marketing` stakeholders, A project can have multiple business verticals. Having one folder per business vertical provides an easy way to organize the models.
+
+In our example we store the metrics.sql in this location.
+
+## dbt-core is a cli 
+
+With all our data model defined, we can use the dbt cli to run, test and create documentation. `dbt` command will look for the `profiles.yml` file in your $HOME directory by default so we either have to set the `PROFILES_DIR` environment variable (add: docekr file command) or use the `--profiles-dir` as part of the cli command.
+
+### dbt run
+
+We have the necessary model definitions in place. Let's create the models.
+
+```bash
+dbt run 
+# Finished running 5 view models, 2 table models, 2 hooks in 0 hours 0 minutes and 3.22 seconds (3.22s).
+```
+
+Our staging and marketing models are as materialized views, and the two core models are materialized as views as defined in ourlized as views as defined in our dbt_project.yml.
+
+### dbt test
+
+With the models defined, we can run tests on them. Note that, unlike standard testing, these tests run after the data has been processed. You can run tests as shown below.
+
+```bash
+dbt test # or run "just test"
+# Finished running 14 tests...
+```
+
+### dbt docs
+
+One of the powerful features of dbt is its docs. To generate documentation and serve them, run the following commands:
+
+```bash
+dbt docs generate
+dbt docs serve
+```
+
+The `generate` command will create documentation in html format. The `serve` command will start a webserver that serves this html file.
+
+Navigate to `customer_orders` within the `sde_dbt_tutorial` project in the left pane. Click on the view lineage graph icon on the lower right side. The lineage graph shows the dependencies of a model. You can also see the tests defined, descriptions (set in the corresponding YAML file), and the compiled sql statements.
+
+![our project structure](/images/dbt_tutorial/customer_orders_lg.png)
+
+## Scheduling
+
+We have seen how to create snapshots, models, run tests and generate documentation. These are all commands run via the cli. Dbt compiles the models into sql queries under the `target` folder (not part of git repo) and executes them on the data warehouse.
+
+To schedule dbt runs, snapshots, and tests we need to use a scheduler. In the final capstone project we will use Airflow to schedule this dbt pipeline.
+
