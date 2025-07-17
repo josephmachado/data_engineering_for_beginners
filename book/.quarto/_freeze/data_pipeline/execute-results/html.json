@@ -1,0 +1,12 @@
+{
+  "hash": "451eaefb152dbada3d52b58860fef2f5",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: Scheduler defines when & Orchestrator defines how to, run your data pipelines\nformat:\n  html:\n    toc: true\nexecute:\n  eval: false\n  output: true\njupyter: python3\n---\n\n\n\nSchedulers define when to start your data pipeline, e.g. cron, Airflow, etc.\n\nOrchestrators defines the order in which the tasks of a data pipeline should run. For example extract before transform, complex branching logic, excuting across multiple systems such as spark and snowflake, etc. E.g., dbt-core, Airflow, etc\n\n",
+    "supporting": [
+      "data_pipeline_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

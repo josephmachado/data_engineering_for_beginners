@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Data modeling is the process of getting data ready for analyticsUse SQL to transform data – Data Engineering For Beginners</title>
+<title>10&nbsp; Docker recreates the same environment for your code in any machine – Data Engineering For Beginners</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +65,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./dw.html" rel="next">
-<link href="./py_transform.html" rel="prev">
+<link href="./data_pipeline.html" rel="next">
+<link href="./working_in_a_team.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -82,7 +117,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data_model.html">Data modeling is the process of getting data ready for analyticsUse SQL to transform data</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./working_in_a_team.html">Working in a team</a></li><li class="breadcrumb-item"><a href="./docker.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Docker recreates the same environment for your code in any machine</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -173,7 +208,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./data_model.html" class="sidebar-item-text sidebar-link active">
+            <a href="./data_model.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data modeling is the process of getting data ready for analyticsUse SQL to transform data</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -211,7 +246,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./docker.html" class="sidebar-item-text sidebar-link">
+  <a href="./docker.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Docker recreates the same environment for your code in any machine</span></span></a>
   </div>
 </li>
@@ -263,15 +298,28 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#docker-image-is-a-blueprint-for-your-container" id="toc-docker-image-is-a-blueprint-for-your-container" class="nav-link active" data-scroll-target="#docker-image-is-a-blueprint-for-your-container"><span class="header-section-number">10.1</span> Docker image is a blueprint for your container</a></li>
+  <li><a href="#start-containers-based-on-docker-image" id="toc-start-containers-based-on-docker-image" class="nav-link" data-scroll-target="#start-containers-based-on-docker-image"><span class="header-section-number">10.2</span> Start containers based on docker image</a>
+  <ul>
+  <li><a href="#communicate-between-containers-and-local-os" id="toc-communicate-between-containers-and-local-os" class="nav-link" data-scroll-target="#communicate-between-containers-and-local-os"><span class="header-section-number">10.2.1</span> Communicate between containers and local OS</a></li>
+  <li><a href="#start-containers-with-docker-cli-or-compose" id="toc-start-containers-with-docker-cli-or-compose" class="nav-link" data-scroll-target="#start-containers-with-docker-cli-or-compose"><span class="header-section-number">10.2.2</span> Start containers with docker CLI or compose</a></li>
+  <li><a href="#containers-can-be-always-running-or-short-lived" id="toc-containers-can-be-always-running-or-short-lived" class="nav-link" data-scroll-target="#containers-can-be-always-running-or-short-lived"><span class="header-section-number">10.2.3</span> Containers can be always-running or short-lived</a></li>
+  <li><a href="#executing-commands-in-your-docker-container" id="toc-executing-commands-in-your-docker-container" class="nav-link" data-scroll-target="#executing-commands-in-your-docker-container"><span class="header-section-number">10.2.4</span> Executing commands in your docker container</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./working_in_a_team.html">Working in a team</a></li><li class="breadcrumb-item"><a href="./docker.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Docker recreates the same environment for your code in any machine</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Data modeling is the process of getting data ready for analyticsUse SQL to transform data</h1>
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Docker recreates the same environment for your code in any machine</span></h1>
 </div>
 
 
@@ -288,15 +336,86 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>As a data engineer your key objective is to enable stakeholders to be able to use data effectively to answer questions about business performance and predict how a business may perform in the future.</p>
-<p>Most companies production system store data in denormalized tables across multiple microservices, which make analytics hard as the data user will now be required to join across multiple tables. If your company uses a microservice architetcure this becomes impossible.</p>
-<p>Analytical querying often require processing large amounts of data which can have a significant impact on the database performance which is usually unacceptable for production systems.</p>
-<p>Production system ususaly only stores current state and does not store a log of changes, which is typically necessary for historical analysis</p>
-<p>Most companies produce event(click tracking, e-commerce ordering, server logs monitoring, etc ) which are usually too large to be stored and queried efficiently in a production database</p>
-<p>These are some of the reasons you need a warehouse system to be able to analyze historical information.</p>
-<p>add: image moving from denormalized tables to star schema to normalized tables</p>
+<p>You can think of docker as running a separate OS (not exactly, but close enough) on the machine. What Docker provides is the ability to replicate the OS and its packages (e.g., Python modules) across machines so that you don’t run into “hey, that worked on my computer” type issues.</p>
+<p>Here is an overview of the concepts needed to understand docker for data infra:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/docker-for-de/docker-de.png" class="img-fluid figure-img"></p>
+<figcaption>Docker overview</figcaption>
+</figure>
+</div>
+<p><strong>Windows users</strong>: please setup WSL and a local Ubuntu Virtual machine following <strong><a href="https://ubuntu.com/tutorials/install-ubuntu-on-wsl2-on-windows-10#1-overview">the instructions here</a></strong>. Install the above prerequisites on your Ubuntu terminal; if you have trouble installing docker, follow <strong><a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04#step-1-installing-docker">the steps here</a></strong> (only Step 1 is necessary).</p>
+<p>We used docker to run Spark and access it via Jupyter Notebooks.</p>
+<section id="docker-image-is-a-blueprint-for-your-container" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="docker-image-is-a-blueprint-for-your-container"><span class="header-section-number">10.1</span> Docker image is a blueprint for your container</h2>
+<p>An image is a blueprint to create your docker container. You can define the modules to install, variables to set, etc. Let’s consider our example:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/docker-for-de/docker_image.png" class="img-fluid figure-img"></p>
+<figcaption>Docker image</figcaption>
+</figure>
+</div>
+<p>add: screenshot of https://github.com/databricks/docker-spark-iceberg/blob/main/spark/Dockerfile</p>
+<p>The commands in the docker image are run in order. Let’s go over the key commands:</p>
+<ol type="1">
+<li><strong><code>FROM</code></strong>: We need a base operating system on which to set our configurations. We can also use existing Docker images available at the Docker Hub and add our config on top of them. In our example, we use the official Python Docker image.</li>
+<li><strong><code>COPY</code></strong>: Copy is used to copy files or folders from our local filesystem to the image. The copy command is usually used when building the docker image to copy settings, static files, etc. In our example, spark configs, entrypoint.sh, and iceberg yaml settings.</li>
+<li><strong><code>ENV</code></strong>: This command sets the image’s environment variables. In our example, we set Python, and Spark Paths.</li>
+<li><strong><code>ENTRYPOINT</code></strong>: The entrypoint command executes a script when the image starts. In our example, we use a script file (entrypoint.sh) to start spark master and worker nodes add entrypoint.sh.</li>
+</ol>
+<p>Note that this code is on github and maintained by the Iceverg/Spark community. This repo is used to build and host official spark-iceberg images on docker hub.</p>
+<p>A docker hub is an online repository where one can store and retrieve docker images and it is where most official systems docker images are stored. https://hub.docker.com/</p>
+</section>
+<section id="start-containers-based-on-docker-image" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="start-containers-based-on-docker-image"><span class="header-section-number">10.2</span> Start containers based on docker image</h2>
+<p>We use images to create docker containers. We can create one or more containers from a given image.</p>
+<section id="communicate-between-containers-and-local-os" class="level3" data-number="10.2.1">
+<h3 data-number="10.2.1" class="anchored" data-anchor-id="communicate-between-containers-and-local-os"><span class="header-section-number">10.2.1</span> Communicate between containers and local OS</h3>
+<p>Typically, with data infra, we need multiple systems to run simultaneously. Most data systems also expose runtime information, documentation, etc via ports. We have to inform docker which ports to keep open so that they are accessible from the “outside”, in our case your local browser.</p>
+<p>When we are developing, we’d want to make changes to the code and see its impact immediately. While you can use <code>COPY</code> to copy over your code when building a docker image, it will not reflect changes in real time and you will have to rebuild your container each time you need change your code.</p>
+<p>In cases where you want data/code to sync 2 ways between your local machine and the running docker container use mounted volumes. In addition to syncing local files, volumes also sync files between our containers.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/docker-for-de/docker-port.png" class="img-fluid figure-img"></p>
+<figcaption>docker port</figcaption>
+</figure>
+</div>
+</section>
+<section id="start-containers-with-docker-cli-or-compose" class="level3" data-number="10.2.2">
+<h3 data-number="10.2.2" class="anchored" data-anchor-id="start-containers-with-docker-cli-or-compose"><span class="header-section-number">10.2.2</span> Start containers with docker CLI or compose</h3>
+<p>We can use the docker cli to start containers based on an image. Let’s look at an example. To start our Spark master container, we can use the following:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-d</span> <span class="dt">\</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--name</span> spark-master <span class="dt">\</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--entrypoint</span> ./entrypoint.sh <span class="dt">\</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">-p</span> 4040:4040 <span class="dt">\</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">-p</span> 9090:8080 <span class="dt">\</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">-p</span> 7077:7077 <span class="dt">\</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--env-file</span> .env.spark <span class="dt">\</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  spark-image master</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>However, with most data systems, we will need to ensure multiple systems are running. While we can use docker cli to do this, a better option is to use docker compose to orchestrate the different containers required. With docker compose, we can define all our settings in one file and ensure that they are started in the order we prefer.</p>
+<p>Our docker compose <a href="add:%20link">is defined here</a>. With our docker compose defined, starting our containers is a simple command, as shown below:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> compose up <span class="at">-d</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The command will, by default, look for a file called <code>docker-compose.yml</code> in the directory in which it is run.</p>
+</section>
+<section id="containers-can-be-always-running-or-short-lived" class="level3" data-number="10.2.3">
+<h3 data-number="10.2.3" class="anchored" data-anchor-id="containers-can-be-always-running-or-short-lived"><span class="header-section-number">10.2.3</span> Containers can be always-running or short-lived</h3>
+<p>Depending on what you want your containers to do, they can either be short lived (start, run a process, stop) or long lived (start, start spark master and worker nodes, wait for data processing request). Most data infra is long lived.</p>
+</section>
+<section id="executing-commands-in-your-docker-container" class="level3" data-number="10.2.4">
+<h3 data-number="10.2.4" class="anchored" data-anchor-id="executing-commands-in-your-docker-container"><span class="header-section-number">10.2.4</span> Executing commands in your docker container</h3>
+<p>Using the exec command, you can submit commands to be run in a specific container. For example, we can use the following to open a bash terminal in our <code>spark-master</code> container:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> exec <span class="at">-ti</span> spark-master bash</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># You will be in the master container bash shell</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># try some commands</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="bu">exit</span> <span class="co"># exit the container</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note that the <code>-ti</code> indicates that this will be run in an interactive mode. As shown below, we can run a command without interactive mode and get an output.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> exec spark-master echo hello</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># prints hello</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -700,13 +819,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./py_transform.html" class="pagination-link" aria-label="Python has libraries to tell the data processing engine (Spark, Trino, Duckdb, Polars, etc) what to do">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Python has libraries to tell the data processing engine (Spark, Trino, Duckdb, Polars, etc) what to do</span></span>
+      <a href="./working_in_a_team.html" class="pagination-link" aria-label="Working in a team">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Working in a team</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./dw.html" class="pagination-link" aria-label="Data warehouse contains historical data and is used to analyze business performance">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data warehouse contains historical data and is used to analyze business performance</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./data_pipeline.html" class="pagination-link" aria-label="Scheduler defines when &amp; Orchestrator defines how to, run your data pipelines">
+        <span class="nav-page-text">Scheduler defines when &amp; Orchestrator defines how to, run your data pipelines</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

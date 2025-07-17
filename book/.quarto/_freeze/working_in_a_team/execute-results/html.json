@@ -1,0 +1,12 @@
+{
+  "hash": "cf4253f4744e6824898d559636a4ed69",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: Working in a team\nformat:\n  html:\n    toc: true\nexecute:\n  eval: false\n  output: true\njupyter: python3\n---\n\n\n\nData engineering has multiple components and its crucial that you have the same environment that runs in production is also aavailable to the dta engineers to test and develop in.\n\nIn this section we will see how docker is used to simulate the same running environment across multiple systems.\n\n",
+    "supporting": [
+      "working_in_a_team_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

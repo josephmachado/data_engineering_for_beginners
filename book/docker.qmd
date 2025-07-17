@@ -1,0 +1,106 @@
+---
+title: Docker recreates the same environment for your code in any machine
+format:
+  html:
+    toc: true
+execute:
+  eval: false
+  output: true
+jupyter: python3
+---
+
+
+
+
+You can think of docker as running a separate OS (not exactly, but close enough) on the machine. What Docker provides is the ability to replicate the OS and its packages (e.g., Python modules) across machines so that you don't run into "hey, that worked on my computer" type issues. 
+
+Here is an overview of the concepts needed to understand docker for data infra:
+
+![Docker overview](/images/docker-for-de/docker-de.png)
+
+**Windows users**: please setup WSL and a local Ubuntu Virtual machine following **[the instructions here](https://ubuntu.com/tutorials/install-ubuntu-on-wsl2-on-windows-10#1-overview)**. Install the above prerequisites on your Ubuntu terminal; if you have trouble installing docker, follow **[the steps here](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04#step-1-installing-docker)** (only Step 1 is necessary). 
+
+We used docker to run Spark and access it via Jupyter Notebooks.
+
+## Docker image is a blueprint for your container 
+
+An image is a blueprint to create your docker container. You can define the modules to install, variables to set, etc. Let's consider our example:
+
+![Docker image](/images/docker-for-de/docker_image.png)
+
+add: screenshot of https://github.com/databricks/docker-spark-iceberg/blob/main/spark/Dockerfile
+
+The commands in the docker image are run in order. Let's go over the key commands:
+
+1. **`FROM`**: We need a base operating system on which to set our configurations. We can also use existing Docker images available at the Docker Hub and add our config on top of them. In our example, we use the official Python Docker image.
+2. **`COPY`**: Copy is used to copy files or folders from our local filesystem to the image. The copy command is usually used when building the docker image to copy settings, static files, etc. In our example, spark configs, entrypoint.sh, and iceberg yaml settings.
+4. **`ENV`**: This command sets the image's environment variables. In our example, we set Python, and Spark Paths.
+5. **`ENTRYPOINT`**: The entrypoint command executes a script when the image starts. In our example, we use a script file (entrypoint.sh) to start spark master and worker nodes add entrypoint.sh.
+
+Note that this code is on github and maintained by the Iceverg/Spark community. This repo is used to build and host official spark-iceberg images on docker hub.
+
+A docker hub is an online repository where one can store and retrieve docker images and it is where most official systems docker images are stored. https://hub.docker.com/
+
+## Start containers based on docker image
+
+We use images to create docker containers. We can create one or more containers from a given image.
+
+### Communicate between containers and local OS
+
+Typically, with data infra, we need multiple systems to run simultaneously. Most data systems also expose runtime information, documentation, etc via ports. We have to inform docker which ports to keep open so that they are accessible from the "outside", in our case your local browser.
+
+When we are developing, we'd want to make changes to the code and see its impact immediately. While you can use `COPY` to copy over your code when building a docker image, it will not reflect changes in real time and you will have to rebuild your container each time you need change your code.
+
+In cases where you want data/code to sync 2 ways between your local machine and the running docker container use mounted volumes. In addition to syncing local files, volumes also sync files between our containers.
+
+![docker port](/images/docker-for-de/docker-port.png)
+
+### Start containers with docker CLI or compose
+
+We can use the docker cli to start containers based on an image. Let's look at an example. To start our Spark master container, we can use the following:
+
+```bash
+docker run -d \
+  --name spark-master \
+  --entrypoint ./entrypoint.sh \
+  -p 4040:4040 \
+  -p 9090:8080 \
+  -p 7077:7077 \
+  --env-file .env.spark \
+  spark-image master
+```
+
+However, with most data systems, we will need to ensure multiple systems are running. While we can use docker cli to do this, a better option is to use docker compose to orchestrate the different containers required. With docker compose, we can define all our settings in one file and ensure that they are started in the order we prefer.
+
+Our docker compose [is defined here](add: link). With our docker compose defined, starting our containers is a simple command, as shown below:
+
+```bash
+docker compose up -d
+```
+
+The command will, by default, look for a file called `docker-compose.yml` in the directory in which it is run. 
+
+### Containers can be always-running or short-lived
+
+Depending on what you want your containers to do, they can either be short lived (start, run a process, stop) or long lived (start, start spark master and worker nodes, wait for data processing request). Most data infra is long lived.
+
+### Executing commands in your docker container
+
+Using the exec command, you can submit commands to be run in a specific container. For example, we can use the following to open a bash terminal in our `spark-master` container:
+
+```bash
+docker exec -ti spark-master bash
+# You will be in the master container bash shell
+# try some commands
+pwd 
+exit # exit the container
+```
+
+Note that the `-ti` indicates that this will be run in an interactive mode. As shown below, we can run a command without interactive mode and get an output.
+
+```bash
+docker exec spark-master echo hello
+# prints hello
+```
+
+

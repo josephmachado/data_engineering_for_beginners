@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Data modeling is the process of getting data ready for analyticsUse SQL to transform data – Data Engineering For Beginners</title>
+<title>13&nbsp; Capstone Project: Spark, dbt, Airflow with Docker – Data Engineering For Beginners</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./dw.html" rel="next">
-<link href="./py_transform.html" rel="prev">
+<link href="./summary.html" rel="next">
+<link href="./dbt.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -82,7 +82,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data_model.html">Data modeling is the process of getting data ready for analyticsUse SQL to transform data</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data_pipeline.html">Scheduler defines when &amp; Orchestrator defines how to, run your data pipelines</a></li><li class="breadcrumb-item"><a href="./capstone_project.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Capstone Project: Spark, dbt, Airflow with Docker</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -173,7 +173,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./data_model.html" class="sidebar-item-text sidebar-link active">
+            <a href="./data_model.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data modeling is the process of getting data ready for analyticsUse SQL to transform data</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -240,7 +240,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capstone_project.html" class="sidebar-item-text sidebar-link">
+  <a href="./capstone_project.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Capstone Project: Spark, dbt, Airflow with Docker</span></span></a>
   </div>
 </li>
@@ -263,15 +263,26 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#presentation-matters" id="toc-presentation-matters" class="nav-link active" data-scroll-target="#presentation-matters"><span class="header-section-number">13.1</span> Presentation matters</a></li>
+  <li><a href="#start-with-the-outcome" id="toc-start-with-the-outcome" class="nav-link" data-scroll-target="#start-with-the-outcome"><span class="header-section-number">13.2</span> Start with the outcome</a></li>
+  <li><a href="#high-level-architecture" id="toc-high-level-architecture" class="nav-link" data-scroll-target="#high-level-architecture"><span class="header-section-number">13.3</span> High level architecture</a></li>
+  <li><a href="#code-explanation" id="toc-code-explanation" class="nav-link" data-scroll-target="#code-explanation"><span class="header-section-number">13.4</span> Code explanation</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">13.5</span> Exercise</a></li>
+  <li><a href="#read-this" id="toc-read-this" class="nav-link" data-scroll-target="#read-this"><span class="header-section-number">13.6</span> Read this</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data_pipeline.html">Scheduler defines when &amp; Orchestrator defines how to, run your data pipelines</a></li><li class="breadcrumb-item"><a href="./capstone_project.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Capstone Project: Spark, dbt, Airflow with Docker</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Data modeling is the process of getting data ready for analyticsUse SQL to transform data</h1>
+<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Capstone Project: Spark, dbt, Airflow with Docker</span></h1>
 </div>
 
 
@@ -288,15 +299,65 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>As a data engineer your key objective is to enable stakeholders to be able to use data effectively to answer questions about business performance and predict how a business may perform in the future.</p>
-<p>Most companies production system store data in denormalized tables across multiple microservices, which make analytics hard as the data user will now be required to join across multiple tables. If your company uses a microservice architetcure this becomes impossible.</p>
-<p>Analytical querying often require processing large amounts of data which can have a significant impact on the database performance which is usually unacceptable for production systems.</p>
-<p>Production system ususaly only stores current state and does not store a log of changes, which is typically necessary for historical analysis</p>
-<p>Most companies produce event(click tracking, e-commerce ordering, server logs monitoring, etc ) which are usually too large to be stored and queried efficiently in a production database</p>
-<p>These are some of the reasons you need a warehouse system to be able to analyze historical information.</p>
-<p>add: image moving from denormalized tables to star schema to normalized tables</p>
+<p>In the previous chapters we learn’t how to manipulate data with Spark SQL, how to create pipeline transformations with dbt and how to schedule &amp; orchestrate them with Airflow.</p>
+<p>In this capstone project we will put them together to create an end-to-end project.</p>
+<p>The main objectives for this capstone project are 1. Understanding how the different components common in data engineering work with each other 2. How to model and transform data in the 3-hop architecture 3. Clearly explain what your pipeline is doing and why and how</p>
+<p>Let’s assume that we are working on modeling the TPCH data and creating a data mart for sales team to create customer metrics which they can use to strategize how to cold call customers.</p>
+<section id="presentation-matters" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="presentation-matters"><span class="header-section-number">13.1</span> Presentation matters</h2>
+<p>When a hiring manager looks at your project, assume that they will not read over the code. Typically when people look at projects they browse high level sections, these includes</p>
+<ol type="1">
+<li>Outcome of your project</li>
+<li>High level architecture</li>
+<li>Project structure to understand how your code works</li>
+<li>Browse code for clarity and code-cleanliness</li>
+</ol>
+<p>We will see how you can address these</p>
+</section>
+<section id="start-with-the-outcome" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="start-with-the-outcome"><span class="header-section-number">13.2</span> Start with the outcome</h2>
+<p>We are creating data for the sales team to enable customer outreach and for this we need to present customers who will most likely convert. While this is a complex data science question, a simple approach could be to target customers who have the highest average order value (assuming high/low order values are outliers).</p>
+<p>Create a dashboard to show the top 10 customers by average order values as a descending bar chart.</p>
+<p>add: gif</p>
+<p>add: image of bar chart</p>
+</section>
+<section id="high-level-architecture" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="high-level-architecture"><span class="header-section-number">13.3</span> High level architecture</h2>
+<p>The objective of this is to show your expertise in</p>
+<ol type="1">
+<li>Designing data pipelines, by following industry standard 3-hop architecture</li>
+<li>Industry standard tools like dbt, Airflow and Spark</li>
+<li>Writing clean code using auto formatters and linters</li>
+</ol>
+<p>Our base repo comes with all of these setup and installed for you to copy over and use.</p>
+<p>add: 3-hop dbt folder structure add: auto formatter and linter for python and sql</p>
+</section>
+<section id="code-explanation" class="level2" data-number="13.4">
+<h2 data-number="13.4" class="anchored" data-anchor-id="code-explanation"><span class="header-section-number">13.4</span> Code explanation</h2>
+<p>We have code that does the following</p>
+<ol type="1">
+<li>Use dbt to define Spark SQL pipelines following the 3-hop architecture that we saw in the dbt chapter. Add: folder structure screenshot</li>
+<li>Use Airflow to load data into the warehouse and run dbt pipeline on a schedule and be able to monitor it add; dag screenshot</li>
+<li>Follow Kimball dimensional modeling for our dbt pipeline, add: 3-hop arch</li>
+</ol>
+</section>
+<section id="exercise" class="level2" data-number="13.5">
+<h2 data-number="13.5" class="anchored" data-anchor-id="exercise"><span class="header-section-number">13.5</span> Exercise</h2>
+<ol type="1">
+<li>Find a dataset that you are interested in, showing an interesting take for the data. Outcome should be shown with data.</li>
+</ol>
+<p>You can copy paste the <code>airflow</code> folder into a separate folder and make the necessary changes. You can add requirements to the requirements.txt file</p>
+<p>add: code wit unix commands</p>
+</section>
+<section id="read-this" class="level2" data-number="13.6">
+<h2 data-number="13.6" class="anchored" data-anchor-id="read-this"><span class="header-section-number">13.6</span> Read this</h2>
+<ol type="1">
+<li>Approach on identifying problem space and datasets https://www.startdataengineering.com/post/what-data-project-to-build/#23-data</li>
+<li>https://www.startdataengineering.com/post/data-engineering-project-to-impress-hiring-managers/</li>
+</ol>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -700,13 +761,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./py_transform.html" class="pagination-link" aria-label="Python has libraries to tell the data processing engine (Spark, Trino, Duckdb, Polars, etc) what to do">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Python has libraries to tell the data processing engine (Spark, Trino, Duckdb, Polars, etc) what to do</span></span>
+      <a href="./dbt.html" class="pagination-link" aria-label="dbt-core is an orchestrator that makes managing pipelines simpler">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">dbt-core is an orchestrator that makes managing pipelines simpler</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./dw.html" class="pagination-link" aria-label="Data warehouse contains historical data and is used to analyze business performance">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data warehouse contains historical data and is used to analyze business performance</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./summary.html" class="pagination-link" aria-label="Summary">
+        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Summary</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

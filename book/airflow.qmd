@@ -1,0 +1,175 @@
+---
+title: Airflow is both a scheduler and an orchestrator
+format:
+  html:
+    toc: true
+execute:
+  eval: false
+  output: true
+jupyter: python3
+---
+
+
+
+
+Let's look at the key features essential for most data pipelines and explore how Apache Airflow enables data engineers to do these.
+
+Airflow by default looks for python files which are under the `/dags` folder. The location of dags are specified in the airflow.cfg file among other settings. add: cfg link
+
+## Schedulers run data pipelines at specified frequency
+
+Data pipelines will need to be run at specific intervals. The frequency required may be as simple as hourly, daily, weekly, monthly, etc., or complex, e.g., 2nd Tuesday of every month.
+
+Airflow uses a process called **[Scheduler](https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/scheduler.html#dag-file-processing)** that checks our DAGs(data pipeline) every minute (add: config setting) to see if it needs to be started.
+
+In Airflow you can define when the pipeline should be run with a cron format or python timedelta. add:links
+
+
+In our code, we define our pipeline to run every day(**[ref link](https://github.com/josephmachado/beginner_de_project/blob/de8073bfa627373b5a19d8d5d6fa6622718b0785/dags/user_analytics.py#L44-L45)**).
+
+```python
+with DAG(
+    "user_analytics_dag",
+    description="A DAG to Pull user data and movie review data \
+        to analyze their behaviour",
+    schedule_interval=timedelta(days=1),
+    start_date=datetime(2023, 1, 1),
+    catchup=False,
+) as dag:
+```
+
+## Orchestrators define the order of execution of your pipeline tasks
+
+With complex data pipelines, we want parts of our pipelines to run in a specific order. For example, if your pipeline is pulling data from multiple independent sources, we may want to run them in parallel. 
+
+### Define the order of execution of pipeline tasks with a DAG
+
+DAG stands for Directed Acyclic Graph, i.e a series of steps that flow one way with a defined end condition. DAG is also Airflow code API that you can use to define your pipeline.
+
+
+![DAG](/images/why-orc/dag.png)
+
+In data pipelines, we use the following terminology:
+1. **`DAG`**: Represents an entire data pipeline.
+2. **`Task`**: Individual node in a DAG. The tasks usually correspond to some data task.
+3. **`Dependency`**: The edges between nodes represent the dependency between tasks.
+      1. **`Upstream`**: All the tasks that run before the task under consideration.
+      2. **`Downstream`**: All the tasks that run after the task under consideration.
+
+In our example, if we consider the `movie_classifier` task, we can see its upstream and downstream tasks as shown below.
+
+![DAG Dependency](/images/why-orc/dagd.png)
+
+With DAG, we can define dependencies, i.e., we can define when a task runs depending on upstream tasks (ref: **[trigger rules](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/dags.html#trigger-rules)**)
+
+We can also set individual task-level settings, such as the number of retries per task and branch logic, where you can define logic to choose one or more tasks out of multiple tasks. We can dynamically create tasks based on your logic.
+
+In our code we define our DAG using the `>>` syntax (**[ref link](https://github.com/josephmachado/beginner_de_project/blob/de8073bfa627373b5a19d8d5d6fa6622718b0785/dags/user_analytics.py#L126-L136)**).
+
+```python
+# Define the tasks 
+create_s3_bucket >> [user_purchase_to_s3, movie_review_to_s3]
+
+user_purchase_to_s3 >> get_user_purchase_to_warehouse
+
+movie_review_to_s3 >> movie_classifier >> get_movie_review_to_warehouse
+
+(
+    [get_user_purchase_to_warehouse, get_movie_review_to_warehouse]
+    >> get_user_behaviour_metric
+    >> gen_dashboard
+)
+```
+
+### Define where to run your code
+
+When we run our DAG, each task will be run individually. Airflow enables us to run our tasks in multiple ways:
+
+1. Run code in the same machine as your scheduler process with Local and sequential executor
+2. Run code in a task queue (i.e. a system that will run tasks in individual machines) with a celery executor.
+3. Run code as k8s pods with Kubernetes executor.
+4. Write custom logic to run your tasks.
+
+See **[this link](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/executor/index.html#)** for more details about running your tasks. In our project, we use the default `LocalExecutor,` which is set up by default.
+
+### Use operators to connect to popular services
+
+As we saw in the Python section, data pipelines involve interacting with external system, such as a cloud storage system (S3), data warehouse (Snowflake), or data processing system (Apache Spark).
+
+While we can write code to work with these external systems, Apache Airflow provides a robust set of `Operators` for most services we can reuse.
+
+In our code, we use multiple Airflow operators to reduce the amount of code we have to write (**[ref code](https://github.com/josephmachado/beginner_de_project/blob/master/dags/user_analytics.py)**):
+
+```python
+create_s3_bucket = S3CreateBucketOperator(
+  task_id="create_s3_bucket", bucket_name=user_analytics_bucket
+)
+movie_review_to_s3 = LocalFilesystemToS3Operator(
+  task_id="movie_review_to_s3",
+  filename="/opt/airflow/data/movie_review.csv",
+  dest_key="raw/movie_review.csv",
+  dest_bucket=user_analytics_bucket,
+  replace=True,
+)
+
+user_purchase_to_s3 = SqlToS3Operator(
+  task_id="user_purchase_to_s3",
+  sql_conn_id="postgres_default",
+  query="select * from retail.user_purchase",
+  s3_bucket=user_analytics_bucket,
+  s3_key="raw/user_purchase/user_purchase.csv",
+  replace=True,
+)
+```
+
+The above code shows how we use Airflow operators to create S3 buckets and copy data from local files and a Postgres db into an S3 bucket. See **[here for a list of Airflow operators](https://airflow.apache.org/docs/apache-airflow-providers/operators-and-hooks-ref/index.html)**.
+
+## User interface to see the how your pipelines are running and their history
+
+When a data pipeline runs, all information is stored in a metadata db and as logs. The historical information allows us to observe your data pipelines' current state and historical state.
+
+Here is a list of the tables used to store metadata about our pipelines:
+
+![Metadata DB](/images/why-orc/meta.png)
+
+Apache Airflow enables us to store logs in multiple locations (**[ref docs](https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/logging-monitoring/logging-architecture.html)**). In our project we store them locally in the file system, which can be accessed by clicking on a specific `task -> Logs` as shown below.
+
+![Spark logs](/images/why-orc/tasklogs.png)
+
+### See progress & historical information on UI
+
+When we run data pipelines, we can use a nice web UI to see the progress, failures, and other details. Powered by the metadata db and the logs, we can also see individual task logs and the inputs to a specific task, among others.
+
+The web UI provides good visibility into our pipelines' current and historical state.
+
+![DAG logs](/images/why-orc/dagtask.png)
+
+![Task inputs](/images/why-orc/taskip.png)
+
+### Analyze data pipeline performance with Web UI
+
+We can see how pipelines have performed over time, inspect task run time, and see how long a task had to wait to get started. The performance metrics provide us with the necessary insights to optimize our systems.
+
+![Performance](/images/why-orc/perf.png)
+
+### Re-run data pipelines via UI
+
+In addition to seeing how our pipelines are running, we can manually trigger DAGs with custom inputs as necessary. The ability to trigger/re-run DAGs helps us quickly resolve one-off issues. See **[this link](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/dag-run.html#using-ui)** for information on triggering dags with UI and CLI.
+
+![Triggers](/images/why-orc/trigger.png)
+
+### Reuse variables and connections across your pipelines
+
+Apache Airflow also allows us to create and store variables and connection settings that can be reused across our data pipelines. In our code, we create variables using Airflow CLI **[here](https://github.com/josephmachado/beginner_de_project/blob/master/containers/airflow/setup_conn.py)**.
+
+Variables and connections are especially important when you want to use a variable across data pipelines and to connect to external systems respectively.
+
+Once the connection/variables are set, we can see them in our UI:
+
+![Connection](/images/why-orc/conn.png)
+
+And use them in your DAG code as such
+
+add: code
+
+

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Data modeling is the process of getting data ready for analyticsUse SQL to transform data – Data Engineering For Beginners</title>
+<title>11&nbsp; Airflow is both a scheduler and an orchestrator – Data Engineering For Beginners</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +65,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./dw.html" rel="next">
-<link href="./py_transform.html" rel="prev">
+<link href="./dbt.html" rel="next">
+<link href="./data_pipeline.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -82,7 +117,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data_model.html">Data modeling is the process of getting data ready for analyticsUse SQL to transform data</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data_pipeline.html">Scheduler defines when &amp; Orchestrator defines how to, run your data pipelines</a></li><li class="breadcrumb-item"><a href="./airflow.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Airflow is both a scheduler and an orchestrator</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -173,7 +208,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./data_model.html" class="sidebar-item-text sidebar-link active">
+            <a href="./data_model.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data modeling is the process of getting data ready for analyticsUse SQL to transform data</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -228,7 +263,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./airflow.html" class="sidebar-item-text sidebar-link">
+  <a href="./airflow.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Airflow is both a scheduler and an orchestrator</span></span></a>
   </div>
 </li>
@@ -263,15 +298,34 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#schedulers-run-data-pipelines-at-specified-frequency" id="toc-schedulers-run-data-pipelines-at-specified-frequency" class="nav-link active" data-scroll-target="#schedulers-run-data-pipelines-at-specified-frequency"><span class="header-section-number">11.1</span> Schedulers run data pipelines at specified frequency</a></li>
+  <li><a href="#orchestrators-define-the-order-of-execution-of-your-pipeline-tasks" id="toc-orchestrators-define-the-order-of-execution-of-your-pipeline-tasks" class="nav-link" data-scroll-target="#orchestrators-define-the-order-of-execution-of-your-pipeline-tasks"><span class="header-section-number">11.2</span> Orchestrators define the order of execution of your pipeline tasks</a>
+  <ul>
+  <li><a href="#define-the-order-of-execution-of-pipeline-tasks-with-a-dag" id="toc-define-the-order-of-execution-of-pipeline-tasks-with-a-dag" class="nav-link" data-scroll-target="#define-the-order-of-execution-of-pipeline-tasks-with-a-dag"><span class="header-section-number">11.2.1</span> Define the order of execution of pipeline tasks with a DAG</a></li>
+  <li><a href="#define-where-to-run-your-code" id="toc-define-where-to-run-your-code" class="nav-link" data-scroll-target="#define-where-to-run-your-code"><span class="header-section-number">11.2.2</span> Define where to run your code</a></li>
+  <li><a href="#use-operators-to-connect-to-popular-services" id="toc-use-operators-to-connect-to-popular-services" class="nav-link" data-scroll-target="#use-operators-to-connect-to-popular-services"><span class="header-section-number">11.2.3</span> Use operators to connect to popular services</a></li>
+  </ul></li>
+  <li><a href="#user-interface-to-see-the-how-your-pipelines-are-running-and-their-history" id="toc-user-interface-to-see-the-how-your-pipelines-are-running-and-their-history" class="nav-link" data-scroll-target="#user-interface-to-see-the-how-your-pipelines-are-running-and-their-history"><span class="header-section-number">11.3</span> User interface to see the how your pipelines are running and their history</a>
+  <ul>
+  <li><a href="#see-progress-historical-information-on-ui" id="toc-see-progress-historical-information-on-ui" class="nav-link" data-scroll-target="#see-progress-historical-information-on-ui"><span class="header-section-number">11.3.1</span> See progress &amp; historical information on UI</a></li>
+  <li><a href="#analyze-data-pipeline-performance-with-web-ui" id="toc-analyze-data-pipeline-performance-with-web-ui" class="nav-link" data-scroll-target="#analyze-data-pipeline-performance-with-web-ui"><span class="header-section-number">11.3.2</span> Analyze data pipeline performance with Web UI</a></li>
+  <li><a href="#re-run-data-pipelines-via-ui" id="toc-re-run-data-pipelines-via-ui" class="nav-link" data-scroll-target="#re-run-data-pipelines-via-ui"><span class="header-section-number">11.3.3</span> Re-run data pipelines via UI</a></li>
+  <li><a href="#reuse-variables-and-connections-across-your-pipelines" id="toc-reuse-variables-and-connections-across-your-pipelines" class="nav-link" data-scroll-target="#reuse-variables-and-connections-across-your-pipelines"><span class="header-section-number">11.3.4</span> Reuse variables and connections across your pipelines</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data_pipeline.html">Scheduler defines when &amp; Orchestrator defines how to, run your data pipelines</a></li><li class="breadcrumb-item"><a href="./airflow.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Airflow is both a scheduler and an orchestrator</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Data modeling is the process of getting data ready for analyticsUse SQL to transform data</h1>
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Airflow is both a scheduler and an orchestrator</span></h1>
 </div>
 
 
@@ -288,15 +342,168 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>As a data engineer your key objective is to enable stakeholders to be able to use data effectively to answer questions about business performance and predict how a business may perform in the future.</p>
-<p>Most companies production system store data in denormalized tables across multiple microservices, which make analytics hard as the data user will now be required to join across multiple tables. If your company uses a microservice architetcure this becomes impossible.</p>
-<p>Analytical querying often require processing large amounts of data which can have a significant impact on the database performance which is usually unacceptable for production systems.</p>
-<p>Production system ususaly only stores current state and does not store a log of changes, which is typically necessary for historical analysis</p>
-<p>Most companies produce event(click tracking, e-commerce ordering, server logs monitoring, etc ) which are usually too large to be stored and queried efficiently in a production database</p>
-<p>These are some of the reasons you need a warehouse system to be able to analyze historical information.</p>
-<p>add: image moving from denormalized tables to star schema to normalized tables</p>
+<p>Let’s look at the key features essential for most data pipelines and explore how Apache Airflow enables data engineers to do these.</p>
+<p>Airflow by default looks for python files which are under the <code>/dags</code> folder. The location of dags are specified in the airflow.cfg file among other settings. add: cfg link</p>
+<section id="schedulers-run-data-pipelines-at-specified-frequency" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="schedulers-run-data-pipelines-at-specified-frequency"><span class="header-section-number">11.1</span> Schedulers run data pipelines at specified frequency</h2>
+<p>Data pipelines will need to be run at specific intervals. The frequency required may be as simple as hourly, daily, weekly, monthly, etc., or complex, e.g., 2nd Tuesday of every month.</p>
+<p>Airflow uses a process called <strong><a href="https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/scheduler.html#dag-file-processing">Scheduler</a></strong> that checks our DAGs(data pipeline) every minute (add: config setting) to see if it needs to be started.</p>
+<p>In Airflow you can define when the pipeline should be run with a cron format or python timedelta. add:links</p>
+<p>In our code, we define our pipeline to run every day(<strong><a href="https://github.com/josephmachado/beginner_de_project/blob/de8073bfa627373b5a19d8d5d6fa6622718b0785/dags/user_analytics.py#L44-L45">ref link</a></strong>).</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> DAG(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"user_analytics_dag"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span><span class="st">"A DAG to Pull user data and movie review data </span><span class="op">\</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="st">        to analyze their behaviour"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    schedule_interval<span class="op">=</span>timedelta(days<span class="op">=</span><span class="dv">1</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    start_date<span class="op">=</span>datetime(<span class="dv">2023</span>, <span class="dv">1</span>, <span class="dv">1</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    catchup<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>) <span class="im">as</span> dag:</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="orchestrators-define-the-order-of-execution-of-your-pipeline-tasks" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="orchestrators-define-the-order-of-execution-of-your-pipeline-tasks"><span class="header-section-number">11.2</span> Orchestrators define the order of execution of your pipeline tasks</h2>
+<p>With complex data pipelines, we want parts of our pipelines to run in a specific order. For example, if your pipeline is pulling data from multiple independent sources, we may want to run them in parallel.</p>
+<section id="define-the-order-of-execution-of-pipeline-tasks-with-a-dag" class="level3" data-number="11.2.1">
+<h3 data-number="11.2.1" class="anchored" data-anchor-id="define-the-order-of-execution-of-pipeline-tasks-with-a-dag"><span class="header-section-number">11.2.1</span> Define the order of execution of pipeline tasks with a DAG</h3>
+<p>DAG stands for Directed Acyclic Graph, i.e a series of steps that flow one way with a defined end condition. DAG is also Airflow code API that you can use to define your pipeline.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/why-orc/dag.png" class="img-fluid figure-img"></p>
+<figcaption>DAG</figcaption>
+</figure>
+</div>
+<p>In data pipelines, we use the following terminology: 1. <strong><code>DAG</code></strong>: Represents an entire data pipeline. 2. <strong><code>Task</code></strong>: Individual node in a DAG. The tasks usually correspond to some data task. 3. <strong><code>Dependency</code></strong>: The edges between nodes represent the dependency between tasks. 1. <strong><code>Upstream</code></strong>: All the tasks that run before the task under consideration. 2. <strong><code>Downstream</code></strong>: All the tasks that run after the task under consideration.</p>
+<p>In our example, if we consider the <code>movie_classifier</code> task, we can see its upstream and downstream tasks as shown below.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/why-orc/dagd.png" class="img-fluid figure-img"></p>
+<figcaption>DAG Dependency</figcaption>
+</figure>
+</div>
+<p>With DAG, we can define dependencies, i.e., we can define when a task runs depending on upstream tasks (ref: <strong><a href="https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/dags.html#trigger-rules">trigger rules</a></strong>)</p>
+<p>We can also set individual task-level settings, such as the number of retries per task and branch logic, where you can define logic to choose one or more tasks out of multiple tasks. We can dynamically create tasks based on your logic.</p>
+<p>In our code we define our DAG using the <code>&gt;&gt;</code> syntax (<strong><a href="https://github.com/josephmachado/beginner_de_project/blob/de8073bfa627373b5a19d8d5d6fa6622718b0785/dags/user_analytics.py#L126-L136">ref link</a></strong>).</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the tasks </span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>create_s3_bucket <span class="op">&gt;&gt;</span> [user_purchase_to_s3, movie_review_to_s3]</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>user_purchase_to_s3 <span class="op">&gt;&gt;</span> get_user_purchase_to_warehouse</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>movie_review_to_s3 <span class="op">&gt;&gt;</span> movie_classifier <span class="op">&gt;&gt;</span> get_movie_review_to_warehouse</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    [get_user_purchase_to_warehouse, get_movie_review_to_warehouse]</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> get_user_behaviour_metric</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> gen_dashboard</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="define-where-to-run-your-code" class="level3" data-number="11.2.2">
+<h3 data-number="11.2.2" class="anchored" data-anchor-id="define-where-to-run-your-code"><span class="header-section-number">11.2.2</span> Define where to run your code</h3>
+<p>When we run our DAG, each task will be run individually. Airflow enables us to run our tasks in multiple ways:</p>
+<ol type="1">
+<li>Run code in the same machine as your scheduler process with Local and sequential executor</li>
+<li>Run code in a task queue (i.e.&nbsp;a system that will run tasks in individual machines) with a celery executor.</li>
+<li>Run code as k8s pods with Kubernetes executor.</li>
+<li>Write custom logic to run your tasks.</li>
+</ol>
+<p>See <strong><a href="https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/executor/index.html#">this link</a></strong> for more details about running your tasks. In our project, we use the default <code>LocalExecutor,</code> which is set up by default.</p>
+</section>
+<section id="use-operators-to-connect-to-popular-services" class="level3" data-number="11.2.3">
+<h3 data-number="11.2.3" class="anchored" data-anchor-id="use-operators-to-connect-to-popular-services"><span class="header-section-number">11.2.3</span> Use operators to connect to popular services</h3>
+<p>As we saw in the Python section, data pipelines involve interacting with external system, such as a cloud storage system (S3), data warehouse (Snowflake), or data processing system (Apache Spark).</p>
+<p>While we can write code to work with these external systems, Apache Airflow provides a robust set of <code>Operators</code> for most services we can reuse.</p>
+<p>In our code, we use multiple Airflow operators to reduce the amount of code we have to write (<strong><a href="https://github.com/josephmachado/beginner_de_project/blob/master/dags/user_analytics.py">ref code</a></strong>):</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>create_s3_bucket <span class="op">=</span> S3CreateBucketOperator(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  task_id<span class="op">=</span><span class="st">"create_s3_bucket"</span>, bucket_name<span class="op">=</span>user_analytics_bucket</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>movie_review_to_s3 <span class="op">=</span> LocalFilesystemToS3Operator(</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  task_id<span class="op">=</span><span class="st">"movie_review_to_s3"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  filename<span class="op">=</span><span class="st">"/opt/airflow/data/movie_review.csv"</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  dest_key<span class="op">=</span><span class="st">"raw/movie_review.csv"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  dest_bucket<span class="op">=</span>user_analytics_bucket,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  replace<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>user_purchase_to_s3 <span class="op">=</span> SqlToS3Operator(</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  task_id<span class="op">=</span><span class="st">"user_purchase_to_s3"</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  sql_conn_id<span class="op">=</span><span class="st">"postgres_default"</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  query<span class="op">=</span><span class="st">"select * from retail.user_purchase"</span>,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  s3_bucket<span class="op">=</span>user_analytics_bucket,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  s3_key<span class="op">=</span><span class="st">"raw/user_purchase/user_purchase.csv"</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  replace<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The above code shows how we use Airflow operators to create S3 buckets and copy data from local files and a Postgres db into an S3 bucket. See <strong><a href="https://airflow.apache.org/docs/apache-airflow-providers/operators-and-hooks-ref/index.html">here for a list of Airflow operators</a></strong>.</p>
+</section>
+</section>
+<section id="user-interface-to-see-the-how-your-pipelines-are-running-and-their-history" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="user-interface-to-see-the-how-your-pipelines-are-running-and-their-history"><span class="header-section-number">11.3</span> User interface to see the how your pipelines are running and their history</h2>
+<p>When a data pipeline runs, all information is stored in a metadata db and as logs. The historical information allows us to observe your data pipelines’ current state and historical state.</p>
+<p>Here is a list of the tables used to store metadata about our pipelines:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/why-orc/meta.png" class="img-fluid figure-img"></p>
+<figcaption>Metadata DB</figcaption>
+</figure>
+</div>
+<p>Apache Airflow enables us to store logs in multiple locations (<strong><a href="https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/logging-monitoring/logging-architecture.html">ref docs</a></strong>). In our project we store them locally in the file system, which can be accessed by clicking on a specific <code>task -&gt; Logs</code> as shown below.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/why-orc/tasklogs.png" class="img-fluid figure-img"></p>
+<figcaption>Spark logs</figcaption>
+</figure>
+</div>
+<section id="see-progress-historical-information-on-ui" class="level3" data-number="11.3.1">
+<h3 data-number="11.3.1" class="anchored" data-anchor-id="see-progress-historical-information-on-ui"><span class="header-section-number">11.3.1</span> See progress &amp; historical information on UI</h3>
+<p>When we run data pipelines, we can use a nice web UI to see the progress, failures, and other details. Powered by the metadata db and the logs, we can also see individual task logs and the inputs to a specific task, among others.</p>
+<p>The web UI provides good visibility into our pipelines’ current and historical state.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/why-orc/dagtask.png" class="img-fluid figure-img"></p>
+<figcaption>DAG logs</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/why-orc/taskip.png" class="img-fluid figure-img"></p>
+<figcaption>Task inputs</figcaption>
+</figure>
+</div>
+</section>
+<section id="analyze-data-pipeline-performance-with-web-ui" class="level3" data-number="11.3.2">
+<h3 data-number="11.3.2" class="anchored" data-anchor-id="analyze-data-pipeline-performance-with-web-ui"><span class="header-section-number">11.3.2</span> Analyze data pipeline performance with Web UI</h3>
+<p>We can see how pipelines have performed over time, inspect task run time, and see how long a task had to wait to get started. The performance metrics provide us with the necessary insights to optimize our systems.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/why-orc/perf.png" class="img-fluid figure-img"></p>
+<figcaption>Performance</figcaption>
+</figure>
+</div>
+</section>
+<section id="re-run-data-pipelines-via-ui" class="level3" data-number="11.3.3">
+<h3 data-number="11.3.3" class="anchored" data-anchor-id="re-run-data-pipelines-via-ui"><span class="header-section-number">11.3.3</span> Re-run data pipelines via UI</h3>
+<p>In addition to seeing how our pipelines are running, we can manually trigger DAGs with custom inputs as necessary. The ability to trigger/re-run DAGs helps us quickly resolve one-off issues. See <strong><a href="https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/dag-run.html#using-ui">this link</a></strong> for information on triggering dags with UI and CLI.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/why-orc/trigger.png" class="img-fluid figure-img"></p>
+<figcaption>Triggers</figcaption>
+</figure>
+</div>
+</section>
+<section id="reuse-variables-and-connections-across-your-pipelines" class="level3" data-number="11.3.4">
+<h3 data-number="11.3.4" class="anchored" data-anchor-id="reuse-variables-and-connections-across-your-pipelines"><span class="header-section-number">11.3.4</span> Reuse variables and connections across your pipelines</h3>
+<p>Apache Airflow also allows us to create and store variables and connection settings that can be reused across our data pipelines. In our code, we create variables using Airflow CLI <strong><a href="https://github.com/josephmachado/beginner_de_project/blob/master/containers/airflow/setup_conn.py">here</a></strong>.</p>
+<p>Variables and connections are especially important when you want to use a variable across data pipelines and to connect to external systems respectively.</p>
+<p>Once the connection/variables are set, we can see them in our UI:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/why-orc/conn.png" class="img-fluid figure-img"></p>
+<figcaption>Connection</figcaption>
+</figure>
+</div>
+<p>And use them in your DAG code as such</p>
+<p>add: code</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -700,13 +907,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./py_transform.html" class="pagination-link" aria-label="Python has libraries to tell the data processing engine (Spark, Trino, Duckdb, Polars, etc) what to do">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Python has libraries to tell the data processing engine (Spark, Trino, Duckdb, Polars, etc) what to do</span></span>
+      <a href="./data_pipeline.html" class="pagination-link" aria-label="Scheduler defines when &amp; Orchestrator defines how to, run your data pipelines">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Scheduler defines when &amp; Orchestrator defines how to, run your data pipelines</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./dw.html" class="pagination-link" aria-label="Data warehouse contains historical data and is used to analyze business performance">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data warehouse contains historical data and is used to analyze business performance</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./dbt.html" class="pagination-link" aria-label="dbt-core is an orchestrator that makes managing pipelines simpler">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">dbt-core is an orchestrator that makes managing pipelines simpler</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

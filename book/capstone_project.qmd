@@ -1,0 +1,81 @@
+---
+title: 'Capstone Project: Spark, dbt, Airflow with Docker'
+format:
+  html:
+    toc: true
+execute:
+  eval: false
+  output: true
+jupyter: python3
+---
+
+
+
+
+In the previous chapters we learn't how to manipulate data with Spark SQL, how to create pipeline transformations with dbt and how to schedule  & orchestrate them with Airflow. 
+
+In this capstone project we will put them together to create an end-to-end project.
+
+The main objectives for this capstone project are
+1. Understanding how the different components common in data engineering work with each other
+2. How to model and transform data in the 3-hop architecture
+3. Clearly explain what your pipeline is doing and why and how
+
+Let's assume that we are working on modeling the TPCH data and creating a data mart for sales team to create customer metrics which they can use to strategize how to cold call customers.
+
+## Presentation matters
+
+When a hiring manager looks at your project, assume that they will not read over the code. Typically when people look at projects they browse high level sections, these includes
+
+1. Outcome of your project
+2. High level architecture
+3. Project structure to understand how your code works
+4. Browse code for clarity and code-cleanliness
+
+We will see how you can address these 
+
+## Start with the outcome
+
+We are creating data for the sales team to enable customer outreach and for this we need to present customers who will most likely convert. While this is a complex data science question, a simple approach could be to target customers who have the highest average order value (assuming high/low order values are outliers).
+
+Create a dashboard to show the top 10 customers by average order values as a descending bar chart.
+
+add: gif 
+
+add: image of bar chart
+
+## High level architecture
+
+The objective of this is to show your expertise in 
+
+1. Designing data pipelines, by following industry standard 3-hop architecture
+2. Industry standard tools like dbt, Airflow and Spark
+3. Writing clean code using auto formatters and linters
+
+Our base repo comes with all of these setup and installed for you to copy over and use. 
+
+add: 3-hop dbt folder structure
+add: auto formatter and linter for python and sql
+
+## Code explanation
+
+We have code that does the following 
+
+1. Use dbt to define Spark SQL pipelines following the 3-hop architecture that we saw in the dbt chapter. Add: folder structure screenshot
+2. Use Airflow to load data into the warehouse and run dbt pipeline on a schedule and be able to monitor it  add; dag screenshot
+3. Follow Kimball dimensional modeling for our dbt pipeline, add: 3-hop arch
+
+## Exercise
+
+1. Find a dataset that you are interested in, showing an interesting take for the data. Outcome should be shown with data.
+
+You can copy paste the `airflow` folder into a separate folder and make the necessary changes. You can add requirements to the requirements.txt file 
+
+add: code wit unix commands
+
+## Read this 
+
+1. Approach on identifying problem space and datasets https://www.startdataengineering.com/post/what-data-project-to-build/#23-data
+2. https://www.startdataengineering.com/post/data-engineering-project-to-impress-hiring-managers/
+
+

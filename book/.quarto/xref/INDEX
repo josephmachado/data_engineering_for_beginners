@@ -43,5 +43,23 @@
   },
   "dw_data_flow.qmd": {
     "dw_data_flow.html": "8508d15a"
+  },
+  "working_in_a_team.qmd": {
+    "working_in_a_team.html": "852a26d7"
+  },
+  "docker.qmd": {
+    "docker.html": "104595b6"
+  },
+  "data_pipeline.qmd": {
+    "data_pipeline.html": "3ddf0837"
+  },
+  "airflow.qmd": {
+    "airflow.html": "67f4a5eb"
+  },
+  "dbt.qmd": {
+    "dbt.html": "b6e04e13"
+  },
+  "capstone_project.qmd": {
+    "capstone_project.html": "6559eb98"
   }
 }

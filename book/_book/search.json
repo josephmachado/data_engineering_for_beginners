@@ -476,5 +476,267 @@
       "Data modeling is the process of getting data ready for analyticsUse SQL to transform data",
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Most companies use the multi-hop architecture</span>"
     ]
+  },
+  {
+    "objectID": "working_in_a_team.html",
+    "href": "working_in_a_team.html",
+    "title": "Working in a team",
+    "section": "",
+    "text": "Data engineering has multiple components and its crucial that you have the same environment that runs in production is also aavailable to the dta engineers to test and develop in.\nIn this section we will see how docker is used to simulate the same running environment across multiple systems.",
+    "crumbs": [
+      "Working in a team"
+    ]
+  },
+  {
+    "objectID": "docker.html",
+    "href": "docker.html",
+    "title": "10  Docker recreates the same environment for your code in any machine",
+    "section": "",
+    "text": "10.1 Docker image is a blueprint for your container\nYou can think of docker as running a separate OS (not exactly, but close enough) on the machine. What Docker provides is the ability to replicate the OS and its packages (e.g., Python modules) across machines so that you don’t run into “hey, that worked on my computer” type issues.\nHere is an overview of the concepts needed to understand docker for data infra:\nWindows users: please setup WSL and a local Ubuntu Virtual machine following the instructions here. Install the above prerequisites on your Ubuntu terminal; if you have trouble installing docker, follow the steps here (only Step 1 is necessary).\nWe used docker to run Spark and access it via Jupyter Notebooks.\nAn image is a blueprint to create your docker container. You can define the modules to install, variables to set, etc. Let’s consider our example:\nadd: screenshot of https://github.com/databricks/docker-spark-iceberg/blob/main/spark/Dockerfile\nThe commands in the docker image are run in order. Let’s go over the key commands:\nNote that this code is on github and maintained by the Iceverg/Spark community. This repo is used to build and host official spark-iceberg images on docker hub.\nA docker hub is an online repository where one can store and retrieve docker images and it is where most official systems docker images are stored. https://hub.docker.com/",
+    "crumbs": [
+      "Working in a team",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Docker recreates the same environment for your code in any machine</span>"
+    ]
+  },
+  {
+    "objectID": "docker.html#docker-image-is-a-blueprint-for-your-container",
+    "href": "docker.html#docker-image-is-a-blueprint-for-your-container",
+    "title": "10  Docker recreates the same environment for your code in any machine",
+    "section": "",
+    "text": "Docker image\n\n\n\n\n\nFROM: We need a base operating system on which to set our configurations. We can also use existing Docker images available at the Docker Hub and add our config on top of them. In our example, we use the official Python Docker image.\nCOPY: Copy is used to copy files or folders from our local filesystem to the image. The copy command is usually used when building the docker image to copy settings, static files, etc. In our example, spark configs, entrypoint.sh, and iceberg yaml settings.\nENV: This command sets the image’s environment variables. In our example, we set Python, and Spark Paths.\nENTRYPOINT: The entrypoint command executes a script when the image starts. In our example, we use a script file (entrypoint.sh) to start spark master and worker nodes add entrypoint.sh.",
+    "crumbs": [
+      "Working in a team",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Docker recreates the same environment for your code in any machine</span>"
+    ]
+  },
+  {
+    "objectID": "docker.html#start-containers-based-on-docker-image",
+    "href": "docker.html#start-containers-based-on-docker-image",
+    "title": "10  Docker recreates the same environment for your code in any machine",
+    "section": "10.2 Start containers based on docker image",
+    "text": "10.2 Start containers based on docker image\nWe use images to create docker containers. We can create one or more containers from a given image.\n\n10.2.1 Communicate between containers and local OS\nTypically, with data infra, we need multiple systems to run simultaneously. Most data systems also expose runtime information, documentation, etc via ports. We have to inform docker which ports to keep open so that they are accessible from the “outside”, in our case your local browser.\nWhen we are developing, we’d want to make changes to the code and see its impact immediately. While you can use COPY to copy over your code when building a docker image, it will not reflect changes in real time and you will have to rebuild your container each time you need change your code.\nIn cases where you want data/code to sync 2 ways between your local machine and the running docker container use mounted volumes. In addition to syncing local files, volumes also sync files between our containers.\n\n\n\ndocker port\n\n\n\n\n10.2.2 Start containers with docker CLI or compose\nWe can use the docker cli to start containers based on an image. Let’s look at an example. To start our Spark master container, we can use the following:\ndocker run -d \\\n  --name spark-master \\\n  --entrypoint ./entrypoint.sh \\\n  -p 4040:4040 \\\n  -p 9090:8080 \\\n  -p 7077:7077 \\\n  --env-file .env.spark \\\n  spark-image master\nHowever, with most data systems, we will need to ensure multiple systems are running. While we can use docker cli to do this, a better option is to use docker compose to orchestrate the different containers required. With docker compose, we can define all our settings in one file and ensure that they are started in the order we prefer.\nOur docker compose is defined here. With our docker compose defined, starting our containers is a simple command, as shown below:\ndocker compose up -d\nThe command will, by default, look for a file called docker-compose.yml in the directory in which it is run.\n\n\n10.2.3 Containers can be always-running or short-lived\nDepending on what you want your containers to do, they can either be short lived (start, run a process, stop) or long lived (start, start spark master and worker nodes, wait for data processing request). Most data infra is long lived.\n\n\n10.2.4 Executing commands in your docker container\nUsing the exec command, you can submit commands to be run in a specific container. For example, we can use the following to open a bash terminal in our spark-master container:\ndocker exec -ti spark-master bash\n# You will be in the master container bash shell\n# try some commands\npwd \nexit # exit the container\nNote that the -ti indicates that this will be run in an interactive mode. As shown below, we can run a command without interactive mode and get an output.\ndocker exec spark-master echo hello\n# prints hello",
+    "crumbs": [
+      "Working in a team",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Docker recreates the same environment for your code in any machine</span>"
+    ]
+  },
+  {
+    "objectID": "data_pipeline.html",
+    "href": "data_pipeline.html",
+    "title": "Scheduler defines when & Orchestrator defines how to, run your data pipelines",
+    "section": "",
+    "text": "Schedulers define when to start your data pipeline, e.g. cron, Airflow, etc.\nOrchestrators defines the order in which the tasks of a data pipeline should run. For example extract before transform, complex branching logic, excuting across multiple systems such as spark and snowflake, etc. E.g., dbt-core, Airflow, etc",
+    "crumbs": [
+      "Scheduler defines when & Orchestrator defines how to, run your data pipelines"
+    ]
+  },
+  {
+    "objectID": "airflow.html",
+    "href": "airflow.html",
+    "title": "11  Airflow is both a scheduler and an orchestrator",
+    "section": "",
+    "text": "11.1 Schedulers run data pipelines at specified frequency\nLet’s look at the key features essential for most data pipelines and explore how Apache Airflow enables data engineers to do these.\nAirflow by default looks for python files which are under the /dags folder. The location of dags are specified in the airflow.cfg file among other settings. add: cfg link\nData pipelines will need to be run at specific intervals. The frequency required may be as simple as hourly, daily, weekly, monthly, etc., or complex, e.g., 2nd Tuesday of every month.\nAirflow uses a process called Scheduler that checks our DAGs(data pipeline) every minute (add: config setting) to see if it needs to be started.\nIn Airflow you can define when the pipeline should be run with a cron format or python timedelta. add:links\nIn our code, we define our pipeline to run every day(ref link).",
+    "crumbs": [
+      "Scheduler defines when & Orchestrator defines how to, run your data pipelines",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Airflow is both a scheduler and an orchestrator</span>"
+    ]
+  },
+  {
+    "objectID": "airflow.html#schedulers-run-data-pipelines-at-specified-frequency",
+    "href": "airflow.html#schedulers-run-data-pipelines-at-specified-frequency",
+    "title": "11  Airflow is both a scheduler and an orchestrator",
+    "section": "",
+    "text": "with DAG(\n    \"user_analytics_dag\",\n    description=\"A DAG to Pull user data and movie review data \\\n        to analyze their behaviour\",\n    schedule_interval=timedelta(days=1),\n    start_date=datetime(2023, 1, 1),\n    catchup=False,\n) as dag:",
+    "crumbs": [
+      "Scheduler defines when & Orchestrator defines how to, run your data pipelines",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Airflow is both a scheduler and an orchestrator</span>"
+    ]
+  },
+  {
+    "objectID": "airflow.html#orchestrators-define-the-order-of-execution-of-your-pipeline-tasks",
+    "href": "airflow.html#orchestrators-define-the-order-of-execution-of-your-pipeline-tasks",
+    "title": "11  Airflow is both a scheduler and an orchestrator",
+    "section": "11.2 Orchestrators define the order of execution of your pipeline tasks",
+    "text": "11.2 Orchestrators define the order of execution of your pipeline tasks\nWith complex data pipelines, we want parts of our pipelines to run in a specific order. For example, if your pipeline is pulling data from multiple independent sources, we may want to run them in parallel.\n\n11.2.1 Define the order of execution of pipeline tasks with a DAG\nDAG stands for Directed Acyclic Graph, i.e a series of steps that flow one way with a defined end condition. DAG is also Airflow code API that you can use to define your pipeline.\n\n\n\nDAG\n\n\nIn data pipelines, we use the following terminology: 1. DAG: Represents an entire data pipeline. 2. Task: Individual node in a DAG. The tasks usually correspond to some data task. 3. Dependency: The edges between nodes represent the dependency between tasks. 1. Upstream: All the tasks that run before the task under consideration. 2. Downstream: All the tasks that run after the task under consideration.\nIn our example, if we consider the movie_classifier task, we can see its upstream and downstream tasks as shown below.\n\n\n\nDAG Dependency\n\n\nWith DAG, we can define dependencies, i.e., we can define when a task runs depending on upstream tasks (ref: trigger rules)\nWe can also set individual task-level settings, such as the number of retries per task and branch logic, where you can define logic to choose one or more tasks out of multiple tasks. We can dynamically create tasks based on your logic.\nIn our code we define our DAG using the &gt;&gt; syntax (ref link).\n# Define the tasks \ncreate_s3_bucket &gt;&gt; [user_purchase_to_s3, movie_review_to_s3]\n\nuser_purchase_to_s3 &gt;&gt; get_user_purchase_to_warehouse\n\nmovie_review_to_s3 &gt;&gt; movie_classifier &gt;&gt; get_movie_review_to_warehouse\n\n(\n    [get_user_purchase_to_warehouse, get_movie_review_to_warehouse]\n    &gt;&gt; get_user_behaviour_metric\n    &gt;&gt; gen_dashboard\n)\n\n\n11.2.2 Define where to run your code\nWhen we run our DAG, each task will be run individually. Airflow enables us to run our tasks in multiple ways:\n\nRun code in the same machine as your scheduler process with Local and sequential executor\nRun code in a task queue (i.e. a system that will run tasks in individual machines) with a celery executor.\nRun code as k8s pods with Kubernetes executor.\nWrite custom logic to run your tasks.\n\nSee this link for more details about running your tasks. In our project, we use the default LocalExecutor, which is set up by default.\n\n\n11.2.3 Use operators to connect to popular services\nAs we saw in the Python section, data pipelines involve interacting with external system, such as a cloud storage system (S3), data warehouse (Snowflake), or data processing system (Apache Spark).\nWhile we can write code to work with these external systems, Apache Airflow provides a robust set of Operators for most services we can reuse.\nIn our code, we use multiple Airflow operators to reduce the amount of code we have to write (ref code):\ncreate_s3_bucket = S3CreateBucketOperator(\n  task_id=\"create_s3_bucket\", bucket_name=user_analytics_bucket\n)\nmovie_review_to_s3 = LocalFilesystemToS3Operator(\n  task_id=\"movie_review_to_s3\",\n  filename=\"/opt/airflow/data/movie_review.csv\",\n  dest_key=\"raw/movie_review.csv\",\n  dest_bucket=user_analytics_bucket,\n  replace=True,\n)\n\nuser_purchase_to_s3 = SqlToS3Operator(\n  task_id=\"user_purchase_to_s3\",\n  sql_conn_id=\"postgres_default\",\n  query=\"select * from retail.user_purchase\",\n  s3_bucket=user_analytics_bucket,\n  s3_key=\"raw/user_purchase/user_purchase.csv\",\n  replace=True,\n)\nThe above code shows how we use Airflow operators to create S3 buckets and copy data from local files and a Postgres db into an S3 bucket. See here for a list of Airflow operators.",
+    "crumbs": [
+      "Scheduler defines when & Orchestrator defines how to, run your data pipelines",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Airflow is both a scheduler and an orchestrator</span>"
+    ]
+  },
+  {
+    "objectID": "airflow.html#user-interface-to-see-the-how-your-pipelines-are-running-and-their-history",
+    "href": "airflow.html#user-interface-to-see-the-how-your-pipelines-are-running-and-their-history",
+    "title": "11  Airflow is both a scheduler and an orchestrator",
+    "section": "11.3 User interface to see the how your pipelines are running and their history",
+    "text": "11.3 User interface to see the how your pipelines are running and their history\nWhen a data pipeline runs, all information is stored in a metadata db and as logs. The historical information allows us to observe your data pipelines’ current state and historical state.\nHere is a list of the tables used to store metadata about our pipelines:\n\n\n\nMetadata DB\n\n\nApache Airflow enables us to store logs in multiple locations (ref docs). In our project we store them locally in the file system, which can be accessed by clicking on a specific task -&gt; Logs as shown below.\n\n\n\nSpark logs\n\n\n\n11.3.1 See progress & historical information on UI\nWhen we run data pipelines, we can use a nice web UI to see the progress, failures, and other details. Powered by the metadata db and the logs, we can also see individual task logs and the inputs to a specific task, among others.\nThe web UI provides good visibility into our pipelines’ current and historical state.\n\n\n\nDAG logs\n\n\n\n\n\nTask inputs\n\n\n\n\n11.3.2 Analyze data pipeline performance with Web UI\nWe can see how pipelines have performed over time, inspect task run time, and see how long a task had to wait to get started. The performance metrics provide us with the necessary insights to optimize our systems.\n\n\n\nPerformance\n\n\n\n\n11.3.3 Re-run data pipelines via UI\nIn addition to seeing how our pipelines are running, we can manually trigger DAGs with custom inputs as necessary. The ability to trigger/re-run DAGs helps us quickly resolve one-off issues. See this link for information on triggering dags with UI and CLI.\n\n\n\nTriggers\n\n\n\n\n11.3.4 Reuse variables and connections across your pipelines\nApache Airflow also allows us to create and store variables and connection settings that can be reused across our data pipelines. In our code, we create variables using Airflow CLI here.\nVariables and connections are especially important when you want to use a variable across data pipelines and to connect to external systems respectively.\nOnce the connection/variables are set, we can see them in our UI:\n\n\n\nConnection\n\n\nAnd use them in your DAG code as such\nadd: code",
+    "crumbs": [
+      "Scheduler defines when & Orchestrator defines how to, run your data pipelines",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Airflow is both a scheduler and an orchestrator</span>"
+    ]
+  },
+  {
+    "objectID": "dbt.html",
+    "href": "dbt.html",
+    "title": "12  dbt-core is an orchestrator that makes managing pipelines simpler",
+    "section": "",
+    "text": "12.1 Create tables with select sql files\nWe saw in the data warehouse (add:link) how data warehouse-ing is the process of getting data ready for analytics. In order to do that we need to create fact, dimensions, OBT and pre-aggregated tables.\nBuilding data pipelines to setup and manage these pipelines involve a lot of code especially for functions that are common across pipelines such as data testing, figuring out how to structure the code, etc. This is where dbt-core comes in.\ndbt-core is a python library that enables you to build complex data pipelines with only SQL queries. By using a special ref function and placing SQL select queries within the appropriate file you can get comples data pipeline graphs, and ability to run pipelines (fully or partially) using the dbt-core library.\nIn addition dbt-core also enables best practices like\ndbt-core assumes that the data is already accessible to the DB engine that you run it on, and as such it is mostly used for the T (Transform) part of the ETL (not necessarily in that order) pipeline.\nWe will run dbt inside the airflow container, as shown below\nIn dbt every .sql file has a select statement and is created as a data model (usually a table or a view). The select statement defines the data schema of the data model. The name of the .sql file defines the name of the data model.\nLet’s take a look at one of our silver tables (add: link)\nWe can see how the final select query is created as a data model. Note the ref function refers to another table that is defined by the folder path and file name (which is also its data model name).\nThe setting that defines which data models should be tables/views/materialized views, etc will be defined in the dbt_project.yml file (add: link).\nWhen you run the dbt run command all your models will be created as tables.",
+    "crumbs": [
+      "Scheduler defines when & Orchestrator defines how to, run your data pipelines",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>dbt-core is an orchestrator that makes managing pipelines simpler</span>"
+    ]
+  },
+  {
+    "objectID": "dbt.html#create-tables-with-select-sql-files",
+    "href": "dbt.html#create-tables-with-select-sql-files",
+    "title": "12  dbt-core is an orchestrator that makes managing pipelines simpler",
+    "section": "",
+    "text": "add: silver table code",
+    "crumbs": [
+      "Scheduler defines when & Orchestrator defines how to, run your data pipelines",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>dbt-core is an orchestrator that makes managing pipelines simpler</span>"
+    ]
+  },
+  {
+    "objectID": "dbt.html#document-test-tables-with-yml-files",
+    "href": "dbt.html#document-test-tables-with-yml-files",
+    "title": "12  dbt-core is an orchestrator that makes managing pipelines simpler",
+    "section": "12.2 Document & test tables with yml files",
+    "text": "12.2 Document & test tables with yml files\nYou can also document what the table and the columns of your tables mean in yml files. These yml files have to be within the same folder and also reference the data model’s name and the column names.\nIn addition to descriptions you can also specify any tests to be run on the columns as needed.\nThe documentation will be rendered when you run the dbt render command and HTML files will be created which we will view with a dbt serve command in a later section.\nThe tests can be run with the dbt test command, note that the tests can only be run after the data is available, so it is not entirely suitable for the WAP pattern.\nadd: core.yml\nRun the tests with dbt test command.",
+    "crumbs": [
+      "Scheduler defines when & Orchestrator defines how to, run your data pipelines",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>dbt-core is an orchestrator that makes managing pipelines simpler</span>"
+    ]
+  },
+  {
+    "objectID": "dbt.html#define-db-connections-in-profiles.yml",
+    "href": "dbt.html#define-db-connections-in-profiles.yml",
+    "title": "12  dbt-core is an orchestrator that makes managing pipelines simpler",
+    "section": "12.3 Define db connections in profiles.yml",
+    "text": "12.3 Define db connections in profiles.yml\ndbt uses a yml file to define how it connects to your db engine. Let’s look at our example\nadd: profiles.yml\nWe tell dbt to connect to Apache Spark. The target variable defines the environment. The default is dev, but you can specify which environment to run on with --target flag in the dbt run command.\nBy default dbt will look for a profiles.yml in your HOME directory. We can tell dbt to look for the profiles.yml file in a specific folder using the --profiles-dir flag as shown below.\ndbt run --profiles-dir .",
+    "crumbs": [
+      "Scheduler defines when & Orchestrator defines how to, run your data pipelines",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>dbt-core is an orchestrator that makes managing pipelines simpler</span>"
+    ]
+  },
+  {
+    "objectID": "dbt.html#define-your-project-setting-at-dbt_project.yml",
+    "href": "dbt.html#define-your-project-setting-at-dbt_project.yml",
+    "title": "12  dbt-core is an orchestrator that makes managing pipelines simpler",
+    "section": "12.4 Define your project setting at dbt_project.yml",
+    "text": "12.4 Define your project setting at dbt_project.yml\nIn dbt_project.yml file you specify all the project specific settings that you want applied, such as\n\nThe folders to look for the .sql files\nThe folder to look for seeds, downloaded packages, SQL functions (aka macros), etc.\nHow to materialize a data model (ie. should a data model be created as a table/view/materialized view/temporal table, etc)\n\nMaterialization is a variable that controls how dbt creates a model. By default, every model will be a view. This can be overridden in dbt_project.yml. We have set the models under models/marts/core/ to materialize as tables.\n# Configuring models\nmodels:\n    sde_dbt_tutorial:\n        # Applies to all files under models/marts/core/\n        marts:\n            core:\n                materialized: table\nIf you need to define how your dbt project",
+    "crumbs": [
+      "Scheduler defines when & Orchestrator defines how to, run your data pipelines",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>dbt-core is an orchestrator that makes managing pipelines simpler</span>"
+    ]
+  },
+  {
+    "objectID": "dbt.html#dbt-recommends-the-3-hop-architecture-with-stage-core-data-marts",
+    "href": "dbt.html#dbt-recommends-the-3-hop-architecture-with-stage-core-data-marts",
+    "title": "12  dbt-core is an orchestrator that makes managing pipelines simpler",
+    "section": "12.5 dbt recommends the 3-hop architecture with stage, core & data marts",
+    "text": "12.5 dbt recommends the 3-hop architecture with stage, core & data marts\nWe will see how the customer_orders table is created from the source tables. These transformations follow warehouse and dbt best practices.\n\n12.5.1 Source\nSource tables refer to tables loaded into the warehouse by an EL process. In our case these are the base tpch tables, which are created by the extract step.\nWe need to define what tables are the sources in the src.yml file, this will be used by the stage tables with source function.\nsource add:\nadd: usage with source function\n\n\n12.5.2 Staging\nThe staging area is where raw data is cast into correct data types, given consistent column names, and prepared to be transformed into models used by end-users.\nYou can think of this stage as the first layer of transformations. We will place staging data models inside the staging folder, as shown below.\nadd: folder path\nTheir documentation and tests will be defined in a yaml file, as shown below.\nadd: staging yaml\n\n\n12.5.3 Marts\nMarts consist of the core tables for end-users and business vertical-specific tables.\n\n12.5.3.1 Core\nThe core defines the fact and dimension models to be used by end-users. We define our facts and tables under the marts/core folder. add: folder path.\nYou can see that we store the facts, dimensions and OBT under this folder.\n\n\n12.5.3.2 Stakeholder team specific\nIn this section, we define the models for marketing stakeholders, A project can have multiple business verticals. Having one folder per business vertical provides an easy way to organize the models.\nIn our example we store the metrics.sql in this location.",
+    "crumbs": [
+      "Scheduler defines when & Orchestrator defines how to, run your data pipelines",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>dbt-core is an orchestrator that makes managing pipelines simpler</span>"
+    ]
+  },
+  {
+    "objectID": "dbt.html#dbt-core-is-a-cli",
+    "href": "dbt.html#dbt-core-is-a-cli",
+    "title": "12  dbt-core is an orchestrator that makes managing pipelines simpler",
+    "section": "12.6 dbt-core is a cli",
+    "text": "12.6 dbt-core is a cli\nWith all our data model defined, we can use the dbt cli to run, test and create documentation. dbt command will look for the profiles.yml file in your $HOME directory by default so we either have to set the PROFILES_DIR environment variable (add: docekr file command) or use the --profiles-dir as part of the cli command.\n\n12.6.1 dbt run\nWe have the necessary model definitions in place. Let’s create the models.\ndbt run \n# Finished running 5 view models, 2 table models, 2 hooks in 0 hours 0 minutes and 3.22 seconds (3.22s).\nOur staging and marketing models are as materialized views, and the two core models are materialized as views as defined in ourlized as views as defined in our dbt_project.yml.\n\n\n12.6.2 dbt test\nWith the models defined, we can run tests on them. Note that, unlike standard testing, these tests run after the data has been processed. You can run tests as shown below.\ndbt test # or run \"just test\"\n# Finished running 14 tests...\n\n\n12.6.3 dbt docs\nOne of the powerful features of dbt is its docs. To generate documentation and serve them, run the following commands:\ndbt docs generate\ndbt docs serve\nThe generate command will create documentation in html format. The serve command will start a webserver that serves this html file.\nNavigate to customer_orders within the sde_dbt_tutorial project in the left pane. Click on the view lineage graph icon on the lower right side. The lineage graph shows the dependencies of a model. You can also see the tests defined, descriptions (set in the corresponding YAML file), and the compiled sql statements.\n\n\n\nour project structure",
+    "crumbs": [
+      "Scheduler defines when & Orchestrator defines how to, run your data pipelines",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>dbt-core is an orchestrator that makes managing pipelines simpler</span>"
+    ]
+  },
+  {
+    "objectID": "dbt.html#scheduling",
+    "href": "dbt.html#scheduling",
+    "title": "12  dbt-core is an orchestrator that makes managing pipelines simpler",
+    "section": "12.7 Scheduling",
+    "text": "12.7 Scheduling\nWe have seen how to create snapshots, models, run tests and generate documentation. These are all commands run via the cli. Dbt compiles the models into sql queries under the target folder (not part of git repo) and executes them on the data warehouse.\nTo schedule dbt runs, snapshots, and tests we need to use a scheduler. In the final capstone project we will use Airflow to schedule this dbt pipeline.",
+    "crumbs": [
+      "Scheduler defines when & Orchestrator defines how to, run your data pipelines",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>dbt-core is an orchestrator that makes managing pipelines simpler</span>"
+    ]
+  },
+  {
+    "objectID": "capstone_project.html",
+    "href": "capstone_project.html",
+    "title": "13  Capstone Project: Spark, dbt, Airflow with Docker",
+    "section": "",
+    "text": "13.1 Presentation matters\nIn the previous chapters we learn’t how to manipulate data with Spark SQL, how to create pipeline transformations with dbt and how to schedule & orchestrate them with Airflow.\nIn this capstone project we will put them together to create an end-to-end project.\nThe main objectives for this capstone project are 1. Understanding how the different components common in data engineering work with each other 2. How to model and transform data in the 3-hop architecture 3. Clearly explain what your pipeline is doing and why and how\nLet’s assume that we are working on modeling the TPCH data and creating a data mart for sales team to create customer metrics which they can use to strategize how to cold call customers.\nWhen a hiring manager looks at your project, assume that they will not read over the code. Typically when people look at projects they browse high level sections, these includes\nWe will see how you can address these",
+    "crumbs": [
+      "Scheduler defines when & Orchestrator defines how to, run your data pipelines",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Capstone Project: Spark, dbt, Airflow with Docker</span>"
+    ]
+  },
+  {
+    "objectID": "capstone_project.html#presentation-matters",
+    "href": "capstone_project.html#presentation-matters",
+    "title": "13  Capstone Project: Spark, dbt, Airflow with Docker",
+    "section": "",
+    "text": "Outcome of your project\nHigh level architecture\nProject structure to understand how your code works\nBrowse code for clarity and code-cleanliness",
+    "crumbs": [
+      "Scheduler defines when & Orchestrator defines how to, run your data pipelines",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Capstone Project: Spark, dbt, Airflow with Docker</span>"
+    ]
+  },
+  {
+    "objectID": "capstone_project.html#start-with-the-outcome",
+    "href": "capstone_project.html#start-with-the-outcome",
+    "title": "13  Capstone Project: Spark, dbt, Airflow with Docker",
+    "section": "13.2 Start with the outcome",
+    "text": "13.2 Start with the outcome\nWe are creating data for the sales team to enable customer outreach and for this we need to present customers who will most likely convert. While this is a complex data science question, a simple approach could be to target customers who have the highest average order value (assuming high/low order values are outliers).\nCreate a dashboard to show the top 10 customers by average order values as a descending bar chart.\nadd: gif\nadd: image of bar chart",
+    "crumbs": [
+      "Scheduler defines when & Orchestrator defines how to, run your data pipelines",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Capstone Project: Spark, dbt, Airflow with Docker</span>"
+    ]
+  },
+  {
+    "objectID": "capstone_project.html#high-level-architecture",
+    "href": "capstone_project.html#high-level-architecture",
+    "title": "13  Capstone Project: Spark, dbt, Airflow with Docker",
+    "section": "13.3 High level architecture",
+    "text": "13.3 High level architecture\nThe objective of this is to show your expertise in\n\nDesigning data pipelines, by following industry standard 3-hop architecture\nIndustry standard tools like dbt, Airflow and Spark\nWriting clean code using auto formatters and linters\n\nOur base repo comes with all of these setup and installed for you to copy over and use.\nadd: 3-hop dbt folder structure add: auto formatter and linter for python and sql",
+    "crumbs": [
+      "Scheduler defines when & Orchestrator defines how to, run your data pipelines",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Capstone Project: Spark, dbt, Airflow with Docker</span>"
+    ]
+  },
+  {
+    "objectID": "capstone_project.html#code-explanation",
+    "href": "capstone_project.html#code-explanation",
+    "title": "13  Capstone Project: Spark, dbt, Airflow with Docker",
+    "section": "13.4 Code explanation",
+    "text": "13.4 Code explanation\nWe have code that does the following\n\nUse dbt to define Spark SQL pipelines following the 3-hop architecture that we saw in the dbt chapter. Add: folder structure screenshot\nUse Airflow to load data into the warehouse and run dbt pipeline on a schedule and be able to monitor it add; dag screenshot\nFollow Kimball dimensional modeling for our dbt pipeline, add: 3-hop arch",
+    "crumbs": [
+      "Scheduler defines when & Orchestrator defines how to, run your data pipelines",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Capstone Project: Spark, dbt, Airflow with Docker</span>"
+    ]
+  },
+  {
+    "objectID": "capstone_project.html#exercise",
+    "href": "capstone_project.html#exercise",
+    "title": "13  Capstone Project: Spark, dbt, Airflow with Docker",
+    "section": "13.5 Exercise",
+    "text": "13.5 Exercise\n\nFind a dataset that you are interested in, showing an interesting take for the data. Outcome should be shown with data.\n\nYou can copy paste the airflow folder into a separate folder and make the necessary changes. You can add requirements to the requirements.txt file\nadd: code wit unix commands",
+    "crumbs": [
+      "Scheduler defines when & Orchestrator defines how to, run your data pipelines",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Capstone Project: Spark, dbt, Airflow with Docker</span>"
+    ]
+  },
+  {
+    "objectID": "capstone_project.html#read-this",
+    "href": "capstone_project.html#read-this",
+    "title": "13  Capstone Project: Spark, dbt, Airflow with Docker",
+    "section": "13.6 Read this",
+    "text": "13.6 Read this\n\nApproach on identifying problem space and datasets https://www.startdataengineering.com/post/what-data-project-to-build/#23-data\nhttps://www.startdataengineering.com/post/data-engineering-project-to-impress-hiring-managers/",
+    "crumbs": [
+      "Scheduler defines when & Orchestrator defines how to, run your data pipelines",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Capstone Project: Spark, dbt, Airflow with Docker</span>"
+    ]
   }
 ]

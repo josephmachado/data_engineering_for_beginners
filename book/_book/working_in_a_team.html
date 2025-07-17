@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Data modeling is the process of getting data ready for analyticsUse SQL to transform data – Data Engineering For Beginners</title>
+<title>Working in a team – Data Engineering For Beginners</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./dw.html" rel="next">
-<link href="./py_transform.html" rel="prev">
+<link href="./docker.html" rel="next">
+<link href="./dw_data_flow.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -82,7 +82,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data_model.html">Data modeling is the process of getting data ready for analyticsUse SQL to transform data</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./working_in_a_team.html">Working in a team</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -173,7 +173,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./data_model.html" class="sidebar-item-text sidebar-link active">
+            <a href="./data_model.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data modeling is the process of getting data ready for analyticsUse SQL to transform data</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -202,7 +202,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./working_in_a_team.html" class="sidebar-item-text sidebar-link">
+            <a href="./working_in_a_team.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Working in a team</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -271,7 +271,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Data modeling is the process of getting data ready for analyticsUse SQL to transform data</h1>
+<h1 class="title">Working in a team</h1>
 </div>
 
 
@@ -288,13 +288,8 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>As a data engineer your key objective is to enable stakeholders to be able to use data effectively to answer questions about business performance and predict how a business may perform in the future.</p>
-<p>Most companies production system store data in denormalized tables across multiple microservices, which make analytics hard as the data user will now be required to join across multiple tables. If your company uses a microservice architetcure this becomes impossible.</p>
-<p>Analytical querying often require processing large amounts of data which can have a significant impact on the database performance which is usually unacceptable for production systems.</p>
-<p>Production system ususaly only stores current state and does not store a log of changes, which is typically necessary for historical analysis</p>
-<p>Most companies produce event(click tracking, e-commerce ordering, server logs monitoring, etc ) which are usually too large to be stored and queried efficiently in a production database</p>
-<p>These are some of the reasons you need a warehouse system to be able to analyze historical information.</p>
-<p>add: image moving from denormalized tables to star schema to normalized tables</p>
+<p>Data engineering has multiple components and its crucial that you have the same environment that runs in production is also aavailable to the dta engineers to test and develop in.</p>
+<p>In this section we will see how docker is used to simulate the same running environment across multiple systems.</p>
 
 
 
@@ -700,13 +695,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./py_transform.html" class="pagination-link" aria-label="Python has libraries to tell the data processing engine (Spark, Trino, Duckdb, Polars, etc) what to do">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Python has libraries to tell the data processing engine (Spark, Trino, Duckdb, Polars, etc) what to do</span></span>
+      <a href="./dw_data_flow.html" class="pagination-link" aria-label="Most companies use the multi-hop architecture">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Most companies use the multi-hop architecture</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./dw.html" class="pagination-link" aria-label="Data warehouse contains historical data and is used to analyze business performance">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data warehouse contains historical data and is used to analyze business performance</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./docker.html" class="pagination-link" aria-label="Docker recreates the same environment for your code in any machine">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Docker recreates the same environment for your code in any machine</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -24,6 +24,15 @@ book:
         - dw.qmd
         - dw_table_types.qmd
         - dw_data_flow.qmd
+    - part: working_in_a_team.qmd
+      chapters:
+        - docker.qmd
+        #- git.qmd
+    - part: data_pipeline.qmd
+      chapters:
+        - airflow.qmd
+        - dbt.qmd
+        - capstone_project.qmd
     - summary.qmd
     - references.qmd
 
