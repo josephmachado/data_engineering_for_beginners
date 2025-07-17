@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Python connects the different part of your data pipeline – Data Engineering For Beginners</title>
+<title>7&nbsp; Data warehouse contains historical data and is used to analyze business performance – Data Engineering For Beginners</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +65,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./py_basics.html" rel="next">
-<link href="./windows.html" rel="prev">
+<link href="./dw_table_types.html" rel="next">
+<link href="./data_model.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -82,7 +117,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./python.html">Python connects the different part of your data pipeline</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data_model.html">Data modeling is the process of getting data ready for analyticsUse SQL to transform data</a></li><li class="breadcrumb-item"><a href="./dw.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data warehouse contains historical data and is used to analyze business performance</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -144,7 +179,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./python.html" class="sidebar-item-text sidebar-link active">
+            <a href="./python.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Python connects the different part of your data pipeline</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -182,7 +217,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./dw.html" class="sidebar-item-text sidebar-link">
+  <a href="./dw.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data warehouse contains historical data and is used to analyze business performance</span></span></a>
   </div>
 </li>
@@ -222,16 +257,17 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#data-is-stored-on-disk-and-processed-in-memory" id="toc-data-is-stored-on-disk-and-processed-in-memory" class="nav-link active" data-scroll-target="#data-is-stored-on-disk-and-processed-in-memory">Data is stored on disk and processed in memory</a></li>
+  <li><a href="#oltp-vs-olap-based-data-warehouses" id="toc-oltp-vs-olap-based-data-warehouses" class="nav-link active" data-scroll-target="#oltp-vs-olap-based-data-warehouses"><span class="header-section-number">7.1</span> OLTP vs OLAP based data warehouses</a></li>
+  <li><a href="#column-encoding-enables-efficient-processing-of-a-small-number-of-columns-from-a-large-wide-table" id="toc-column-encoding-enables-efficient-processing-of-a-small-number-of-columns-from-a-large-wide-table" class="nav-link" data-scroll-target="#column-encoding-enables-efficient-processing-of-a-small-number-of-columns-from-a-large-wide-table"><span class="header-section-number">7.2</span> Column encoding enables efficient processing of a small number of columns from a large wide table</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data_model.html">Data modeling is the process of getting data ready for analyticsUse SQL to transform data</a></li><li class="breadcrumb-item"><a href="./dw.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data warehouse contains historical data and is used to analyze business performance</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Python connects the different part of your data pipeline</h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data warehouse contains historical data and is used to analyze business performance</span></h1>
 </div>
 
 
@@ -248,25 +284,188 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Python is the glue that holds the different parts of your data pipeline. While powerful data processing engines (Snowflake, Spark, big query, etc) have made processing large amounts of data efficient, you still need a programming language to tell these engines what to do.</p>
-<p>In most companies Python dominates the data stack, you’ll typically use Python to pull data from source system (Extract), Tell the data processing engine how to process the data (e.g, via SQL queries on Snowflake or SQL/Dataframe query on Spark), and load data into its destination.</p>
-<p>In this section we will go over the basics of Python, how its used in data engineering and finish with a topic that is critical to ensure code changes don’t break existing logic (testing).</p>
-<section id="data-is-stored-on-disk-and-processed-in-memory" class="level2">
-<h2 class="anchored" data-anchor-id="data-is-stored-on-disk-and-processed-in-memory">Data is stored on disk and processed in memory</h2>
-<p>Processing data is tricky in Python, since Python is not the most optimal language for large scale data manipulation. You would often use Python to tell a data processing engine what to do. For this reason its critical to know how what the difference between disk and memory are.</p>
+<p>Let’s assume you work for an online bike parts seller (add: index link) company.</p>
+<p>As our company grows, we may want to analyze data for various business goals. Seller will also want to analyze performance and trends to optimize their inventory. Some of the questions and feature requests may be</p>
+<ol type="1">
+<li>Get the 10 sellers, who have sold the most items?</li>
+<li>What is the average time for an order to be fulfilled?</li>
+<li>Identify the customers who purchased the same/similar items together.</li>
+<li>Create a seller dashboard that shows the top-performing items per seller</li>
+</ol>
+<p>These questions ask about things that happened in the past, require reading a large amount of data, and aggregating data to get a result. These questions can be answered by querying a data warehouse.</p>
+<p><strong>A data warehouse is a database that has all your company’s historical data and data warehousing is the process of getting data ready for analytics</strong>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./images/py-de/python-de.png" class="img-fluid figure-img"></p>
-<figcaption>Disk and Memory</figcaption>
+<p><img src="./images/what_is_data_warehouse/data_warehouse.png" class="img-fluid figure-img"></p>
+<figcaption>basic Data Warehouse</figcaption>
 </figure>
 </div>
-<p>When we run a Python (or any language) script, it is run as a process. Each process will use a part of your computer’s memory (RAM). Understanding the difference between RAM and Disk will enable you to write efficient data pipelines; let’s go over them:</p>
+<p>There are multiple design patterns for data warehouses, a few popular ones are</p>
 <ol type="1">
-<li><strong><code>Memory</code></strong> is the space used by a running process to store any information that it may need for its operation. The computer’s RAM is used for this purpose. This is where any variables you define, Pandas dataframe you use will be stored.</li>
-<li><strong><code>Disk</code></strong> is used to store data. When we process data from disk (read data from csv, etc) it means that our process is reading data from disk into memory and then processing it. Computers generally use HDD or SSD to store your files.</li>
+<li><a href="https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/">Dimensional modeling - Kimball</a></li>
+<li>Data vault - Linstedt</li>
+<li><a href="https://www.guru99.com/data-mart-tutorial.html">Data mart</a></li>
+<li>Flat table</li>
 </ol>
-<p>RAM is expensive, while disk (HDD, SSD) is cheaper. One issue with data processing is that the memory available to use is often less than the size of the data to be processed. This is when we use distributed systems like Spark or systems like DuckDB, which enable us to process larger-than-memory data.</p>
-<p>As we will see in the transformation sections, when we use systems like Spark, Snowflake or Duckdb, Python is just the interface the real data processing (and Memory and disk usage) depends on the data processing engine.</p>
+<p>Kimball is by far the most commonly used, while companies don’t always follow it to a T, facts and dimensions form the basis of most of the data warehouses in the wild.</p>
+<section id="oltp-vs-olap-based-data-warehouses" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="oltp-vs-olap-based-data-warehouses"><span class="header-section-number">7.1</span> OLTP vs OLAP based data warehouses</h2>
+<p>There are two main types of databases: OLTP and OLAP. Their differences are shown below.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 5%">
+<col style="width: 28%">
+<col style="width: 66%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">OLTP</th>
+<th style="text-align: center;">OLAP</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Stands for</td>
+<td style="text-align: center;">Online transaction processing</td>
+<td style="text-align: center;">Online analytical processing</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Usage pattern</td>
+<td style="text-align: center;">Optimized for fast CRUD(create, read, update, delete) of a small number of rows</td>
+<td style="text-align: center;">Optimized for running <code>select c1, c2, sum(c3),.. where .. group by</code> on a large number of rows (aka analytical queries), and ingesting large amounts of data via bulk import or event stream</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Storage type</td>
+<td style="text-align: center;">Row oriented</td>
+<td style="text-align: center;">Column-oriented</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Data modeling</td>
+<td style="text-align: center;">Data modeling is based on normalization</td>
+<td style="text-align: center;">Data modeling is based on denormalization. Some popular ones are dimensional modeling and data vaults</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Data state</td>
+<td style="text-align: center;">Represents current state of the data</td>
+<td style="text-align: center;">Contains historical events that have already happened</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Data size</td>
+<td style="text-align: center;">Gigabytes to Terabytes</td>
+<td style="text-align: center;">Terabytes and above</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Example database</td>
+<td style="text-align: center;">MySQL, Postgres, etc</td>
+<td style="text-align: center;">Clickhouse, AWS Redshift, Snowflake, GCP Bigquery, etc</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note</strong> Apache Spark started as a pure data processing system and over time with the increased need for structure introduced capabilities to manage tables.</p>
+</section>
+<section id="column-encoding-enables-efficient-processing-of-a-small-number-of-columns-from-a-large-wide-table" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="column-encoding-enables-efficient-processing-of-a-small-number-of-columns-from-a-large-wide-table"><span class="header-section-number">7.2</span> Column encoding enables efficient processing of a small number of columns from a large wide table</h2>
+<p>The major improvement in analytical queries on OLAP is due to its column store technique. Let’s consider a table <code>items</code>, with the data shown below.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 12%">
+<col style="width: 27%">
+<col style="width: 27%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">item_id</th>
+<th style="text-align: center;">item_name</th>
+<th style="text-align: center;">item_type</th>
+<th style="text-align: center;">item_price</th>
+<th style="text-align: center;">datetime_created</th>
+<th style="text-align: center;">datetime_updated</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">item_1</td>
+<td style="text-align: center;">gaming</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">‘2021-10-02 00:00:00’</td>
+<td style="text-align: center;">‘2021-11-02 13:00:00’</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">item_2</td>
+<td style="text-align: center;">gaming</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">‘2021-10-02 01:00:00’</td>
+<td style="text-align: center;">‘2021-11-02 14:00:00’</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">item_3</td>
+<td style="text-align: center;">biking</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">‘2021-10-02 02:00:00’</td>
+<td style="text-align: center;">‘2021-11-02 15:00:00’</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">item_4</td>
+<td style="text-align: center;">surfing</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">‘2021-10-02 03:00:00’</td>
+<td style="text-align: center;">‘2021-11-02 16:00:00’</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">item_5</td>
+<td style="text-align: center;">biking</td>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">‘2021-10-02 04:00:00’</td>
+<td style="text-align: center;">‘2021-11-02 17:00:00’</td>
+</tr>
+</tbody>
+</table>
+<p>Let’s see how this table will be stored in a row and column-oriented storage. Data is stored as continuous pages (group of records) on the disk.</p>
+<p><strong>Row oriented storage:</strong></p>
+<p>Let’s assume that there is one row per page.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Page</span> 1: <span class="pp">[</span><span class="ss">1,item_1,gaming,10,</span><span class="st">'2021-10-02 00:00:00'</span><span class="ss">,</span><span class="st">'2021-11-02 13:00:00'</span><span class="pp">]</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Page</span> 2: <span class="pp">[</span><span class="ss">2,item_2,gaming,20,</span><span class="st">'2021-10-02 01:00:00'</span><span class="ss">,</span><span class="st">'2021-11-02 14:00:00'</span><span class="pp">]</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Page</span> 3: [3,item_3,biking,30, <span class="st">'2021-10-02 02:00:00'</span>,<span class="st">'2021-11-02 15:00:00'</span>],</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Page</span> 4: [4,item_4,surfing,40, <span class="st">'2021-10-02 03:00:00'</span>,<span class="st">'2021-11-02 16:00:00'</span>],</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Page</span> 5: [5,item_5,biking,50, <span class="st">'2021-10-02 04:00:00'</span>,<span class="st">'2021-11-02 17:00:00'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Column-oriented storage:</strong></p>
+<p>Let’s assume that there is one column per page.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Page</span> 1: <span class="pp">[</span><span class="ss">1,2,3,4,5</span><span class="pp">]</span>,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Page</span> 2: <span class="pp">[</span><span class="ss">item_1,item_2,item_3,item_4,item_5</span><span class="pp">]</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Page</span> 3: <span class="pp">[</span><span class="ss">gaming,gaming,biking,surfing,biking</span><span class="pp">]</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Page</span> 4: <span class="pp">[</span><span class="ss">10,20,30,40,50</span><span class="pp">]</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Page</span> 5: <span class="pp">[</span><span class="st">'2021-10-02 00:00:00'</span><span class="ss">,</span><span class="st">'2021-10-02 01:00:00'</span><span class="ss">,</span><span class="st">'2021-10-02 02:00:00'</span><span class="ss">,</span><span class="st">'2021-10-02 03:00:00'</span><span class="ss">,</span><span class="st">'2021-10-02 04:00:00'</span><span class="pp">]</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Page</span> 6: <span class="pp">[</span><span class="st">'2021-11-02 13:00:00'</span><span class="ss">,</span><span class="st">'2021-11-02 14:00:00'</span><span class="ss">,</span><span class="st">'2021-11-02 15:00:00'</span><span class="ss">,</span><span class="st">'2021-11-02 16:00:00'</span><span class="ss">,</span><span class="st">'2021-11-02 17:00:00'</span><span class="pp">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Let’s see how a simple analytical query will be executed.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> item_type,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(price) total_price</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> items</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> item_type;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In a <strong>row-oriented database</strong></p>
+<ol type="1">
+<li>All the pages will need to be loaded into memory</li>
+<li>Sum <code>price</code> column for same <code>item_type</code> values</li>
+</ol>
+<p>In a <strong>column-oriented database</strong></p>
+<ol type="1">
+<li>Only pages 3 and 4 will need to be loaded into memory. The information mapping page 3 and 4 to item_type and total_price will be encoded in the column oriented file and also stored in an OLTP called metadata db.</li>
+<li>Sum <code>price</code> column for same <code>item_type</code> values</li>
+</ol>
+<p>As you can see from this approach, we only need to read 2 pages in a column-oriented database vs 5 pages in a row-oriented database. In addition to this, a column-oriented database also provides</p>
+<ol type="1">
+<li>Better compression, as similar data types are next to each other and can be compressed more efficiently.</li>
+<li><a href="https://binaryterms.com/vector-processing.html">Vectorized processing</a></li>
+</ol>
+<p>All of these features make a column-oriented database a great choice for storing and analyzing large amounts of data.</p>
 
 
 </section>
@@ -673,13 +872,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./windows.html" class="pagination-link" aria-label="Use window function when you need to use values from other rows to compute a value for the current row">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Use window function when you need to use values from other rows to compute a value for the current row</span></span>
+      <a href="./data_model.html" class="pagination-link" aria-label="Data modeling is the process of getting data ready for analyticsUse SQL to transform data">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Data modeling is the process of getting data ready for analyticsUse SQL to transform data</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./py_basics.html" class="pagination-link" aria-label="Manipulate data with standard libraries and co-locate code with classes and functions">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Manipulate data with standard libraries and co-locate code with classes and functions</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./dw_table_types.html" class="pagination-link" aria-label="Data warehouse modeling (Kimball) is based off of 2 types of tables: Fact and dimensions">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data warehouse modeling (Kimball) is based off of 2 types of tables: Fact and dimensions</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

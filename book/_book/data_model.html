@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Python connects the different part of your data pipeline – Data Engineering For Beginners</title>
+<title>Data modeling is the process of getting data ready for analyticsUse SQL to transform data – Data Engineering For Beginners</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./py_basics.html" rel="next">
-<link href="./windows.html" rel="prev">
+<link href="./dw.html" rel="next">
+<link href="./py_transform.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -82,7 +82,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./python.html">Python connects the different part of your data pipeline</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data_model.html">Data modeling is the process of getting data ready for analyticsUse SQL to transform data</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -144,7 +144,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./python.html" class="sidebar-item-text sidebar-link active">
+            <a href="./python.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Python connects the different part of your data pipeline</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -173,7 +173,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./data_model.html" class="sidebar-item-text sidebar-link">
+            <a href="./data_model.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Data modeling is the process of getting data ready for analyticsUse SQL to transform data</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -217,21 +217,15 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#data-is-stored-on-disk-and-processed-in-memory" id="toc-data-is-stored-on-disk-and-processed-in-memory" class="nav-link active" data-scroll-target="#data-is-stored-on-disk-and-processed-in-memory">Data is stored on disk and processed in memory</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Python connects the different part of your data pipeline</h1>
+<h1 class="title">Data modeling is the process of getting data ready for analyticsUse SQL to transform data</h1>
 </div>
 
 
@@ -248,28 +242,15 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Python is the glue that holds the different parts of your data pipeline. While powerful data processing engines (Snowflake, Spark, big query, etc) have made processing large amounts of data efficient, you still need a programming language to tell these engines what to do.</p>
-<p>In most companies Python dominates the data stack, you’ll typically use Python to pull data from source system (Extract), Tell the data processing engine how to process the data (e.g, via SQL queries on Snowflake or SQL/Dataframe query on Spark), and load data into its destination.</p>
-<p>In this section we will go over the basics of Python, how its used in data engineering and finish with a topic that is critical to ensure code changes don’t break existing logic (testing).</p>
-<section id="data-is-stored-on-disk-and-processed-in-memory" class="level2">
-<h2 class="anchored" data-anchor-id="data-is-stored-on-disk-and-processed-in-memory">Data is stored on disk and processed in memory</h2>
-<p>Processing data is tricky in Python, since Python is not the most optimal language for large scale data manipulation. You would often use Python to tell a data processing engine what to do. For this reason its critical to know how what the difference between disk and memory are.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./images/py-de/python-de.png" class="img-fluid figure-img"></p>
-<figcaption>Disk and Memory</figcaption>
-</figure>
-</div>
-<p>When we run a Python (or any language) script, it is run as a process. Each process will use a part of your computer’s memory (RAM). Understanding the difference between RAM and Disk will enable you to write efficient data pipelines; let’s go over them:</p>
-<ol type="1">
-<li><strong><code>Memory</code></strong> is the space used by a running process to store any information that it may need for its operation. The computer’s RAM is used for this purpose. This is where any variables you define, Pandas dataframe you use will be stored.</li>
-<li><strong><code>Disk</code></strong> is used to store data. When we process data from disk (read data from csv, etc) it means that our process is reading data from disk into memory and then processing it. Computers generally use HDD or SSD to store your files.</li>
-</ol>
-<p>RAM is expensive, while disk (HDD, SSD) is cheaper. One issue with data processing is that the memory available to use is often less than the size of the data to be processed. This is when we use distributed systems like Spark or systems like DuckDB, which enable us to process larger-than-memory data.</p>
-<p>As we will see in the transformation sections, when we use systems like Spark, Snowflake or Duckdb, Python is just the interface the real data processing (and Memory and disk usage) depends on the data processing engine.</p>
+<p>As a data engineer your key objective is to enable stakeholders to be able to use data effectively to answer questions about business performance and predict how a business may perform in the future.</p>
+<p>Most companies production system store data in denormalized tables across multiple microservices, which make analytics hard as the data user will now be required to join across multiple tables. If your company uses a microservice architetcure this becomes impossible.</p>
+<p>Analytical querying often require processing large amounts of data which can have a significant impact on the database performance which is usually unacceptable for production systems.</p>
+<p>Production system ususaly only stores current state and does not store a log of changes, which is typically necessary for historical analysis</p>
+<p>Most companies produce event(click tracking, e-commerce ordering, server logs monitoring, etc ) which are usually too large to be stored and queried efficiently in a production database</p>
+<p>These are some of the reasons you need a warehouse system to be able to analyze historical information.</p>
+<p>add: image moving from denormalized tables to star schema to normalized tables</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -673,13 +654,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./windows.html" class="pagination-link" aria-label="Use window function when you need to use values from other rows to compute a value for the current row">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Use window function when you need to use values from other rows to compute a value for the current row</span></span>
+      <a href="./py_transform.html" class="pagination-link" aria-label="Python has libraries to tell the data processing engine (Spark, Trino, Duckdb, Polars, etc) what to do">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Python has libraries to tell the data processing engine (Spark, Trino, Duckdb, Polars, etc) what to do</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./py_basics.html" class="pagination-link" aria-label="Manipulate data with standard libraries and co-locate code with classes and functions">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Manipulate data with standard libraries and co-locate code with classes and functions</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./dw.html" class="pagination-link" aria-label="Data warehouse contains historical data and is used to analyze business performance">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data warehouse contains historical data and is used to analyze business performance</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

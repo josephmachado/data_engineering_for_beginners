@@ -1,0 +1,120 @@
+---
+title: Data warehouse contains historical data and is used to analyze business performance
+format:
+  html:
+    toc: true
+execute:
+  eval: false
+  output: true
+jupyter: python3
+---
+
+
+
+
+Let's assume you work for an online bike parts seller (add: index link) company.
+
+As our company grows, we may want to analyze data for various business goals. Seller will also want to analyze performance and trends to optimize their inventory. Some of the questions and feature requests may be
+
+1. Get the 10 sellers, who have sold the most items?
+2. What is the average time for an order to be fulfilled?
+3. Identify the customers who purchased the same/similar items together.
+4. Create a seller dashboard that shows the top-performing items per seller
+
+These questions ask about things that happened in the past, require reading a large amount of data, and aggregating data to get a result. These questions can be answered by querying a data warehouse.
+
+**A data warehouse is a database that has all your company's historical data and data warehousing is the process of getting data ready for analytics**.
+
+![basic Data Warehouse](/images/what_is_data_warehouse/data_warehouse.png)
+
+There are multiple design patterns for data warehouses, a few popular ones are
+
+1. [Dimensional modeling - Kimball](https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/)
+2. Data vault - Linstedt
+3. [Data mart](https://www.guru99.com/data-mart-tutorial.html)
+4. Flat table
+
+Kimball is by far the most commonly used, while companies don't always follow it to a T, facts and dimensions form the basis of most of the data warehouses in the wild.
+
+## OLTP vs OLAP based data warehouses
+
+There are two main types of databases: OLTP and OLAP. Their differences are shown below.
+
+|                  |                                      OLTP                                       |                                                                                            OLAP                                                                                             |
+| :--------------: | :-----------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|    Stands for    |                          Online transaction processing                          |                                                                                Online analytical processing                                                                                 |
+|  Usage pattern   | Optimized for fast CRUD(create, read, update, delete) of a small number of rows | Optimized for running `select c1, c2, sum(c3),.. where .. group by` on a large number of rows (aka analytical queries), and ingesting large amounts of data via bulk import or event stream |
+|   Storage type   |                                  Row oriented                                   |                                                                                       Column-oriented                                                                                       |
+|  Data modeling   |                     Data modeling is based on normalization                     |                                            Data modeling is based on denormalization. Some popular ones are dimensional modeling and data vaults                                            |
+|    Data state    |                      Represents current state of the data                       |                                                                    Contains historical events that have already happened                                                                    |
+|    Data size     |                             Gigabytes to Terabytes                              |                                                                                     Terabytes and above                                                                                     |
+| Example database |                              MySQL, Postgres, etc                               |                                                                   Clickhouse, AWS Redshift, Snowflake, GCP Bigquery, etc                                                                    |
+
+**Note** Apache Spark started as a pure data processing system and over time with the increased need for structure introduced capabilities to manage tables.
+
+## Column encoding enables efficient processing of a small number of columns from a large wide table
+
+The major improvement in analytical queries on OLAP is due to its column store technique. Let's consider a table `items`, with the data shown below.
+
+| item_id | item_name | item_type | item_price |   datetime_created    |   datetime_updated    |
+| :-----: | :-------: | :-------: | :--------: | :-------------------: | :-------------------: |
+|    1    |  item_1   |  gaming   |     10     | '2021-10-02 00:00:00' | '2021-11-02 13:00:00' |
+|    2    |  item_2   |  gaming   |     20     | '2021-10-02 01:00:00' | '2021-11-02 14:00:00' |
+|    3    |  item_3   |  biking   |     30     | '2021-10-02 02:00:00' | '2021-11-02 15:00:00' |
+|    4    |  item_4   |  surfing  |     40     | '2021-10-02 03:00:00' | '2021-11-02 16:00:00' |
+|    5    |  item_5   |  biking   |     50     | '2021-10-02 04:00:00' | '2021-11-02 17:00:00' |
+
+Let's see how this table will be stored in a row and column-oriented storage. Data is stored as continuous pages (group of records) on the disk.
+
+**Row oriented storage:**
+
+Let's assume that there is one row per page.
+
+```bash
+Page 1: [1,item_1,gaming,10,'2021-10-02 00:00:00','2021-11-02 13:00:00'],
+Page 2: [2,item_2,gaming,20,'2021-10-02 01:00:00','2021-11-02 14:00:00']
+Page 3: [3,item_3,biking,30, '2021-10-02 02:00:00','2021-11-02 15:00:00'],
+Page 4: [4,item_4,surfing,40, '2021-10-02 03:00:00','2021-11-02 16:00:00'],
+Page 5: [5,item_5,biking,50, '2021-10-02 04:00:00','2021-11-02 17:00:00']
+```
+
+**Column-oriented storage:**
+
+Let's assume that there is one column per page.
+
+```bash
+Page 1: [1,2,3,4,5],
+Page 2: [item_1,item_2,item_3,item_4,item_5],
+Page 3: [gaming,gaming,biking,surfing,biking],
+Page 4: [10,20,30,40,50],
+Page 5: ['2021-10-02 00:00:00','2021-10-02 01:00:00','2021-10-02 02:00:00','2021-10-02 03:00:00','2021-10-02 04:00:00'],
+Page 6: ['2021-11-02 13:00:00','2021-11-02 14:00:00','2021-11-02 15:00:00','2021-11-02 16:00:00','2021-11-02 17:00:00']
+```
+
+Let's see how a simple analytical query will be executed.
+
+```sql
+SELECT item_type,
+    SUM(price) total_price
+FROM items
+GROUP BY item_type;
+```
+
+In a **row-oriented database**
+
+1. All the pages will need to be loaded into memory
+2. Sum `price` column for same `item_type` values
+
+In a **column-oriented database**
+
+1. Only pages 3 and 4 will need to be loaded into memory. The information mapping page 3 and 4 to item_type and total_price will be encoded in the column oriented file and also stored in an OLTP called metadata db.
+2. Sum `price` column for same `item_type` values
+
+As you can see from this approach, we only need to read 2 pages in a column-oriented database vs 5 pages in a row-oriented database. In addition to this, a column-oriented database also provides
+
+1. Better compression, as similar data types are next to each other and can be compressed more efficiently.
+2. [Vectorized processing](https://binaryterms.com/vector-processing.html)
+
+All of these features make a column-oriented database a great choice for storing and analyzing large amounts of data.
+
+

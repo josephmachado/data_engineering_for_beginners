@@ -19,6 +19,11 @@ book:
         - py_basics.qmd
         - py_el.qmd
         - py_transform.qmd
+    - part: data_model.qmd
+      chapters:
+        - dw.qmd
+        - dw_table_types.qmd
+        - dw_data_flow.qmd
     - summary.qmd
     - references.qmd
 

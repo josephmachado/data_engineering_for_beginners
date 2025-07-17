@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Python connects the different part of your data pipeline – Data Engineering For Beginners</title>
+<title>8&nbsp; Data warehouse modeling (Kimball) is based off of 2 types of tables: Fact and dimensions – Data Engineering For Beginners</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +65,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./py_basics.html" rel="next">
-<link href="./windows.html" rel="prev">
+<link href="./dw_data_flow.html" rel="next">
+<link href="./dw.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -82,7 +117,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./python.html">Python connects the different part of your data pipeline</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data_model.html">Data modeling is the process of getting data ready for analyticsUse SQL to transform data</a></li><li class="breadcrumb-item"><a href="./dw_table_types.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data warehouse modeling (Kimball) is based off of 2 types of tables: Fact and dimensions</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -144,7 +179,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./python.html" class="sidebar-item-text sidebar-link active">
+            <a href="./python.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Python connects the different part of your data pipeline</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -188,7 +223,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./dw_table_types.html" class="sidebar-item-text sidebar-link">
+  <a href="./dw_table_types.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data warehouse modeling (Kimball) is based off of 2 types of tables: Fact and dimensions</span></span></a>
   </div>
 </li>
@@ -222,16 +257,23 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#data-is-stored-on-disk-and-processed-in-memory" id="toc-data-is-stored-on-disk-and-processed-in-memory" class="nav-link active" data-scroll-target="#data-is-stored-on-disk-and-processed-in-memory">Data is stored on disk and processed in memory</a></li>
+  <li><a href="#facts-represents-events-that-occured-dimensions-the-entities-to-which-events-occur-to" id="toc-facts-represents-events-that-occured-dimensions-the-entities-to-which-events-occur-to" class="nav-link active" data-scroll-target="#facts-represents-events-that-occured-dimensions-the-entities-to-which-events-occur-to"><span class="header-section-number">8.1</span> Facts represents events that occured &amp; dimensions the entities to which events occur to</a>
+  <ul>
+  <li><a href="#popular-dimension-types-full-snapshot-scd2" id="toc-popular-dimension-types-full-snapshot-scd2" class="nav-link" data-scroll-target="#popular-dimension-types-full-snapshot-scd2"><span class="header-section-number">8.1.1</span> Popular dimension types: Full Snapshot &amp; SCD2</a></li>
+  </ul></li>
+  <li><a href="#one-big-table-obt-is-a-fact-table-left-joined-with-all-its-dimensions" id="toc-one-big-table-obt-is-a-fact-table-left-joined-with-all-its-dimensions" class="nav-link" data-scroll-target="#one-big-table-obt-is-a-fact-table-left-joined-with-all-its-dimensions"><span class="header-section-number">8.2</span> One Big Table (OBT) is a fact table left joined with all its dimensions</a></li>
+  <li><a href="#summary-or-pre-aggregated-tables-are-stakeholder-team-specific-tables-built-for-reporting" id="toc-summary-or-pre-aggregated-tables-are-stakeholder-team-specific-tables-built-for-reporting" class="nav-link" data-scroll-target="#summary-or-pre-aggregated-tables-are-stakeholder-team-specific-tables-built-for-reporting"><span class="header-section-number">8.3</span> Summary or pre-aggregated tables are stakeholder-team specific tables built for reporting</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">8.4</span> Exercises</a></li>
+  <li><a href="#recommended-reading" id="toc-recommended-reading" class="nav-link" data-scroll-target="#recommended-reading"><span class="header-section-number">8.5</span> Recommended reading</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data_model.html">Data modeling is the process of getting data ready for analyticsUse SQL to transform data</a></li><li class="breadcrumb-item"><a href="./dw_table_types.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data warehouse modeling (Kimball) is based off of 2 types of tables: Fact and dimensions</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Python connects the different part of your data pipeline</h1>
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data warehouse modeling (Kimball) is based off of 2 types of tables: Fact and dimensions</span></h1>
 </div>
 
 
@@ -248,25 +290,95 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Python is the glue that holds the different parts of your data pipeline. While powerful data processing engines (Snowflake, Spark, big query, etc) have made processing large amounts of data efficient, you still need a programming language to tell these engines what to do.</p>
-<p>In most companies Python dominates the data stack, you’ll typically use Python to pull data from source system (Extract), Tell the data processing engine how to process the data (e.g, via SQL queries on Snowflake or SQL/Dataframe query on Spark), and load data into its destination.</p>
-<p>In this section we will go over the basics of Python, how its used in data engineering and finish with a topic that is critical to ensure code changes don’t break existing logic (testing).</p>
-<section id="data-is-stored-on-disk-and-processed-in-memory" class="level2">
-<h2 class="anchored" data-anchor-id="data-is-stored-on-disk-and-processed-in-memory">Data is stored on disk and processed in memory</h2>
-<p>Processing data is tricky in Python, since Python is not the most optimal language for large scale data manipulation. You would often use Python to tell a data processing engine what to do. For this reason its critical to know how what the difference between disk and memory are.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./images/py-de/python-de.png" class="img-fluid figure-img"></p>
-<figcaption>Disk and Memory</figcaption>
-</figure>
-</div>
-<p>When we run a Python (or any language) script, it is run as a process. Each process will use a part of your computer’s memory (RAM). Understanding the difference between RAM and Disk will enable you to write efficient data pipelines; let’s go over them:</p>
+<p>As we saw in the previous chapter, Kimball is by far the most commonly used, while companies don’t always follow it to a T, facts and dimensions form the basis of most of the data warehouses in the wild.</p>
+<section id="facts-represents-events-that-occured-dimensions-the-entities-to-which-events-occur-to" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="facts-represents-events-that-occured-dimensions-the-entities-to-which-events-occur-to"><span class="header-section-number">8.1</span> Facts represents events that occured &amp; dimensions the entities to which events occur to</h2>
+<p>A data warehouse is a database that stores your company’s historical data. The main types of tables you need to create to power analytics are:</p>
 <ol type="1">
-<li><strong><code>Memory</code></strong> is the space used by a running process to store any information that it may need for its operation. The computer’s RAM is used for this purpose. This is where any variables you define, Pandas dataframe you use will be stored.</li>
-<li><strong><code>Disk</code></strong> is used to store data. When we process data from disk (read data from csv, etc) it means that our process is reading data from disk into memory and then processing it. Computers generally use HDD or SSD to store your files.</li>
+<li><p><strong><code>Dimension</code></strong>: Each row in a dimension table represents a business entity that is important to the business. For example, An car parts seller’s data warehouse will have a <code>customer</code> dimension table, where each row will represent an individual customer. Other examples of dimension tables in a car parts seller’s data warehouse would be <code>supplier</code> &amp; <code>part</code> tables.</p></li>
+<li><p><strong><code>Facts</code></strong>: Each row in a fact table represents a business process that occurred. E.g., In our data warehouse, each row in the <code>orders</code> fact table will represent an individual order, and each row in the <code>lineitem</code> fact table will represent an item sold as part of an order. Each fact row will have a unique identifier; in our case, it’s <code>orderkey</code> for orders and a combination of <code>orderkey &amp; linenumber</code> for lineitem.</p></li>
 </ol>
-<p>RAM is expensive, while disk (HDD, SSD) is cheaper. One issue with data processing is that the memory available to use is often less than the size of the data to be processed. This is when we use distributed systems like Spark or systems like DuckDB, which enable us to process larger-than-memory data.</p>
-<p>As we will see in the transformation sections, when we use systems like Spark, Snowflake or Duckdb, Python is just the interface the real data processing (and Memory and disk usage) depends on the data processing engine.</p>
+<p>A fact table’s <strong><code>grain (aka granularity, level)</code></strong> refers to what a row in a fact table represents. E.g., In our checkout process, we can have two fact tables, one for the order and another for the individual items in the order. The items table will have one row per item purchased, whereas the order table will have one row per order made.</p>
+<!-- ![TPC-H data model](./images/lineitem_order_lvl.png){#id .class width=30px height=20px}-->
+<div id="0a4e464a" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>use prod.db</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="f3ac7b48" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> calculating the totalprice of an order (<span class="cf">with</span> orderkey <span class="op">=</span> <span class="dv">1</span>) <span class="im">from</span> it<span class="st">'s individual items</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="er">SELECT</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    l_orderkey,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">round</span>( <span class="bu">sum</span>(l_extendedprice <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> l_discount) <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> l_tax)),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="dv">2</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    ) AS totalprice</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    lineitem</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>WHERE</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    l_orderkey <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>GROUP BY</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    l_orderkey<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="0d1f489b" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> The totalprice of an order (<span class="cf">with</span> orderkey <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>SELECT</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    o_orderkey,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    o_totalprice</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    orders</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>WHERE</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    o_orderkey <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Note:</strong> If you notice the slight difference in the decimal digits, it’s due to using a <code>double</code> datatype which is an inexact data type.</p>
+<p>We can see how the <code>lineitem</code> table can be “rolled up” to get the data in the <code>orders</code> table. But having just the <code>orders</code> table is not sufficient since the <code>lineitem</code> table will provide us with individual item details such as discount and quantity details.</p>
+<section id="popular-dimension-types-full-snapshot-scd2" class="level3" data-number="8.1.1">
+<h3 data-number="8.1.1" class="anchored" data-anchor-id="popular-dimension-types-full-snapshot-scd2"><span class="header-section-number">8.1.1</span> Popular dimension types: Full Snapshot &amp; SCD2</h3>
+<ul>
+<li><p>Full snapshot In this type of dimension, the entire dimension table is re-loaded each run. As the dimension tables are much smaller than the fact table this is usually an acceptable tradeoff. Typically each run would create a new copy while retaining older copy for a certain time period (say 6 months).</p></li>
+<li><p>SCD2 SCD2 stands for slowly changing dimension type 2. Any change to a column value will be tracked as a new row.</p></li>
+</ul>
+<p>If your customer makes an address change in SCD2 it will be created as a new table. SCD2 has 3 key columns that allow us to see historical changes</p>
+<ol type="1">
+<li>valid_from</li>
+<li>valid_to</li>
+<li>is_current</li>
+</ol>
+<p>add: image showing snapshot dimension and SCD2 dimension model</p>
+</section>
+</section>
+<section id="one-big-table-obt-is-a-fact-table-left-joined-with-all-its-dimensions" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="one-big-table-obt-is-a-fact-table-left-joined-with-all-its-dimensions"><span class="header-section-number">8.2</span> One Big Table (OBT) is a fact table left joined with all its dimensions</h2>
+<p>As the number of facts and dimensions grow you will notice that most of the queries that are run to get data for the end users use the same tables and the same joins.</p>
+<p>In this scenario the expensive reprocessing of data can be avoided by creating an OBT. In an OBT you left join all the dimensions into a fact table. This big table can then be used to aggregate to different grains as needed for end user reproting.</p>
+<p>Note that the OBT should have the same grain as the fact table that it is based on or have the lower grain if you have to join multiple fact tables.</p>
+<p>In our bike-part seller warehouse we can create an OBT by joining all the tables to the lineitem table</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">add</span>: code</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="summary-or-pre-aggregated-tables-are-stakeholder-team-specific-tables-built-for-reporting" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="summary-or-pre-aggregated-tables-are-stakeholder-team-specific-tables-built-for-reporting"><span class="header-section-number">8.3</span> Summary or pre-aggregated tables are stakeholder-team specific tables built for reporting</h2>
+<p>Stakeholders often require data aggregated at various grains and similar metrics. Creating pre-aggregated or summary tables is creating these report for stakeholders so all they would have to do is select from the table without the need to recompute metrics. This has 2 benefits</p>
+<ol type="1">
+<li>Same metric formula, as the data engineering will keep the metric definition in the code base, vs each stakeholder using a slightly different version and ending up with different numbers</li>
+<li>Avoid unnecessary recomputation as multiple stakeholders can now use the same table</li>
+</ol>
+<p>However the down side is that the data may not be as fresh as what a stakeholder would get if they just write a query.</p>
+</section>
+<section id="exercises" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="exercises"><span class="header-section-number">8.4</span> Exercises</h2>
+<ol type="1">
+<li>What are the fact tables in our TPCH data model?</li>
+<li>What source tables in TPCH data model would you consider to create a customer dimension table?</li>
+</ol>
+</section>
+<section id="recommended-reading" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="recommended-reading"><span class="header-section-number">8.5</span> Recommended reading</h2>
+<ol type="1">
+<li>https://www.startdataengineering.com/post/metrics_sot/</li>
+<li>https://www.startdataengineering.com/post/n-steps-avoid-messy-dw/</li>
+<li>https://www.startdataengineering.com/post/data-lake-warehouse-diff/</li>
+<li>https://www.startdataengineering.com/post/what-is-a-data-warehouse/</li>
+</ol>
 
 
 </section>
@@ -673,13 +785,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./windows.html" class="pagination-link" aria-label="Use window function when you need to use values from other rows to compute a value for the current row">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Use window function when you need to use values from other rows to compute a value for the current row</span></span>
+      <a href="./dw.html" class="pagination-link" aria-label="Data warehouse contains historical data and is used to analyze business performance">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data warehouse contains historical data and is used to analyze business performance</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./py_basics.html" class="pagination-link" aria-label="Manipulate data with standard libraries and co-locate code with classes and functions">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Manipulate data with standard libraries and co-locate code with classes and functions</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./dw_data_flow.html" class="pagination-link" aria-label="Most companies use the multi-hop architecture">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Most companies use the multi-hop architecture</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

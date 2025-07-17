@@ -1,0 +1,28 @@
+---
+title: Data modeling is the process of getting data ready for analyticsUse SQL to transform data
+format:
+  html:
+    toc: true
+execute:
+  eval: false
+  output: true
+jupyter: python3
+---
+
+
+
+
+As a data engineer your key objective is to enable stakeholders to be able to use data effectively to answer questions about business performance and predict how a business may perform in the future.
+
+Most companies production system store data in denormalized tables across multiple microservices, which make analytics hard as the data user will now be required to join across multiple tables. If your company uses a microservice architetcure this becomes impossible.
+
+Analytical querying often require processing large amounts of data which can have a significant impact on the database performance which is usually unacceptable for production systems.
+
+Production system ususaly only stores current state and does not store a log of changes, which is typically necessary for historical analysis
+
+Most companies produce event(click tracking, e-commerce ordering, server logs monitoring, etc ) which are usually too large to be stored and queried efficiently in a production database
+
+These are some of the reasons you need a warehouse system to be able to analyze historical information.
+
+add: image moving from denormalized tables to star schema to normalized tables
+

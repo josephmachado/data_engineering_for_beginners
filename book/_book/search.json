@@ -356,5 +356,125 @@
       "Python connects the different part of your data pipeline",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Python has libraries to tell the data processing engine (Spark, Trino, Duckdb, Polars, etc) what to do</span>"
     ]
+  },
+  {
+    "objectID": "data_model.html",
+    "href": "data_model.html",
+    "title": "Data modeling is the process of getting data ready for analyticsUse SQL to transform data",
+    "section": "",
+    "text": "As a data engineer your key objective is to enable stakeholders to be able to use data effectively to answer questions about business performance and predict how a business may perform in the future.\nMost companies production system store data in denormalized tables across multiple microservices, which make analytics hard as the data user will now be required to join across multiple tables. If your company uses a microservice architetcure this becomes impossible.\nAnalytical querying often require processing large amounts of data which can have a significant impact on the database performance which is usually unacceptable for production systems.\nProduction system ususaly only stores current state and does not store a log of changes, which is typically necessary for historical analysis\nMost companies produce event(click tracking, e-commerce ordering, server logs monitoring, etc ) which are usually too large to be stored and queried efficiently in a production database\nThese are some of the reasons you need a warehouse system to be able to analyze historical information.\nadd: image moving from denormalized tables to star schema to normalized tables",
+    "crumbs": [
+      "Data modeling is the process of getting data ready for analyticsUse SQL to transform data"
+    ]
+  },
+  {
+    "objectID": "dw.html",
+    "href": "dw.html",
+    "title": "7  Data warehouse contains historical data and is used to analyze business performance",
+    "section": "",
+    "text": "7.1 OLTP vs OLAP based data warehouses\nLet’s assume you work for an online bike parts seller (add: index link) company.\nAs our company grows, we may want to analyze data for various business goals. Seller will also want to analyze performance and trends to optimize their inventory. Some of the questions and feature requests may be\nThese questions ask about things that happened in the past, require reading a large amount of data, and aggregating data to get a result. These questions can be answered by querying a data warehouse.\nA data warehouse is a database that has all your company’s historical data and data warehousing is the process of getting data ready for analytics.\nThere are multiple design patterns for data warehouses, a few popular ones are\nKimball is by far the most commonly used, while companies don’t always follow it to a T, facts and dimensions form the basis of most of the data warehouses in the wild.\nThere are two main types of databases: OLTP and OLAP. Their differences are shown below.\nNote Apache Spark started as a pure data processing system and over time with the increased need for structure introduced capabilities to manage tables.",
+    "crumbs": [
+      "Data modeling is the process of getting data ready for analyticsUse SQL to transform data",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Data warehouse contains historical data and is used to analyze business performance</span>"
+    ]
+  },
+  {
+    "objectID": "dw.html#oltp-vs-olap-based-data-warehouses",
+    "href": "dw.html#oltp-vs-olap-based-data-warehouses",
+    "title": "7  Data warehouse contains historical data and is used to analyze business performance",
+    "section": "",
+    "text": "OLTP\nOLAP\n\n\n\n\nStands for\nOnline transaction processing\nOnline analytical processing\n\n\nUsage pattern\nOptimized for fast CRUD(create, read, update, delete) of a small number of rows\nOptimized for running select c1, c2, sum(c3),.. where .. group by on a large number of rows (aka analytical queries), and ingesting large amounts of data via bulk import or event stream\n\n\nStorage type\nRow oriented\nColumn-oriented\n\n\nData modeling\nData modeling is based on normalization\nData modeling is based on denormalization. Some popular ones are dimensional modeling and data vaults\n\n\nData state\nRepresents current state of the data\nContains historical events that have already happened\n\n\nData size\nGigabytes to Terabytes\nTerabytes and above\n\n\nExample database\nMySQL, Postgres, etc\nClickhouse, AWS Redshift, Snowflake, GCP Bigquery, etc",
+    "crumbs": [
+      "Data modeling is the process of getting data ready for analyticsUse SQL to transform data",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Data warehouse contains historical data and is used to analyze business performance</span>"
+    ]
+  },
+  {
+    "objectID": "dw.html#column-encoding-enables-efficient-processing-of-a-small-number-of-columns-from-a-large-wide-table",
+    "href": "dw.html#column-encoding-enables-efficient-processing-of-a-small-number-of-columns-from-a-large-wide-table",
+    "title": "7  Data warehouse contains historical data and is used to analyze business performance",
+    "section": "7.2 Column encoding enables efficient processing of a small number of columns from a large wide table",
+    "text": "7.2 Column encoding enables efficient processing of a small number of columns from a large wide table\nThe major improvement in analytical queries on OLAP is due to its column store technique. Let’s consider a table items, with the data shown below.\n\n\n\n\n\n\n\n\n\n\n\nitem_id\nitem_name\nitem_type\nitem_price\ndatetime_created\ndatetime_updated\n\n\n\n\n1\nitem_1\ngaming\n10\n‘2021-10-02 00:00:00’\n‘2021-11-02 13:00:00’\n\n\n2\nitem_2\ngaming\n20\n‘2021-10-02 01:00:00’\n‘2021-11-02 14:00:00’\n\n\n3\nitem_3\nbiking\n30\n‘2021-10-02 02:00:00’\n‘2021-11-02 15:00:00’\n\n\n4\nitem_4\nsurfing\n40\n‘2021-10-02 03:00:00’\n‘2021-11-02 16:00:00’\n\n\n5\nitem_5\nbiking\n50\n‘2021-10-02 04:00:00’\n‘2021-11-02 17:00:00’\n\n\n\nLet’s see how this table will be stored in a row and column-oriented storage. Data is stored as continuous pages (group of records) on the disk.\nRow oriented storage:\nLet’s assume that there is one row per page.\nPage 1: [1,item_1,gaming,10,'2021-10-02 00:00:00','2021-11-02 13:00:00'],\nPage 2: [2,item_2,gaming,20,'2021-10-02 01:00:00','2021-11-02 14:00:00']\nPage 3: [3,item_3,biking,30, '2021-10-02 02:00:00','2021-11-02 15:00:00'],\nPage 4: [4,item_4,surfing,40, '2021-10-02 03:00:00','2021-11-02 16:00:00'],\nPage 5: [5,item_5,biking,50, '2021-10-02 04:00:00','2021-11-02 17:00:00']\nColumn-oriented storage:\nLet’s assume that there is one column per page.\nPage 1: [1,2,3,4,5],\nPage 2: [item_1,item_2,item_3,item_4,item_5],\nPage 3: [gaming,gaming,biking,surfing,biking],\nPage 4: [10,20,30,40,50],\nPage 5: ['2021-10-02 00:00:00','2021-10-02 01:00:00','2021-10-02 02:00:00','2021-10-02 03:00:00','2021-10-02 04:00:00'],\nPage 6: ['2021-11-02 13:00:00','2021-11-02 14:00:00','2021-11-02 15:00:00','2021-11-02 16:00:00','2021-11-02 17:00:00']\nLet’s see how a simple analytical query will be executed.\nSELECT item_type,\n    SUM(price) total_price\nFROM items\nGROUP BY item_type;\nIn a row-oriented database\n\nAll the pages will need to be loaded into memory\nSum price column for same item_type values\n\nIn a column-oriented database\n\nOnly pages 3 and 4 will need to be loaded into memory. The information mapping page 3 and 4 to item_type and total_price will be encoded in the column oriented file and also stored in an OLTP called metadata db.\nSum price column for same item_type values\n\nAs you can see from this approach, we only need to read 2 pages in a column-oriented database vs 5 pages in a row-oriented database. In addition to this, a column-oriented database also provides\n\nBetter compression, as similar data types are next to each other and can be compressed more efficiently.\nVectorized processing\n\nAll of these features make a column-oriented database a great choice for storing and analyzing large amounts of data.",
+    "crumbs": [
+      "Data modeling is the process of getting data ready for analyticsUse SQL to transform data",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Data warehouse contains historical data and is used to analyze business performance</span>"
+    ]
+  },
+  {
+    "objectID": "dw_table_types.html",
+    "href": "dw_table_types.html",
+    "title": "8  Data warehouse modeling (Kimball) is based off of 2 types of tables: Fact and dimensions",
+    "section": "",
+    "text": "8.1 Facts represents events that occured & dimensions the entities to which events occur to\nAs we saw in the previous chapter, Kimball is by far the most commonly used, while companies don’t always follow it to a T, facts and dimensions form the basis of most of the data warehouses in the wild.\nA data warehouse is a database that stores your company’s historical data. The main types of tables you need to create to power analytics are:\nA fact table’s grain (aka granularity, level) refers to what a row in a fact table represents. E.g., In our checkout process, we can have two fact tables, one for the order and another for the individual items in the order. The items table will have one row per item purchased, whereas the order table will have one row per order made.\n%%sql\nuse prod.db\n%%sql\n-- calculating the totalprice of an order (with orderkey = 1) from it's individual items\nSELECT\n    l_orderkey,\n    round( sum(l_extendedprice * (1 - l_discount) * (1 + l_tax)),\n        2\n    ) AS totalprice\nFROM\n    lineitem\nWHERE\n    l_orderkey = 1\nGROUP BY\n    l_orderkey;\n%%sql\n-- The totalprice of an order (with orderkey = 1)\nSELECT\n    o_orderkey,\n    o_totalprice\nFROM\n    orders\nWHERE\n    o_orderkey = 1;\nNote: If you notice the slight difference in the decimal digits, it’s due to using a double datatype which is an inexact data type.\nWe can see how the lineitem table can be “rolled up” to get the data in the orders table. But having just the orders table is not sufficient since the lineitem table will provide us with individual item details such as discount and quantity details.",
+    "crumbs": [
+      "Data modeling is the process of getting data ready for analyticsUse SQL to transform data",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Data warehouse modeling (Kimball) is based off of 2 types of tables: Fact and dimensions</span>"
+    ]
+  },
+  {
+    "objectID": "dw_table_types.html#facts-represents-events-that-occured-dimensions-the-entities-to-which-events-occur-to",
+    "href": "dw_table_types.html#facts-represents-events-that-occured-dimensions-the-entities-to-which-events-occur-to",
+    "title": "8  Data warehouse modeling (Kimball) is based off of 2 types of tables: Fact and dimensions",
+    "section": "",
+    "text": "Dimension: Each row in a dimension table represents a business entity that is important to the business. For example, An car parts seller’s data warehouse will have a customer dimension table, where each row will represent an individual customer. Other examples of dimension tables in a car parts seller’s data warehouse would be supplier & part tables.\nFacts: Each row in a fact table represents a business process that occurred. E.g., In our data warehouse, each row in the orders fact table will represent an individual order, and each row in the lineitem fact table will represent an item sold as part of an order. Each fact row will have a unique identifier; in our case, it’s orderkey for orders and a combination of orderkey & linenumber for lineitem.\n\n\n\n\n\n\n\n\n\n8.1.1 Popular dimension types: Full Snapshot & SCD2\n\nFull snapshot In this type of dimension, the entire dimension table is re-loaded each run. As the dimension tables are much smaller than the fact table this is usually an acceptable tradeoff. Typically each run would create a new copy while retaining older copy for a certain time period (say 6 months).\nSCD2 SCD2 stands for slowly changing dimension type 2. Any change to a column value will be tracked as a new row.\n\nIf your customer makes an address change in SCD2 it will be created as a new table. SCD2 has 3 key columns that allow us to see historical changes\n\nvalid_from\nvalid_to\nis_current\n\nadd: image showing snapshot dimension and SCD2 dimension model",
+    "crumbs": [
+      "Data modeling is the process of getting data ready for analyticsUse SQL to transform data",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Data warehouse modeling (Kimball) is based off of 2 types of tables: Fact and dimensions</span>"
+    ]
+  },
+  {
+    "objectID": "dw_table_types.html#one-big-table-obt-is-a-fact-table-left-joined-with-all-its-dimensions",
+    "href": "dw_table_types.html#one-big-table-obt-is-a-fact-table-left-joined-with-all-its-dimensions",
+    "title": "8  Data warehouse modeling (Kimball) is based off of 2 types of tables: Fact and dimensions",
+    "section": "8.2 One Big Table (OBT) is a fact table left joined with all its dimensions",
+    "text": "8.2 One Big Table (OBT) is a fact table left joined with all its dimensions\nAs the number of facts and dimensions grow you will notice that most of the queries that are run to get data for the end users use the same tables and the same joins.\nIn this scenario the expensive reprocessing of data can be avoided by creating an OBT. In an OBT you left join all the dimensions into a fact table. This big table can then be used to aggregate to different grains as needed for end user reproting.\nNote that the OBT should have the same grain as the fact table that it is based on or have the lower grain if you have to join multiple fact tables.\nIn our bike-part seller warehouse we can create an OBT by joining all the tables to the lineitem table\nadd: code",
+    "crumbs": [
+      "Data modeling is the process of getting data ready for analyticsUse SQL to transform data",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Data warehouse modeling (Kimball) is based off of 2 types of tables: Fact and dimensions</span>"
+    ]
+  },
+  {
+    "objectID": "dw_table_types.html#summary-or-pre-aggregated-tables-are-stakeholder-team-specific-tables-built-for-reporting",
+    "href": "dw_table_types.html#summary-or-pre-aggregated-tables-are-stakeholder-team-specific-tables-built-for-reporting",
+    "title": "8  Data warehouse modeling (Kimball) is based off of 2 types of tables: Fact and dimensions",
+    "section": "8.3 Summary or pre-aggregated tables are stakeholder-team specific tables built for reporting",
+    "text": "8.3 Summary or pre-aggregated tables are stakeholder-team specific tables built for reporting\nStakeholders often require data aggregated at various grains and similar metrics. Creating pre-aggregated or summary tables is creating these report for stakeholders so all they would have to do is select from the table without the need to recompute metrics. This has 2 benefits\n\nSame metric formula, as the data engineering will keep the metric definition in the code base, vs each stakeholder using a slightly different version and ending up with different numbers\nAvoid unnecessary recomputation as multiple stakeholders can now use the same table\n\nHowever the down side is that the data may not be as fresh as what a stakeholder would get if they just write a query.",
+    "crumbs": [
+      "Data modeling is the process of getting data ready for analyticsUse SQL to transform data",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Data warehouse modeling (Kimball) is based off of 2 types of tables: Fact and dimensions</span>"
+    ]
+  },
+  {
+    "objectID": "dw_table_types.html#exercises",
+    "href": "dw_table_types.html#exercises",
+    "title": "8  Data warehouse modeling (Kimball) is based off of 2 types of tables: Fact and dimensions",
+    "section": "8.4 Exercises",
+    "text": "8.4 Exercises\n\nWhat are the fact tables in our TPCH data model?\nWhat source tables in TPCH data model would you consider to create a customer dimension table?",
+    "crumbs": [
+      "Data modeling is the process of getting data ready for analyticsUse SQL to transform data",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Data warehouse modeling (Kimball) is based off of 2 types of tables: Fact and dimensions</span>"
+    ]
+  },
+  {
+    "objectID": "dw_table_types.html#recommended-reading",
+    "href": "dw_table_types.html#recommended-reading",
+    "title": "8  Data warehouse modeling (Kimball) is based off of 2 types of tables: Fact and dimensions",
+    "section": "8.5 Recommended reading",
+    "text": "8.5 Recommended reading\n\nhttps://www.startdataengineering.com/post/metrics_sot/\nhttps://www.startdataengineering.com/post/n-steps-avoid-messy-dw/\nhttps://www.startdataengineering.com/post/data-lake-warehouse-diff/\nhttps://www.startdataengineering.com/post/what-is-a-data-warehouse/",
+    "crumbs": [
+      "Data modeling is the process of getting data ready for analyticsUse SQL to transform data",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Data warehouse modeling (Kimball) is based off of 2 types of tables: Fact and dimensions</span>"
+    ]
+  },
+  {
+    "objectID": "dw_data_flow.html",
+    "href": "dw_data_flow.html",
+    "title": "9  Most companies use the multi-hop architecture",
+    "section": "",
+    "text": "Following an established way of processing data accounts for handling common potential issues, and you have plenty of resources to reference. Most industry-standard patterns follow a 3-hop (or layered) architecture. They are\n\nRaw layer stores data from upstream sources as is. This layer sometimes involves changing data types and standardizing column names.\nTransformed layer: Data from the raw layer is transformed based on a chosen modeling principle to form a set of tables. Common modeling principles are Dimensional modeling (Kimball), Data Vault model, entity-relationship data model, etc.\nConsumption layer: Data from the transformed layer are combined to form datasets that directly map to the end-user use case. The consumption layer typically involves joining and aggregating transformed layer tables to enable end-users to analyze historical performance. Business-specific metrics are often defined at this layer. We should ensure that a metric is only defined in one place.\nInterface layer [Optional]: Data in the consumption layer often confirms the data warehouse naming/data types, etc. However, the data presented to the end user should be easy to use and understand. An interface layer is often a view that acts as an interface between the warehouse table and the consumers of this table.\n\nMost frameworks/tools propose their version of the 3-hop architecture: 1. Apache Spark: Medallion architecture 2. dbt: Project Structure.\nShown below is our project’s 3-hop architecture:\n\n\n\nData architecture\n\n\nThe bronze, silver, gold, and interface layers correspond to the abovementioned raw, transformed, consumption, and interface layers. We have used dimensional modeling (with SCD2 for dim_customers) for our silver layer.\nFor a pipeline/transformation function/table, inputs are called upstream, and output users are called downstream consumers.\nAt larger companies, multiple teams work on different layers. A data ingestion team may bring the data into the bronze layer, and other teams may build their own silver and gold tables as necessary.",
+    "crumbs": [
+      "Data modeling is the process of getting data ready for analyticsUse SQL to transform data",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Most companies use the multi-hop architecture</span>"
+    ]
   }
 ]

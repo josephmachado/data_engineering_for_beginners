@@ -31,5 +31,17 @@
   },
   "py_transform.qmd": {
     "py_transform.html": "a30ecbf5"
+  },
+  "data_model.qmd": {
+    "data_model.html": "1e40b897"
+  },
+  "dw.qmd": {
+    "dw.html": "16ca51f9"
+  },
+  "dw_table_types.qmd": {
+    "dw_table_types.html": "22ad1907"
+  },
+  "dw_data_flow.qmd": {
+    "dw_data_flow.html": "8508d15a"
   }
 }
