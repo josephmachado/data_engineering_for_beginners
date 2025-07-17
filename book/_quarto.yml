@@ -14,6 +14,11 @@ book:
         - sql_basics.qmd
         - cte.qmd
         - windows.qmd
+    - part: python.qmd
+      chapters:
+        - py_basics.qmd
+        - py_el.qmd
+        - py_transform.qmd
     - summary.qmd
     - references.qmd
 

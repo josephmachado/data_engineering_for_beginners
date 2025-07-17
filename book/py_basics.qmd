@@ -1,0 +1,124 @@
+---
+title: Manipulate data with standard libraries and co-locate code with classes and functions
+format:
+  html:
+    toc: true
+execute:
+  eval: false
+  output: true
+jupyter: python3
+---
+
+
+
+
+In this chapter we will see how to use Python data structures and OOM and functions.
+
+### Use the appropriate data structure based on how data will be used
+
+Let's go over some basics of the Python language:
+
+1. **`Variables`**: A storage location identified by its name, containing some value.
+2. **`Operations`**: We can do any operation (arithmetic for numbers, string transformation for text) on variables
+3. **`Data Structures`**: They are ways of representing data. Each has its own pros and cons and places where it is the right fit.
+    3.1. **`List`**: A collection of elements that can be accessed by knowing the element's location (aka index). Lists retain the order of elements in them.
+  
+    3.2. **`Dictionary`**: A collection of key-value pairs where each key is mapped to a value using a hash function. The dictionary provides fast data retrieval based on keys.
+
+    3.3. **`Set`**: A collection of unique elements that do not allow duplicates.
+
+    3.4. **`Tuple`**: A collection of immutable(non changeable) elements, tuples retain their order once created.
+
+```{python}
+a = 10
+b = 20
+
+c = a + b
+print(c)
+
+s = '  Some string '
+print(s.strip())
+
+l = [1, 2, 3, 4]
+
+print(l[0])  # Will print 1
+print(l[3])  # Will print 4
+
+d = {'a': 1, 'b': 2}
+
+print(d.get('a'))
+print(d.get('b'))
+
+my_set = set()
+my_set.add(10)
+my_set.add(10)
+my_set.add(10)
+my_set.add(30)
+print(my_set)
+```
+
+### Manipulate data with control-flow loops
+
+4. **`Loops`**: Looping allows a specific chunk of code to be repeated several times. The most common type is the `for` loop.
+
+    4.1. **`Comprehension`**: Comprehension is a shorthand way of writing a loop. This allows for concise code, great for representing simpler logic.
+
+```{python}
+for i in range(11):
+    print(i)
+
+for elt in l:
+    print(elt)
+
+for k, v in d.items():
+    print(f'Key: {k}, Value: {v}')
+
+[elt*2 for elt in l]
+
+def gt_three(input_list):
+    return [elt for elt in input_list if elt > 3]
+
+list_1 = [1, 2, 3, 4, 5, 6]
+print(gt_three(list_1))
+
+list_2 = [1, 2, 3, 1, 1, 1]
+print(gt_three(list_2))
+```
+
+### Co-locate logic with classes and functions
+
+5. **`Functions`**: A block of code that can be reused as needed. This allows us to have logic defined in one place, making it easy to maintain and use. Using it in a location is referred to as calling the function.
+6. **`Class and Objects`**: Think of a class as a blueprint and objects as things created based on that blueprint.
+7. **`Library`**: Libraries are code that can be reused. Python comes with standard libraries for common operations, such as a datetime library to work with time (although there are better libraries)—[Standard library](https://docs.python.org/3/library/index.html).
+8. **`Exception handling`**: When an error occurs, we need our code to gracefully handle it without stopping. 
+
+```{python}
+class DataExtractor:
+
+    def __init__(self, some_value):
+        self.some_value = some_value
+
+    def get_connection(self):
+        pass
+
+    def close_connection(self):
+        pass
+
+de_object = DataExtractor(10)
+print(de_object.some_value)
+
+from datetime import datetime
+print(datetime.now().strftime('%Y %m %d'))
+
+l = [1, 2, 3, 4, 5]
+index = 10
+try:
+    element = l[index]
+    print(f"Element at index {index} is {element}")
+except IndexError:
+    print(f"Error: Index {index} is out of range for the list.")
+finally:
+    print("Execution completed.")
+```
+
+

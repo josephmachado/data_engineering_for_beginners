@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; CTE (Common Table Expression) improves code readability and reduces repetition – Data Engineering For Beginners</title>
+<title>4&nbsp; Manipulate data with standard libraries and co-locate code with classes and functions – Data Engineering For Beginners</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./windows.html" rel="next">
-<link href="./sql_basics.html" rel="prev">
+<link href="./py_el.html" rel="next">
+<link href="./python.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./sql.html">Use SQL to transform data</a></li><li class="breadcrumb-item"><a href="./cte.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">CTE (Common Table Expression) improves code readability and reduces repetition</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./python.html">Python connects the different part of your data pipeline</a></li><li class="breadcrumb-item"><a href="./py_basics.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Manipulate data with standard libraries and co-locate code with classes and functions</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -165,7 +165,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./cte.html" class="sidebar-item-text sidebar-link active">
+  <a href="./cte.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">CTE (Common Table Expression) improves code readability and reduces repetition</span></span></a>
   </div>
 </li>
@@ -188,7 +188,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./py_basics.html" class="sidebar-item-text sidebar-link">
+  <a href="./py_basics.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Manipulate data with standard libraries and co-locate code with classes and functions</span></span></a>
   </div>
 </li>
@@ -228,20 +228,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#why-to-use-a-cte" id="toc-why-to-use-a-cte" class="nav-link active" data-scroll-target="#why-to-use-a-cte"><span class="header-section-number">2.1</span> Why to use a CTE</a></li>
-  <li><a href="#how-to-define-a-cte" id="toc-how-to-define-a-cte" class="nav-link" data-scroll-target="#how-to-define-a-cte"><span class="header-section-number">2.2</span> How to define a CTE</a></li>
-  <li><a href="#recreating-similar-cte-is-a-sign-that-it-should-be-a-table" id="toc-recreating-similar-cte-is-a-sign-that-it-should-be-a-table" class="nav-link" data-scroll-target="#recreating-similar-cte-is-a-sign-that-it-should-be-a-table"><span class="header-section-number">2.3</span> Recreating similar CTE is a sign that it should be a table</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">2.4</span> Exercises</a></li>
-  <li><a href="#recommended-reading" id="toc-recommended-reading" class="nav-link" data-scroll-target="#recommended-reading"><span class="header-section-number">2.5</span> Recommended reading</a></li>
+  <li><a href="#use-the-appropriate-data-structure-based-on-how-data-will-be-used" id="toc-use-the-appropriate-data-structure-based-on-how-data-will-be-used" class="nav-link active" data-scroll-target="#use-the-appropriate-data-structure-based-on-how-data-will-be-used"><span class="header-section-number">4.0.1</span> Use the appropriate data structure based on how data will be used</a></li>
+  <li><a href="#manipulate-data-with-control-flow-loops" id="toc-manipulate-data-with-control-flow-loops" class="nav-link" data-scroll-target="#manipulate-data-with-control-flow-loops"><span class="header-section-number">4.0.2</span> Manipulate data with control-flow loops</a></li>
+  <li><a href="#co-locate-logic-with-classes-and-functions" id="toc-co-locate-logic-with-classes-and-functions" class="nav-link" data-scroll-target="#co-locate-logic-with-classes-and-functions"><span class="header-section-number">4.0.3</span> Co-locate logic with classes and functions</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./sql.html">Use SQL to transform data</a></li><li class="breadcrumb-item"><a href="./cte.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">CTE (Common Table Expression) improves code readability and reduces repetition</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./python.html">Python connects the different part of your data pipeline</a></li><li class="breadcrumb-item"><a href="./py_basics.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Manipulate data with standard libraries and co-locate code with classes and functions</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">CTE (Common Table Expression) improves code readability and reduces repetition</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Manipulate data with standard libraries and co-locate code with classes and functions</span></h1>
 </div>
 
 
@@ -258,168 +256,110 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="why-to-use-a-cte" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="why-to-use-a-cte"><span class="header-section-number">2.1</span> Why to use a CTE</h2>
-<p>A CTE is a named select statement that can be reused in a single query.</p>
-<p>Complex SQL queries often involve multiple sub-queries. Multiple sub-queries make the code hard to read.Use a Common Table Expression (CTE) to make your queries readable</p>
-<p>CTEs also make testing complex queries simpler</p>
-</section>
-<section id="how-to-define-a-cte" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="how-to-define-a-cte"><span class="header-section-number">2.2</span> How to define a CTE</h2>
-<p>Use the <code>WITH</code> key word to start defining a CTE, the with key word is not necessary for consequetive CTE definitions.</p>
-<div id="a23ada10" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>use prod.db</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="98321fc8" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> CTE definition</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>WITH</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  supplier_nation_metrics AS ( <span class="op">--</span> CTE <span class="dv">1</span> defined using WITH keyword</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    SELECT</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      n.n_nationkey,</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      SUM(l.l_QUANTITY) AS num_supplied_parts</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    FROM</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>      lineitem l</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>      JOIN supplier s ON l.l_suppkey <span class="op">=</span> s.s_suppkey</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>      JOIN nation n ON s.s_nationkey <span class="op">=</span> n.n_nationkey</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    GROUP BY</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>      n.n_nationkey</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  buyer_nation_metrics AS ( <span class="op">--</span> CTE <span class="dv">2</span> defined just <span class="im">as</span> a name</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    SELECT</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>      n.n_nationkey,</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>      SUM(l.l_QUANTITY) AS num_purchased_parts</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    FROM</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>      lineitem l</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>      JOIN orders o ON l.l_orderkey <span class="op">=</span> o.o_orderkey</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>      JOIN customer c ON o.o_custkey <span class="op">=</span> c.c_custkey</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>      JOIN nation n ON c.c_nationkey <span class="op">=</span> n.n_nationkey</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    GROUP BY</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>      n.n_nationkey</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>SELECT <span class="op">--</span> The final select will <span class="kw">not</span> have a comma before it</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  n.n_name AS nation_name,</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  s.num_supplied_parts,</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  b.num_purchased_parts</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  nation n</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  LEFT JOIN supplier_nation_metrics s ON n.n_nationkey <span class="op">=</span> s.n_nationkey</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  LEFT JOIN buyer_nation_metrics b ON n.n_nationkey <span class="op">=</span> b.n_nationkey</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>LIMIT <span class="dv">10</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Note that the last CTE does not have a <code>,</code> after it.</p>
-<p>Let’s look another example: Calculate the money lost due to discounts. Use lineitem to get the price of items (without discounts) that are part of an order and compare it to the order.</p>
-<p>add: details extn</p>
-<p>Hint: Figure out the grain that the comparison need to be made in. Think in steps i.e.&nbsp;get the price of all the items in an order without discounts and then compare it to the orders data whose totalprice has been computed with discounts.</p>
-<div id="d0fc0a2b" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>WITH lineitem_agg AS (</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    SELECT </span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        l_orderkey,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        SUM(l_extendedprice) AS total_price_without_discount</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    FROM </span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        lineitem</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    GROUP BY </span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        l_orderkey</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>SELECT </span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    o.o_orderkey,</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    o.o_totalprice, </span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    l.total_price_without_discount <span class="op">-</span> o.o_totalprice AS amount_lost_to_discount</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>FROM </span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    orders o</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>JOIN </span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    lineitem_agg l ON o.o_orderkey <span class="op">=</span> l.l_orderkey</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>ORDER BY </span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    o.o_orderkey<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Here are the schemas of orders and lineitem tables. add: TPCH image</p>
-</section>
-<section id="recreating-similar-cte-is-a-sign-that-it-should-be-a-table" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="recreating-similar-cte-is-a-sign-that-it-should-be-a-table"><span class="header-section-number">2.3</span> Recreating similar CTE is a sign that it should be a table</h2>
-<p>A sql query with multiple temporary tables is better than a 1000-line SQL query with numerous CTEs.</p>
-<p>Keep the number of CTE per query small (depends on the size of the query, but typically &lt; 5)</p>
-<p>Casestudy:</p>
-<p>Read the query below and answer the question</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">with</span> orders <span class="kw">as</span> (</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        order_id,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        customer_id,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        order_status,</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        order_purchase_timestamp:<span class="ch">:TIMESTAMP</span> <span class="kw">AS</span> order_purchase_timestamp,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        order_approved_at:<span class="ch">:TIMESTAMP</span> <span class="kw">AS</span> order_approved_at,</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        order_delivered_carrier_date:<span class="ch">:TIMESTAMP</span> <span class="kw">AS</span> order_delivered_carrier_date,</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        order_delivered_customer_date:<span class="ch">:TIMESTAMP</span> <span class="kw">AS</span> order_delivered_customer_date,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        order_estimated_delivery_date:<span class="ch">:TIMESTAMP</span> <span class="kw">AS</span> order_estimated_delivery_date</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">from</span> raw_layer.orders</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a> stg_customers <span class="kw">as</span> (</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">select</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        customer_id,</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        zipcode,</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        city,</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>        state_code,</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>        datetime_created:<span class="ch">:TIMESTAMP</span> <span class="kw">as</span> datetime_created,</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        datetime_updated:<span class="ch">:TIMESTAMP</span> <span class="kw">as</span> datetime_updated,</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>        dbt_valid_from,</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>        dbt_valid_to</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">from</span> customer_snapshot</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>),</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>state <span class="kw">as</span> (</span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>        state_id:<span class="ch">:INT</span> <span class="kw">as</span> state_id,</span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>        state_code:<span class="ch">:VARCHAR</span>(<span class="dv">2</span>) <span class="kw">as</span> state_code,</span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>        state_name:<span class="ch">:VARCHAR</span>(<span class="dv">30</span>) <span class="kw">as</span> state_name</span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">from</span> raw_layer.state</span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>dim_customers <span class="kw">as</span> (</span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span></span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    c.customer_id,</span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    c.zipcode,</span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    c.city,</span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    c.state_code,</span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    s.state_name,</span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    c.datetime_created,</span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    c.datetime_updated,</span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    c.dbt_valid_from:<span class="ch">:TIMESTAMP</span> <span class="kw">as</span> valid_from,</span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span></span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">when</span> c.dbt_valid_to <span class="kw">is</span> <span class="kw">NULL</span> <span class="cf">then</span> <span class="st">'9999-12-31'</span>:<span class="ch">:TIMESTAMP</span></span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> c.dbt_valid_to:<span class="ch">:TIMESTAMP</span></span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span> <span class="kw">as</span> valid_to</span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="kw">from</span> stg_customers <span class="kw">as</span> c</span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="kw">inner</span> <span class="kw">join</span> state <span class="kw">as</span> s <span class="kw">on</span> c.state_code <span class="op">=</span> s.state_code</span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span></span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>    o.order_id,</span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>    o.customer_id,</span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>    o.order_status,</span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>    o.order_purchase_timestamp,</span>
-<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>    o.order_approved_at,</span>
-<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>    o.order_delivered_carrier_date,</span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>    o.order_delivered_customer_date,</span>
-<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>    o.order_estimated_delivery_date,</span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>    c.zipcode <span class="kw">as</span> customer_zipcode,</span>
-<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>    c.city <span class="kw">as</span> customer_city,</span>
-<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>    c.state_code <span class="kw">as</span> customer_state_code,</span>
-<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>    c.state_name <span class="kw">as</span> customer_state_name</span>
-<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="kw">from</span> orders <span class="kw">as</span> o</span>
-<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="kw">inner</span> <span class="kw">join</span> dim_customers <span class="kw">as</span> c <span class="kw">on</span></span>
-<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>    o.customer_id <span class="op">=</span> c.customer_id</span>
-<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>    <span class="kw">and</span> o.order_purchase_timestamp <span class="op">&gt;=</span> c.valid_from</span>
-<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>    <span class="kw">and</span> o.order_purchase_timestamp <span class="op">&lt;=</span> c.valid_to;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="exercises" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="exercises"><span class="header-section-number">2.4</span> Exercises</h2>
+<p>In this chapter we will see how to use Python data structures and OOM and functions.</p>
+<section id="use-the-appropriate-data-structure-based-on-how-data-will-be-used" class="level3" data-number="4.0.1">
+<h3 data-number="4.0.1" class="anchored" data-anchor-id="use-the-appropriate-data-structure-based-on-how-data-will-be-used"><span class="header-section-number">4.0.1</span> Use the appropriate data structure based on how data will be used</h3>
+<p>Let’s go over some basics of the Python language:</p>
 <ol type="1">
-<li>Sellers who sell atleast one of the top 10 selling parts.</li>
+<li><p><strong><code>Variables</code></strong>: A storage location identified by its name, containing some value.</p></li>
+<li><p><strong><code>Operations</code></strong>: We can do any operation (arithmetic for numbers, string transformation for text) on variables</p></li>
+<li><p><strong><code>Data Structures</code></strong>: They are ways of representing data. Each has its own pros and cons and places where it is the right fit. 3.1. <strong><code>List</code></strong>: A collection of elements that can be accessed by knowing the element’s location (aka index). Lists retain the order of elements in them.</p>
+<p>3.2. <strong><code>Dictionary</code></strong>: A collection of key-value pairs where each key is mapped to a value using a hash function. The dictionary provides fast data retrieval based on keys.</p>
+<p>3.3. <strong><code>Set</code></strong>: A collection of unique elements that do not allow duplicates.</p>
+<p>3.4. <strong><code>Tuple</code></strong>: A collection of immutable(non changeable) elements, tuples retain their order once created.</p></li>
 </ol>
+<div id="ea5bd601" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> a <span class="op">+</span> b</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(c)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="st">'  Some string '</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(s.strip())</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>]</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(l[<span class="dv">0</span>])  <span class="co"># Will print 1</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(l[<span class="dv">3</span>])  <span class="co"># Will print 4</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> {<span class="st">'a'</span>: <span class="dv">1</span>, <span class="st">'b'</span>: <span class="dv">2</span>}</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(d.get(<span class="st">'a'</span>))</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(d.get(<span class="st">'b'</span>))</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>my_set <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>my_set.add(<span class="dv">10</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>my_set.add(<span class="dv">10</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>my_set.add(<span class="dv">10</span>)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>my_set.add(<span class="dv">30</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_set)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="recommended-reading" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="recommended-reading"><span class="header-section-number">2.5</span> Recommended reading</h2>
-<ol type="1">
-<li>https://www.startdataengineering.com/post/using-common-table-expression-in-redshift/</li>
+<section id="manipulate-data-with-control-flow-loops" class="level3" data-number="4.0.2">
+<h3 data-number="4.0.2" class="anchored" data-anchor-id="manipulate-data-with-control-flow-loops"><span class="header-section-number">4.0.2</span> Manipulate data with control-flow loops</h3>
+<ol start="4" type="1">
+<li><p><strong><code>Loops</code></strong>: Looping allows a specific chunk of code to be repeated several times. The most common type is the <code>for</code> loop.</p>
+<p>4.1. <strong><code>Comprehension</code></strong>: Comprehension is a shorthand way of writing a loop. This allows for concise code, great for representing simpler logic.</p></li>
 </ol>
+<div id="57ec92f6" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">11</span>):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(i)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> elt <span class="kw">in</span> l:</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(elt)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k, v <span class="kw">in</span> d.items():</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'Key: </span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">, Value: </span><span class="sc">{</span>v<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>[elt<span class="op">*</span><span class="dv">2</span> <span class="cf">for</span> elt <span class="kw">in</span> l]</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gt_three(input_list):</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [elt <span class="cf">for</span> elt <span class="kw">in</span> input_list <span class="cf">if</span> elt <span class="op">&gt;</span> <span class="dv">3</span>]</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>list_1 <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gt_three(list_1))</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>list_2 <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gt_three(list_2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="co-locate-logic-with-classes-and-functions" class="level3" data-number="4.0.3">
+<h3 data-number="4.0.3" class="anchored" data-anchor-id="co-locate-logic-with-classes-and-functions"><span class="header-section-number">4.0.3</span> Co-locate logic with classes and functions</h3>
+<ol start="5" type="1">
+<li><strong><code>Functions</code></strong>: A block of code that can be reused as needed. This allows us to have logic defined in one place, making it easy to maintain and use. Using it in a location is referred to as calling the function.</li>
+<li><strong><code>Class and Objects</code></strong>: Think of a class as a blueprint and objects as things created based on that blueprint.</li>
+<li><strong><code>Library</code></strong>: Libraries are code that can be reused. Python comes with standard libraries for common operations, such as a datetime library to work with time (although there are better libraries)—<a href="https://docs.python.org/3/library/index.html">Standard library</a>.</li>
+<li><strong><code>Exception handling</code></strong>: When an error occurs, we need our code to gracefully handle it without stopping.</li>
+</ol>
+<div id="c5a533e6" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DataExtractor:</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, some_value):</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.some_value <span class="op">=</span> some_value</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_connection(<span class="va">self</span>):</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">pass</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> close_connection(<span class="va">self</span>):</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">pass</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>de_object <span class="op">=</span> DataExtractor(<span class="dv">10</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(de_object.some_value)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(datetime.now().strftime(<span class="st">'%Y %m </span><span class="sc">%d</span><span class="st">'</span>))</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>]</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    element <span class="op">=</span> l[index]</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Element at index </span><span class="sc">{</span>index<span class="sc">}</span><span class="ss"> is </span><span class="sc">{</span>element<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">IndexError</span>:</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Error: Index </span><span class="sc">{</span>index<span class="sc">}</span><span class="ss"> is out of range for the list."</span>)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Execution completed."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
 </section>
@@ -826,13 +766,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./sql_basics.html" class="pagination-link" aria-label="Read data, Combine tables, &amp; aggregate numbers to understand business performance">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Read data, Combine tables, &amp; aggregate numbers to understand business performance</span></span>
+      <a href="./python.html" class="pagination-link" aria-label="Python connects the different part of your data pipeline">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Python connects the different part of your data pipeline</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./windows.html" class="pagination-link" aria-label="Use window function when you need to use values from other rows to compute a value for the current row">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Use window function when you need to use values from other rows to compute a value for the current row</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./py_el.html" class="pagination-link" aria-label="Python has libraries to read and write data to (almost) any system">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Python has libraries to read and write data to (almost) any system</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -19,5 +19,17 @@
   },
   "windows.qmd": {
     "windows.html": "77fcd8aa"
+  },
+  "python.qmd": {
+    "python.html": "1b45c448"
+  },
+  "py_basics.qmd": {
+    "py_basics.html": "77b5b73b"
+  },
+  "py_el.qmd": {
+    "py_el.html": "af8d7147"
+  },
+  "py_transform.qmd": {
+    "py_transform.html": "a30ecbf5"
   }
 }
