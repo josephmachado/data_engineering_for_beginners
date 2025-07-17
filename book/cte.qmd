@@ -1,0 +1,190 @@
+---
+title: CTE (Common Table Expression) improves code readability and reduces repetition
+format:
+  html:
+    toc: true
+execute:
+  eval: false
+  output: true
+jupyter: python3
+---
+
+
+## Why to use a CTE
+
+A CTE is a named select statement that can be reused in a single query.
+
+Complex SQL queries often involve multiple sub-queries. Multiple sub-queries make the code hard to read.Use a Common Table Expression (CTE) to make your queries readable
+
+CTEs also make testing complex queries simpler
+
+## How to define a CTE 
+
+Use the `WITH` key word to start defining a CTE, the with key word is not necessary for consequetive CTE definitions.
+
+```{python}
+%%sql
+use prod.db
+```
+
+```{python}
+%%sql
+-- CTE definition
+WITH
+  supplier_nation_metrics AS ( -- CTE 1 defined using WITH keyword
+    SELECT
+      n.n_nationkey,
+      SUM(l.l_QUANTITY) AS num_supplied_parts
+    FROM
+      lineitem l
+      JOIN supplier s ON l.l_suppkey = s.s_suppkey
+      JOIN nation n ON s.s_nationkey = n.n_nationkey
+    GROUP BY
+      n.n_nationkey
+  ),
+  buyer_nation_metrics AS ( -- CTE 2 defined just as a name
+    SELECT
+      n.n_nationkey,
+      SUM(l.l_QUANTITY) AS num_purchased_parts
+    FROM
+      lineitem l
+      JOIN orders o ON l.l_orderkey = o.o_orderkey
+      JOIN customer c ON o.o_custkey = c.c_custkey
+      JOIN nation n ON c.c_nationkey = n.n_nationkey
+    GROUP BY
+      n.n_nationkey
+  )
+SELECT -- The final select will not have a comma before it
+  n.n_name AS nation_name,
+  s.num_supplied_parts,
+  b.num_purchased_parts
+FROM
+  nation n
+  LEFT JOIN supplier_nation_metrics s ON n.n_nationkey = s.n_nationkey
+  LEFT JOIN buyer_nation_metrics b ON n.n_nationkey = b.n_nationkey
+LIMIT 10;
+```
+
+Note that the last CTE does not have a `,` after it. 
+
+Let's look another example: Calculate the money lost due to discounts. Use lineitem to get the price of items (without discounts) that are part of an order and compare it to the order.
+
+add: details extn
+
+Hint: Figure out the grain that the comparison need to be made in. Think in steps i.e. get the price of all the items in an order without discounts and then compare it to the orders data whose totalprice has been computed with discounts.
+
+```{python}
+#| scrolled: true
+%%sql
+WITH lineitem_agg AS (
+    SELECT 
+        l_orderkey,
+        SUM(l_extendedprice) AS total_price_without_discount
+    FROM 
+        lineitem
+    GROUP BY 
+        l_orderkey
+)
+SELECT 
+    o.o_orderkey,
+    o.o_totalprice, 
+    l.total_price_without_discount - o.o_totalprice AS amount_lost_to_discount
+FROM 
+    orders o
+JOIN 
+    lineitem_agg l ON o.o_orderkey = l.l_orderkey
+ORDER BY 
+    o.o_orderkey;
+```
+
+Here are the schemas of orders and lineitem tables.
+add: TPCH image
+
+## Recreating similar CTE is a sign that it should be a table
+
+A sql query with multiple temporary tables is better than a 1000-line SQL query with numerous CTEs.
+
+Keep the number of CTE per query small (depends on the size of the query, but typically < 5)
+
+Casestudy:
+
+Read the query below and answer the question
+
+```sql
+with orders as (
+select
+        order_id,
+        customer_id,
+        order_status,
+        order_purchase_timestamp::TIMESTAMP AS order_purchase_timestamp,
+        order_approved_at::TIMESTAMP AS order_approved_at,
+        order_delivered_carrier_date::TIMESTAMP AS order_delivered_carrier_date,
+        order_delivered_customer_date::TIMESTAMP AS order_delivered_customer_date,
+        order_estimated_delivery_date::TIMESTAMP AS order_estimated_delivery_date
+    from raw_layer.orders
+    ),
+ stg_customers as (
+    select
+        customer_id,
+        zipcode,
+        city,
+        state_code,
+        datetime_created::TIMESTAMP as datetime_created,
+        datetime_updated::TIMESTAMP as datetime_updated,
+        dbt_valid_from,
+        dbt_valid_to
+    from customer_snapshot
+),
+state as (
+select
+        state_id::INT as state_id,
+        state_code::VARCHAR(2) as state_code,
+        state_name::VARCHAR(30) as state_name
+    from raw_layer.state
+    ),
+dim_customers as (
+select
+    c.customer_id,
+    c.zipcode,
+    c.city,
+    c.state_code,
+    s.state_name,
+    c.datetime_created,
+    c.datetime_updated,
+    c.dbt_valid_from::TIMESTAMP as valid_from,
+    case
+        when c.dbt_valid_to is NULL then '9999-12-31'::TIMESTAMP
+        else c.dbt_valid_to::TIMESTAMP
+    end as valid_to
+from stg_customers as c
+inner join state as s on c.state_code = s.state_code
+)
+select
+    o.order_id,
+    o.customer_id,
+    o.order_status,
+    o.order_purchase_timestamp,
+    o.order_approved_at,
+    o.order_delivered_carrier_date,
+    o.order_delivered_customer_date,
+    o.order_estimated_delivery_date,
+    c.zipcode as customer_zipcode,
+    c.city as customer_city,
+    c.state_code as customer_state_code,
+    c.state_name as customer_state_name
+from orders as o
+inner join dim_customers as c on
+    o.customer_id = c.customer_id
+    and o.order_purchase_timestamp >= c.valid_from
+    and o.order_purchase_timestamp <= c.valid_to;
+```
+
+## Exercises
+
+1. Sellers who sell atleast one of the top 10 selling parts.
+
+## Recommended reading
+
+1. https://www.startdataengineering.com/post/using-common-table-expression-in-redshift/ 
+
+

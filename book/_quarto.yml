@@ -12,6 +12,8 @@ book:
     - part: sql.qmd
       chapters:
         - sql_basics.qmd
+        - cte.qmd
+        - windows.qmd
     - summary.qmd
     - references.qmd
 

@@ -171,5 +171,137 @@
     "crumbs": [
       "Use SQL to transform data"
     ]
+  },
+  {
+    "objectID": "cte.html",
+    "href": "cte.html",
+    "title": "2  CTE (Common Table Expression) improves code readability and reduces repetition",
+    "section": "",
+    "text": "2.1 Why to use a CTE\nA CTE is a named select statement that can be reused in a single query.\nComplex SQL queries often involve multiple sub-queries. Multiple sub-queries make the code hard to read.Use a Common Table Expression (CTE) to make your queries readable\nCTEs also make testing complex queries simpler",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>CTE (Common Table Expression) improves code readability and reduces repetition</span>"
+    ]
+  },
+  {
+    "objectID": "cte.html#how-to-define-a-cte",
+    "href": "cte.html#how-to-define-a-cte",
+    "title": "2  CTE (Common Table Expression) improves code readability and reduces repetition",
+    "section": "2.2 How to define a CTE",
+    "text": "2.2 How to define a CTE\nUse the WITH key word to start defining a CTE, the with key word is not necessary for consequetive CTE definitions.\n\n%%sql\nuse prod.db\n\n\n%%sql\n-- CTE definition\nWITH\n  supplier_nation_metrics AS ( -- CTE 1 defined using WITH keyword\n    SELECT\n      n.n_nationkey,\n      SUM(l.l_QUANTITY) AS num_supplied_parts\n    FROM\n      lineitem l\n      JOIN supplier s ON l.l_suppkey = s.s_suppkey\n      JOIN nation n ON s.s_nationkey = n.n_nationkey\n    GROUP BY\n      n.n_nationkey\n  ),\n  buyer_nation_metrics AS ( -- CTE 2 defined just as a name\n    SELECT\n      n.n_nationkey,\n      SUM(l.l_QUANTITY) AS num_purchased_parts\n    FROM\n      lineitem l\n      JOIN orders o ON l.l_orderkey = o.o_orderkey\n      JOIN customer c ON o.o_custkey = c.c_custkey\n      JOIN nation n ON c.c_nationkey = n.n_nationkey\n    GROUP BY\n      n.n_nationkey\n  )\nSELECT -- The final select will not have a comma before it\n  n.n_name AS nation_name,\n  s.num_supplied_parts,\n  b.num_purchased_parts\nFROM\n  nation n\n  LEFT JOIN supplier_nation_metrics s ON n.n_nationkey = s.n_nationkey\n  LEFT JOIN buyer_nation_metrics b ON n.n_nationkey = b.n_nationkey\nLIMIT 10;\n\nNote that the last CTE does not have a , after it.\nLet’s look another example: Calculate the money lost due to discounts. Use lineitem to get the price of items (without discounts) that are part of an order and compare it to the order.\nadd: details extn\nHint: Figure out the grain that the comparison need to be made in. Think in steps i.e. get the price of all the items in an order without discounts and then compare it to the orders data whose totalprice has been computed with discounts.\n\n%%sql\nWITH lineitem_agg AS (\n    SELECT \n        l_orderkey,\n        SUM(l_extendedprice) AS total_price_without_discount\n    FROM \n        lineitem\n    GROUP BY \n        l_orderkey\n)\nSELECT \n    o.o_orderkey,\n    o.o_totalprice, \n    l.total_price_without_discount - o.o_totalprice AS amount_lost_to_discount\nFROM \n    orders o\nJOIN \n    lineitem_agg l ON o.o_orderkey = l.l_orderkey\nORDER BY \n    o.o_orderkey;\n\nHere are the schemas of orders and lineitem tables. add: TPCH image",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>CTE (Common Table Expression) improves code readability and reduces repetition</span>"
+    ]
+  },
+  {
+    "objectID": "cte.html#recreating-similar-cte-is-a-sign-that-it-should-be-a-table",
+    "href": "cte.html#recreating-similar-cte-is-a-sign-that-it-should-be-a-table",
+    "title": "2  CTE (Common Table Expression) improves code readability and reduces repetition",
+    "section": "2.3 Recreating similar CTE is a sign that it should be a table",
+    "text": "2.3 Recreating similar CTE is a sign that it should be a table\nA sql query with multiple temporary tables is better than a 1000-line SQL query with numerous CTEs.\nKeep the number of CTE per query small (depends on the size of the query, but typically &lt; 5)\nCasestudy:\nRead the query below and answer the question\nwith orders as (\nselect\n        order_id,\n        customer_id,\n        order_status,\n        order_purchase_timestamp::TIMESTAMP AS order_purchase_timestamp,\n        order_approved_at::TIMESTAMP AS order_approved_at,\n        order_delivered_carrier_date::TIMESTAMP AS order_delivered_carrier_date,\n        order_delivered_customer_date::TIMESTAMP AS order_delivered_customer_date,\n        order_estimated_delivery_date::TIMESTAMP AS order_estimated_delivery_date\n    from raw_layer.orders\n    ),\n stg_customers as (\n    select\n        customer_id,\n        zipcode,\n        city,\n        state_code,\n        datetime_created::TIMESTAMP as datetime_created,\n        datetime_updated::TIMESTAMP as datetime_updated,\n        dbt_valid_from,\n        dbt_valid_to\n    from customer_snapshot\n),\nstate as (\nselect\n        state_id::INT as state_id,\n        state_code::VARCHAR(2) as state_code,\n        state_name::VARCHAR(30) as state_name\n    from raw_layer.state\n    ),\ndim_customers as (\nselect\n    c.customer_id,\n    c.zipcode,\n    c.city,\n    c.state_code,\n    s.state_name,\n    c.datetime_created,\n    c.datetime_updated,\n    c.dbt_valid_from::TIMESTAMP as valid_from,\n    case\n        when c.dbt_valid_to is NULL then '9999-12-31'::TIMESTAMP\n        else c.dbt_valid_to::TIMESTAMP\n    end as valid_to\nfrom stg_customers as c\ninner join state as s on c.state_code = s.state_code\n)\nselect\n    o.order_id,\n    o.customer_id,\n    o.order_status,\n    o.order_purchase_timestamp,\n    o.order_approved_at,\n    o.order_delivered_carrier_date,\n    o.order_delivered_customer_date,\n    o.order_estimated_delivery_date,\n    c.zipcode as customer_zipcode,\n    c.city as customer_city,\n    c.state_code as customer_state_code,\n    c.state_name as customer_state_name\nfrom orders as o\ninner join dim_customers as c on\n    o.customer_id = c.customer_id\n    and o.order_purchase_timestamp &gt;= c.valid_from\n    and o.order_purchase_timestamp &lt;= c.valid_to;",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>CTE (Common Table Expression) improves code readability and reduces repetition</span>"
+    ]
+  },
+  {
+    "objectID": "cte.html#exercises",
+    "href": "cte.html#exercises",
+    "title": "2  CTE (Common Table Expression) improves code readability and reduces repetition",
+    "section": "2.4 Exercises",
+    "text": "2.4 Exercises\n\nSellers who sell atleast one of the top 10 selling parts.",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>CTE (Common Table Expression) improves code readability and reduces repetition</span>"
+    ]
+  },
+  {
+    "objectID": "cte.html#recommended-reading",
+    "href": "cte.html#recommended-reading",
+    "title": "2  CTE (Common Table Expression) improves code readability and reduces repetition",
+    "section": "2.5 Recommended reading",
+    "text": "2.5 Recommended reading\n\nhttps://www.startdataengineering.com/post/using-common-table-expression-in-redshift/",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>CTE (Common Table Expression) improves code readability and reduces repetition</span>"
+    ]
+  },
+  {
+    "objectID": "windows.html",
+    "href": "windows.html",
+    "title": "3  Use window function when you need to use values from other rows to compute a value for the current row",
+    "section": "",
+    "text": "3.1 Window functions have four parts\nWindow functions allow you to operate on a set of rows at a time and produce output which has the same grain as the input (vs GROUP BY which operates on a set of rows, but also changes the meaning of an output row).\nLets see why we may need window functions as opposed to a GROUP BY.\nNOTE Notice how GROUP BY changes granularity, i.e. the input data had one row per order (aka order grain or order level) but the output had one row per date (aka date grain or date level).\nWhen you perform some operation that requires data from multiple rows to produce the data for one row without changing the grain Window functions are almost always a good fit.\nCommon scenarios when you want to use window functions:\n%%sql\nuse prod.db\n%%sql\nSELECT\n  o_custkey,\n  o_orderdate,\n  o_totalprice,\n  SUM(o_totalprice) -- FUNCTION \n  OVER (\n    PARTITION BY\n      o_custkey -- PARTITION\n    ORDER BY\n      o_orderdate -- ORDER BY; ASCENDING ORDER unless specified as DESC\n  ) AS running_sum\nFROM\n  orders\nWHERE\n  o_custkey = 4\nORDER BY\n  o_orderdate\nLIMIT\n  10;\nThe function SUM that we use in the above query is an aggregate function. Notice how the running_sum adds up (aka aggregates) the o_totalprice over all the rows. The rows themselves are ordered in ascending order by its orderdate.\nReference: The standard aggregate functions are MIN, MAX, AVG, SUM, & COUNT, modern data systems offer a variety of powerful aggregations functions. Check your database documentation for available aggreagate functions. e.g. list of agg functions available in TrinoDB\nWrite a query to calculate the daily running average of totalprice of every customer.\nHint: Figure out the PARTITION BY column first, then the ORDER BY column and finally the FUNCTION to use to compute running average.",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Use window function when you need to use values from other rows to compute a value for the current row</span>"
+    ]
+  },
+  {
+    "objectID": "windows.html#window-functions-have-four-parts",
+    "href": "windows.html#window-functions-have-four-parts",
+    "title": "3  Use window function when you need to use values from other rows to compute a value for the current row",
+    "section": "",
+    "text": "Partition: Defines a set of rows based on specified column(s) value. If no partition is specified, the entire table is considered a partition.\nOrder By: This optional clause specifies how to order the rows within a partition. This is an optional clause, without this the rows inside a partition will not be ordered.\nFunction: The function to be applied on the current row.\nWindow frame: Within a partition, a window frame allows you to specify the rows to be considered in the function computation. This enables more options on how one can choose the rows to apply the function on.\n\n\n\n\n\nCreate window function\n\n\n\n\n\n\n\n\n\n3.1.1 Use window frames to define a set of rows to operate on\nWindow functions consider all the rows in a partition (depending on the type of function add:link) by default. However using a window frame one can select a set of rows withing a partition to operate on.\n\n\n\nThree order Sliding window average\n\n\nExample\nConsider a scenario where you have sales data, and you want to calculate a 3-day moving average of sales within each store:\ny%%sql SELECT store_id, sale_date, sales_amount, AVG(sales_amount) OVER ( PARTITION BY store_id ORDER BY sale_date ROWS BETWEEN 2 PRECEDING AND CURRENT ROW ) AS moving_avg_sales FROM sales;\nIn this example:\n\nPARTITION BY store_id ensures the calculation is done separately for each store.\nORDER BY sale_date defines the order of rows within each partition.\nROWS BETWEEN 2 PRECEDING AND CURRENT ROW specifies the window frame, considering the current row and the two preceding rows to calculate the moving average. add: image Without defining the window frame, the function might not be able to provide the specific moving average calculation you need.\n\n\n3.1.1.1 Use ordering of rows to define your window frame with the ROWS clause\n\nROWS: Used to select a set of rows relative to the current row based on position.\n\nRow definition format ROWS BETWEEN start_point AND end_point.\nThe start_point and end_point can be any of the following three (in the proper order:\n\nn PRECEDING: n rows preceding the current row. UNBOUNDED PRECEDING indicates all rows before the current row.\nn FOLLOWING: n rows following the current row. UNBOUNDED FOLLOWING indicates all rows after the current row.\n\n\n\nLet’s see how relative row numbers can be used to define a window range.\nConsider this window function\nAVG(total_price) OVER ( -- FUNCTION: RUNNING AVERAGE\n    PARTITION BY o_custkey -- PARTITIONED BY customer\n    ORDER BY order_month \n    ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING -- WINDOW FRAME DEFINED AS 1 ROW PRECEDING to 1 ROW FOLLOWING\n    )\n\n\n\nWindow frame with ROWS\n\n\n\n\n3.1.1.2 Use values of the columns to define window frame using RANGE clause\n\nRANGE: Used to select a set of rows relative to the current row based on the value of the columns specified in the ORDER BY clause.\n\nRange definition format RANGE BETWEEN start_point AND end_point.\nThe start_point and end_point can be any of the following:\n\nCURRENT ROW: The current row.\nn PRECEDING: All rows with values within the specified range that are less than or equal to n units preceding the value of the current row.\nn FOLLOWING: All rows with values within the specified range that are greater than or equal to n units following the value of the current row.\nUNBOUNDED PRECEDING: All rows before the current row within the partition.\nUNBOUNDED FOLLOWING: All rows after the current row within the partition.\n\nRANGE is particularly useful when dealing with numeric or date/time ranges, allowing for calculations like running totals, moving averages, or cumulative distributions.\n\n\nLet’s see how RANGE works with AVG(total price) OVER (PARTITION BY customer id ORDER BY date RANGE BETWEEN INTERVAL '1' DAY PRECEDING AND '1' DAY FOLLOWING) using the below visualization:\n\n\n\nRANGE",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Use window function when you need to use values from other rows to compute a value for the current row</span>"
+    ]
+  },
+  {
+    "objectID": "windows.html#ranking-functions-enable-you-to-rank-your-rows-based-on-order-by-clause",
+    "href": "windows.html#ranking-functions-enable-you-to-rank-your-rows-based-on-order-by-clause",
+    "title": "3  Use window function when you need to use values from other rows to compute a value for the current row",
+    "section": "3.2 Ranking functions enable you to rank your rows based on order by clause",
+    "text": "3.2 Ranking functions enable you to rank your rows based on order by clause\nIf you are working on a problem to get the top/bottom n rows (as defined by some value) then use the row functions.\nLet’s look at an example of how to use a row function:\nFrom the orders table get the top 3 spending customers per day. The orders table schema is shown below:\n\n\n\nOrders table\n\n\n\n%%sql\nSELECT\n  *\nFROM\n  (\n    SELECT\n      o_orderdate,\n      o_totalprice,\n      o_custkey,\n      RANK() -- RANKING FUNCTION \n      OVER (\n        PARTITION BY\n          o_orderdate -- PARTITION BY order date\n        ORDER BY\n          o_totalprice DESC -- ORDER rows withing partition by totalprice\n      ) AS rnk\n    FROM\n      orders\n  )\nWHERE\n  rnk &lt;= 3\nORDER BY\n  o_orderdate\nLIMIT\n  5;\n\nStandard RANKING functions:\n\nRANK: Ranks the rows starting from 1 to n within the window frame. Ranks the rows with the same value (defined by the “ORDER BY” clause) as the same and skips the ranking numbers that would have been present if the values were different.\nDENSE_RANK: Ranks the rows starting from 1 to n within the window frame. Ranks the rows with the same value (defined by the “ORDER BY” clause) as the same and does not skip any ranking numbers.\nROW_NUMBER: Adds a row number that starts from 1 to n within the window frame and does not create any repeating values.\n\n\n%%sql\n-- Let's look at an example showing the difference between RANK, DENSE_RANK and ROW_NUMBER\nSELECT \n    order_date,\n    order_id,\n    total_price,\n    ROW_NUMBER() OVER (PARTITION BY order_date ORDER BY total_price) AS row_number,\n    RANK() OVER (PARTITION BY order_date ORDER BY total_price) AS rank,\n    DENSE_RANK() OVER (PARTITION BY order_date ORDER BY total_price) AS dense_rank\nFROM (\n    SELECT \n        '2024-07-08' AS order_date, 'order_1' AS order_id, 100 AS total_price UNION ALL\n    SELECT \n        '2024-07-08', 'order_2', 200 UNION ALL\n    SELECT \n        '2024-07-08', 'order_3', 150 UNION ALL\n    SELECT \n        '2024-07-08', 'order_4', 90 UNION ALL\n    SELECT \n        '2024-07-08', 'order_5', 100 UNION ALL\n    SELECT \n        '2024-07-08', 'order_6', 90 UNION ALL\n    SELECT \n        '2024-07-08', 'order_7', 100 UNION ALL\n    SELECT \n        '2024-07-10', 'order_8', 100 UNION ALL\n    SELECT \n        '2024-07-10', 'order_9', 100 UNION ALL\n    SELECT \n        '2024-07-10', 'order_10', 100 UNION ALL\n    SELECT \n        '2024-07-11', 'order_11', 100\n) AS orders\nORDER BY order_date, row_number;\n\nNow that we have see how to define a window function and how to use ranking and aggregation functions, let’s take it a step further by practicing value functions.\nRemember that value functions are used to access other row’s values while operating on the current row\nLet’s take a look at LEAD and LAG functions:\n\n\n\nLAG AND LEAD",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Use window function when you need to use values from other rows to compute a value for the current row</span>"
+    ]
+  },
+  {
+    "objectID": "windows.html#value-functions-are-used-to-access-other-rows-values",
+    "href": "windows.html#value-functions-are-used-to-access-other-rows-values",
+    "title": "3  Use window function when you need to use values from other rows to compute a value for the current row",
+    "section": "3.3 Value functions are used to access other rows values",
+    "text": "3.3 Value functions are used to access other rows values\nStandard VALUE functions:\n\nNTILE(n): Divides the rows in the window frame into n approximately equal groups, and assigns a number to each row indicating which group it belongs to.\nFIRST_VALUE(): Returns the first value in the window frame.\nLAST_VALUE(): Returns the last value in the window frame.\nLAG(): Accesses data from a previous row within the window frame.\nLEAD(): Accesses data from a subsequent row within the window frame.",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Use window function when you need to use values from other rows to compute a value for the current row</span>"
+    ]
+  },
+  {
+    "objectID": "windows.html#aggregate-functions-enable-you-to-compute-running-metrics",
+    "href": "windows.html#aggregate-functions-enable-you-to-compute-running-metrics",
+    "title": "3  Use window function when you need to use values from other rows to compute a value for the current row",
+    "section": "3.4 Aggregate functions enable you to compute running metrics",
+    "text": "3.4 Aggregate functions enable you to compute running metrics\nThe standard aggregate functions are MIN, MAX, AVG, SUM, & COUNT. In addition to these make sure to check your DB engine documentation, in our case Spark Aggregate functions.\nWhen you need a running sum/min/max/avg, its almost always a use case for aggregate functions with windows.",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Use window function when you need to use values from other rows to compute a value for the current row</span>"
+    ]
+  },
+  {
+    "objectID": "windows.html#exercises",
+    "href": "windows.html#exercises",
+    "title": "3  Use window function when you need to use values from other rows to compute a value for the current row",
+    "section": "3.5 Exercises",
+    "text": "3.5 Exercises\n\nWrite a query on the orders table that has the following output:\n\no_custkey\norder_month: In YYYY-MM format, use strftime(o_orderdate, ‘%Y-%m’) AS order_month\ntotal_price: Sum of o_totalprice for that month\nthree_mo_total_price_avg: The 3 month (previous, current & next) average of total_price for that customer\n\n\n\n%%sql\nSELECT\n  order_month,\n  o_custkey,\n  total_price,\n  ROUND(\n    AVG(total_price) OVER ( -- FUNCTION: RUNNING AVERAGE\n      PARTITION BY\n        o_custkey -- PARTITIONED BY customer\n      ORDER BY\n        order_month ROWS BETWEEN 1 PRECEDING\n        AND 1 FOLLOWING -- WINDOW FRAME DEFINED AS 1 ROW PRECEDING to 1 ROW FOLLOWING\n    ),\n    2\n  ) AS three_mo_total_price_avg\nFROM\n  (\n    SELECT\n      date_format(o_orderdate, 'yyyy-MM') AS order_month,\n      o_custkey,\n      SUM(o_totalprice) AS total_price\n    FROM\n      orders\n    GROUP BY\n      1,\n      2\n  )\nLIMIT\n  5;\n\nNow that we have seen how to create a window frame with ROWS, let’ explore how to do this with RANGE.\n\nWrite a query on the orders table that has the following output:\n\norder_month,\no_custkey,\ntotal_price,\nthree_mo_total_price_avg\nconsecutive_three_mo_total_price_avg: The consecutive 3 month average of total_price for that customer. Note that this should only include months that are chronologically next to each other.\n\n\nTime limit during live workshop: 10 min\nHint: Use CAST(strftime(o_orderdate, '%Y-%m-01') AS DATE) to cast order_month to date format.\nHint: Use the INTERVAL format shown above to construct the window function to compute consecutive_three_mo_total_price_avg column.\n\nThe orders table schema is shown below:\n\n\n\n\nOrders table\n\n\n-- write your query here\n\nFrom the orders table get the 3 lowest spending customers per day\n\nTime limit during live workshop: 5 min\nHint 1. Figure out the PARTITION BY column first, then the ORDER BY column and finally the FUNCTION to use to compute running average.\nThe orders table schema is shown below:\n\n\n\nOrders table\n\n\n-- your code here\n\nWrite a SQL query using the orders table that calculates the following columns:\n\no_orderdate: From orders table\no_custkey: From orders table\no_totalprice: From orders table\ntotalprice_diff: The customers current day’s o_totalprice - that same customers most recent previous purchase’s o_totalprice\n\n\n\nTime limit during live workshop: 5 min\nHint:\n\nStart by figuring out what the PARTITION BY column should be, then what the ORDER BY column should be, and then finally the function to use.\nUse the LAG(column_name) ranking function to identify the prior day’s revenue.\n\nThe orders table schema is shown below:\n\n\n\n\nOrders table\n\n\n-- write your query here",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Use window function when you need to use values from other rows to compute a value for the current row</span>"
+    ]
+  },
+  {
+    "objectID": "windows.html#recommended-reading",
+    "href": "windows.html#recommended-reading",
+    "title": "3  Use window function when you need to use values from other rows to compute a value for the current row",
+    "section": "3.6 Recommended reading",
+    "text": "3.6 Recommended reading\n\nWindow SQL Youtube workshop",
+    "crumbs": [
+      "Use SQL to transform data",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Use window function when you need to use values from other rows to compute a value for the current row</span>"
+    ]
   }
 ]

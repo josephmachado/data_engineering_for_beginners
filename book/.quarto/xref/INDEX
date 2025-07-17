@@ -13,5 +13,11 @@
   },
   "sql.qmd": {
     "sql.html": "b59dd7a5"
+  },
+  "cte.qmd": {
+    "cte.html": "9f3d4e5b"
+  },
+  "windows.qmd": {
+    "windows.html": "77fcd8aa"
   }
 }
