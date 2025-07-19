@@ -145,7 +145,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Preface</span></a>
+ <span class="menu-text">Start here</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -308,11 +308,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#use-selectfrom-limit-where-order-by-to-read-the-required-data" id="toc-use-selectfrom-limit-where-order-by-to-read-the-required-data" class="nav-link" data-scroll-target="#use-selectfrom-limit-where-order-by-to-read-the-required-data"><span class="header-section-number">1.3</span> Use SELECT…FROM, LIMIT, WHERE, &amp; ORDER BY to read the required data</a></li>
   <li><a href="#combine-data-from-multiple-tables-using-joins" id="toc-combine-data-from-multiple-tables-using-joins" class="nav-link" data-scroll-target="#combine-data-from-multiple-tables-using-joins"><span class="header-section-number">1.4</span> Combine data from multiple tables using JOINs</a>
   <ul>
-  <li><a href="#inner-join-default-get-rows-with-same-join-keys-from-both-tables" id="toc-inner-join-default-get-rows-with-same-join-keys-from-both-tables" class="nav-link" data-scroll-target="#inner-join-default-get-rows-with-same-join-keys-from-both-tables"><span class="header-section-number">1.4.1</span> 1. Inner join (default): Get rows with same join keys from both tables</a></li>
+  <li><a href="#inner-join-default-get-rows-with-the-same-join-keys-from-both-tables" id="toc-inner-join-default-get-rows-with-the-same-join-keys-from-both-tables" class="nav-link" data-scroll-target="#inner-join-default-get-rows-with-the-same-join-keys-from-both-tables"><span class="header-section-number">1.4.1</span> 1. Inner join (default): Get rows with the same join keys from both tables</a></li>
   <li><a href="#left-outer-join-aka-left-join-get-all-rows-from-the-left-table-and-only-matching-rows-from-the-right-table." id="toc-left-outer-join-aka-left-join-get-all-rows-from-the-left-table-and-only-matching-rows-from-the-right-table." class="nav-link" data-scroll-target="#left-outer-join-aka-left-join-get-all-rows-from-the-left-table-and-only-matching-rows-from-the-right-table."><span class="header-section-number">1.4.2</span> 2. Left outer join (aka left join): Get all rows from the left table and only matching rows from the right table.</a></li>
   <li><a href="#right-outer-join-aka-right-join-get-matching-rows-from-the-left-and-all-rows-from-the-right-table." id="toc-right-outer-join-aka-right-join-get-matching-rows-from-the-left-and-all-rows-from-the-right-table." class="nav-link" data-scroll-target="#right-outer-join-aka-right-join-get-matching-rows-from-the-left-and-all-rows-from-the-right-table."><span class="header-section-number">1.4.3</span> 3. Right outer join (aka right join): Get matching rows from the left and all rows from the right table.</a></li>
-  <li><a href="#full-outer-join-get-matched-and-un-matched-rows-from-both-the-tables." id="toc-full-outer-join-get-matched-and-un-matched-rows-from-both-the-tables." class="nav-link" data-scroll-target="#full-outer-join-get-matched-and-un-matched-rows-from-both-the-tables."><span class="header-section-number">1.4.4</span> 4. Full outer join: Get matched and un-matched rows from both the tables.</a></li>
-  <li><a href="#cross-join-join-every-row-in-left-table-with-every-row-in-the-right-table" id="toc-cross-join-join-every-row-in-left-table-with-every-row-in-the-right-table" class="nav-link" data-scroll-target="#cross-join-join-every-row-in-left-table-with-every-row-in-the-right-table"><span class="header-section-number">1.4.5</span> 5. Cross join: Join every row in left table with every row in the right table</a></li>
+  <li><a href="#full-outer-join-get-matched-and-unmatched-rows-from-both-tables." id="toc-full-outer-join-get-matched-and-unmatched-rows-from-both-tables." class="nav-link" data-scroll-target="#full-outer-join-get-matched-and-unmatched-rows-from-both-tables."><span class="header-section-number">1.4.4</span> 4. Full outer join: Get matched and unmatched rows from both tables.</a></li>
+  <li><a href="#cross-join-join-every-row-in-the-left-table-with-every-row-in-the-right-table" id="toc-cross-join-join-every-row-in-the-left-table-with-every-row-in-the-right-table" class="nav-link" data-scroll-target="#cross-join-join-every-row-in-the-left-table-with-every-row-in-the-right-table"><span class="header-section-number">1.4.5</span> 5. Cross join: Join every row in the left table with every row in the right table</a></li>
   </ul></li>
   <li><a href="#combine-data-from-multiple-rows-into-one-using-group-by" id="toc-combine-data-from-multiple-rows-into-one-using-group-by" class="nav-link" data-scroll-target="#combine-data-from-multiple-rows-into-one-using-group-by"><span class="header-section-number">1.5</span> Combine data from multiple rows into one using GROUP BY</a>
   <ul>
@@ -320,7 +320,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#replicate-if.else-logic-with-case-statements" id="toc-replicate-if.else-logic-with-case-statements" class="nav-link" data-scroll-target="#replicate-if.else-logic-with-case-statements"><span class="header-section-number">1.6</span> Replicate IF.ELSE logic with CASE statements</a></li>
   <li><a href="#stack-tables-on-top-of-each-other-with-union-and-union-all-subtract-tables-with-except" id="toc-stack-tables-on-top-of-each-other-with-union-and-union-all-subtract-tables-with-except" class="nav-link" data-scroll-target="#stack-tables-on-top-of-each-other-with-union-and-union-all-subtract-tables-with-except"><span class="header-section-number">1.7</span> Stack tables on top of each other with UNION and UNION ALL, subtract tables with EXCEPT</a></li>
-  <li><a href="#sub-query-use-query-instead-of-a-table" id="toc-sub-query-use-query-instead-of-a-table" class="nav-link" data-scroll-target="#sub-query-use-query-instead-of-a-table"><span class="header-section-number">1.8</span> Sub-query: Use query instead of a table</a></li>
+  <li><a href="#sub-query-use-a-query-instead-of-a-table" id="toc-sub-query-use-a-query-instead-of-a-table" class="nav-link" data-scroll-target="#sub-query-use-a-query-instead-of-a-table"><span class="header-section-number">1.8</span> Sub-query: Use a query instead of a table</a></li>
   <li><a href="#change-data-types-cast-and-handle-nulls-coalesce" id="toc-change-data-types-cast-and-handle-nulls-coalesce" class="nav-link" data-scroll-target="#change-data-types-cast-and-handle-nulls-coalesce"><span class="header-section-number">1.9</span> Change data types (CAST) and handle NULLS (COALESCE)</a></li>
   <li><a href="#use-these-standard-inbuilt-db-functions-for-string-time-and-numeric-data-manipulation" id="toc-use-these-standard-inbuilt-db-functions-for-string-time-and-numeric-data-manipulation" class="nav-link" data-scroll-target="#use-these-standard-inbuilt-db-functions-for-string-time-and-numeric-data-manipulation"><span class="header-section-number">1.10</span> Use these standard inbuilt DB functions for String, Time, and Numeric data manipulation</a></li>
   <li><a href="#save-queries-as-views-for-more-straightforward-reads" id="toc-save-queries-as-views-for-more-straightforward-reads" class="nav-link" data-scroll-target="#save-queries-as-views-for-more-straightforward-reads"><span class="header-section-number">1.11</span> Save queries as views for more straightforward reads</a></li>
@@ -353,132 +353,136 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="setup" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="setup"><span class="header-section-number">1.1</span> Setup</h2>
-<div id="3c19a2ed" class="cell" data-execution_count="1">
+<p>To run the code, you need to generate the data and load it into Spark tables. Use the script below to do this:</p>
+<div id="dca83b71" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>bash</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>python .<span class="op">/</span>generate_data.py</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>python .<span class="op">/</span>run_ddl.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="785c6f9a" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql <span class="op">--</span>show</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>use prod.db</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>In this chapter, we will go over SQL basics.</p>
 </section>
 <section id="a-spark-catalog-can-have-multiple-schemas-schemas-can-have-multiple-tables" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="a-spark-catalog-can-have-multiple-schemas-schemas-can-have-multiple-tables"><span class="header-section-number">1.2</span> A Spark catalog can have multiple schemas, &amp; schemas can have multiple tables</h2>
-<p>Typically database servers can have multiple databases; each database can have multiple schemas. Each schema can have multiple tables, and each table can have multiple columns.</p>
+<p>Typically, database servers can have multiple databases; each database can have multiple schemas. Each schema can have multiple tables, and each table can have multiple columns.</p>
 <p><strong>Note:</strong> We use Trino, which has <code>catalogs</code> that allow it to connect with the different underlying systems. (e.g., Postgres, Redis, Hive, etc.)</p>
 <p>In our lab, we use Trino, and we can check the available catalogs, their schemas, the tables in a schema, &amp; the columns in a table, as shown below.</p>
-<div id="b85d824f" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>show catalogs<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="397d4afb" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>show catalogs<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="4f901068" class="cell" data-execution_count="4">
+<div id="0e7a498d" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>show schemas IN demo<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> Catalog <span class="op">-&gt;</span> schema</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="e2987e29" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>show schemas IN demo<span class="op">;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>show schemas IN prod<span class="op">;</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> Catalog <span class="op">-&gt;</span> schema</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> schema <span class="op">-&gt;</span> namespace</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="779e6c26" class="cell" data-execution_count="5">
+<div id="1eb753aa" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>show schemas IN prod<span class="op">;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> schema <span class="op">-&gt;</span> namespace</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>show tables IN prod.db <span class="op">--</span> namespace <span class="op">-&gt;</span> Table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="810a3ef7" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>show tables IN prod.db <span class="op">--</span> namespace <span class="op">-&gt;</span> Table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e1c7189c" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql <span class="op">--</span>show</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>select <span class="op">*</span> <span class="im">from</span> prod.db.customer limit <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Note how, when referencing the table name, we use the full path, i.e., <code>database.schema.table_name</code>. We can skip using the full path of the table if we let Trino know which schema to use by default, as shown below.</p>
-<div id="7f7ec850" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>DESCRIBE lineitem</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note how, when referencing the table name, we use the full path, i.e., <code>schema.table_name</code>. We can skip using the full path of the table if we define which schema to use for the entirety of this session, as shown below.</p>
+<div id="f0b697bb" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql <span class="op">--</span>show</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>use prod.db</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="9f052ddd" class="cell" data-execution_count="8">
+<div id="accd1e51" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>DESCRIBE extended lineitem</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>DESCRIBE lineitem</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="87474f0b" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>DESCRIBE extended lineitem</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="use-selectfrom-limit-where-order-by-to-read-the-required-data" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="use-selectfrom-limit-where-order-by-to-read-the-required-data"><span class="header-section-number">1.3</span> Use SELECT…FROM, LIMIT, WHERE, &amp; ORDER BY to read the required data</h2>
-<p>The most common use for querying is to read data in our tables. We can do this using a <code>SELECT ... FROM</code> statement, as shown below.</p>
-<div id="66362d49" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> use <span class="op">*</span> to specify <span class="bu">all</span> columns</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  orders</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="893c78fa" class="cell" data-execution_count="10">
+<p>The most common use for querying is to read data from our tables. We can do this using a <code>SELECT ... FROM</code> statement, as shown below.</p>
+<div id="e30a8871" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> use column names to only read data <span class="im">from</span> those columns</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> use <span class="op">*</span> to specify <span class="bu">all</span> columns</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  o_orderkey,</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  o_totalprice</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  orders</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  orders</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>However, running a <code>SELECT ... FROM</code> statement can cause issues when the data set is extensive. If you want to look at the data, use <code>LIMIT n</code> to tell Trino only to get n number of rows.</p>
-<p>We can use the’ WHERE’ clause if we want to get the rows that match specific criteria. We can specify one or more filters within the’ WHERE’ clause. The <code>WHERE</code> clause with more than one filter can use combinations of <code>AND</code> and <code>OR</code> criteria to combine the filter criteria, as shown below.</p>
-<div id="e7ce5844" class="cell" data-execution_count="11">
+<div id="96b9347a" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="bu">all</span> customer rows that have c_nationkey <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> use column names to only read data <span class="im">from</span> those columns</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  customer</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>WHERE</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  c_nationkey <span class="op">=</span> <span class="dv">20</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  o_orderkey,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  o_totalprice</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  orders</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="6b3dacd8" class="cell" data-execution_count="12">
+<p>However, running a <code>SELECT ... FROM</code> statement can cause issues when the data set is extensive. If you want to examine the data, use <code>LIMIT n</code> to instruct Trino to retrieve only the first n rows.</p>
+<p>We can use the ‘WHERE’ clause to retrieve rows that match specific criteria. We can specify one or more filters within the’ WHERE’ clause. The <code>WHERE</code> clause with more than one filter can use combinations of <code>AND</code> and <code>OR</code> criteria to combine the filter criteria, as shown below.</p>
+<div id="2b7b9f77" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="bu">all</span> customer rows that have c_nationkey <span class="op">=</span> <span class="dv">20</span> <span class="kw">and</span> c_acctbal <span class="op">&gt;</span> <span class="dv">1000</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="bu">all</span> customer rows that have c_nationkey <span class="op">=</span> <span class="dv">20</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>SELECT</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  customer</span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>WHERE</span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  c_nationkey <span class="op">=</span> <span class="dv">20</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  AND c_acctbal <span class="op">&gt;</span> <span class="dv">1000</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="0382ad64" class="cell" data-execution_count="13">
+<div id="f90f9b51" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="bu">all</span> customer rows that have c_nationkey <span class="op">=</span> <span class="dv">20</span> <span class="kw">or</span> c_acctbal <span class="op">&gt;</span> <span class="dv">1000</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="bu">all</span> customer rows that have c_nationkey <span class="op">=</span> <span class="dv">20</span> <span class="kw">and</span> c_acctbal <span class="op">&gt;</span> <span class="dv">1000</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>SELECT</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span></span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  customer</span>
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>WHERE</span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  c_nationkey <span class="op">=</span> <span class="dv">20</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  OR c_acctbal <span class="op">&gt;</span> <span class="dv">1000</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  AND c_acctbal <span class="op">&gt;</span> <span class="dv">1000</span></span>
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
 <span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="8ad14352" class="cell" data-execution_count="14">
+<div id="246974ca" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="bu">all</span> customer rows that have (c_nationkey <span class="op">=</span> <span class="dv">20</span> <span class="kw">and</span> c_acctbal <span class="op">&gt;</span> <span class="dv">1000</span>) <span class="kw">or</span> rows that have c_nationkey <span class="op">=</span> <span class="dv">11</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="bu">all</span> customer rows that have c_nationkey <span class="op">=</span> <span class="dv">20</span> <span class="kw">or</span> c_acctbal <span class="op">&gt;</span> <span class="dv">1000</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>SELECT</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  customer</span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>WHERE</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  (</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    c_nationkey <span class="op">=</span> <span class="dv">20</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    AND c_acctbal <span class="op">&gt;</span> <span class="dv">1000</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  OR c_nationkey <span class="op">=</span> <span class="dv">11</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  c_nationkey <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  OR c_acctbal <span class="op">&gt;</span> <span class="dv">1000</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="77d42c79" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="bu">all</span> customer rows that have (c_nationkey <span class="op">=</span> <span class="dv">20</span> <span class="kw">and</span> c_acctbal <span class="op">&gt;</span> <span class="dv">1000</span>) <span class="kw">or</span> rows that have c_nationkey <span class="op">=</span> <span class="dv">11</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>SELECT</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  customer</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>WHERE</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  (</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    c_nationkey <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    AND c_acctbal <span class="op">&gt;</span> <span class="dv">1000</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  OR c_nationkey <span class="op">=</span> <span class="dv">11</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can combine multiple filter clauses, as seen above. We have seen examples of equals (<code>=</code>) and greater than (<code>&gt;</code>) conditional operators. There are 6 <strong>conditional operators</strong>, they are</p>
 <ol type="1">
@@ -490,279 +494,285 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>&lt;&gt;</code> and <code>!=</code> both represent Not equal (some DBs only support one of these)</li>
 </ol>
 <p>Additionally, for string types, we can make <strong>pattern matching with <code>like</code> condition</strong>. In a <code>like</code> condition, a <code>_</code> means any single character, and <code>%</code> means zero or more characters, for example.</p>
-<div id="294e6be3" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="bu">all</span> customer rows where the name has a <span class="dv">381</span> <span class="kw">in</span> it</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  customer</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>WHERE</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  c_name LIKE <span class="st">'</span><span class="sc">%381%</span><span class="st">'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="ffd9cb06" class="cell" data-execution_count="16">
+<div id="d0db80e8" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="bu">all</span> customer rows where the name ends <span class="cf">with</span> a <span class="dv">381</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="bu">all</span> customer rows where the name has a <span class="dv">381</span> <span class="kw">in</span> it</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>SELECT</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span></span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  customer</span>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>WHERE</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  c_name LIKE <span class="st">'%381'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  c_name LIKE <span class="st">'</span><span class="sc">%381%</span><span class="st">'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="85beb8c7" class="cell" data-execution_count="17">
+<div id="d9d8eb08" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="bu">all</span> customer rows where the name starts <span class="cf">with</span> a <span class="dv">381</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="bu">all</span> customer rows where the name ends <span class="cf">with</span> a <span class="dv">381</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>SELECT</span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span></span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  customer</span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>WHERE</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  c_name LIKE <span class="st">'381%'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  c_name LIKE <span class="st">'%381'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="75d22fb8" class="cell" data-execution_count="18">
+<div id="4f8d6c8a" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="bu">all</span> customer rows where the name has a combination of <span class="bu">any</span> character <span class="kw">and</span> <span class="dv">9</span> <span class="kw">and</span> <span class="dv">1</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="bu">all</span> customer rows where the name starts <span class="cf">with</span> a <span class="dv">381</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>SELECT</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  customer</span>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>WHERE</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  c_name LIKE <span class="st">'%_91%'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  c_name LIKE <span class="st">'381%'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We can also filter for more than one value using <code>IN</code> and <code>NOT IN</code>.</p>
-<div id="abf87bd2" class="cell" data-execution_count="19">
+<div id="99f9e44a" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="bu">all</span> customer rows which have nationkey <span class="op">=</span> <span class="dv">10</span> <span class="kw">or</span> nationkey <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="bu">all</span> customer rows where the name has a combination of <span class="bu">any</span> character <span class="kw">and</span> <span class="dv">9</span> <span class="kw">and</span> <span class="dv">1</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>SELECT</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span></span>
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  customer</span>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>WHERE</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  c_nationkey IN (<span class="dv">10</span>, <span class="dv">20</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  c_name LIKE <span class="st">'%_91%'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="0e52388e" class="cell" data-execution_count="20">
+<p>We can also filter for more than one value using <code>IN</code> and <code>NOT IN</code>.</p>
+<div id="776ebe3b" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="bu">all</span> customer rows which have do <span class="kw">not</span> have nationkey <span class="im">as</span> <span class="dv">10</span> <span class="kw">or</span> <span class="dv">20</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="bu">all</span> customer rows which have nationkey <span class="op">=</span> <span class="dv">10</span> <span class="kw">or</span> nationkey <span class="op">=</span> <span class="dv">20</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>SELECT</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span></span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  customer</span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>WHERE</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  c_nationkey NOT IN (<span class="dv">10</span>, <span class="dv">20</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  c_nationkey IN (<span class="dv">10</span>, <span class="dv">20</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="50e5290c" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="bu">all</span> customer rows which have do <span class="kw">not</span> have nationkey <span class="im">as</span> <span class="dv">10</span> <span class="kw">or</span> <span class="dv">20</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>SELECT</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  customer</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>WHERE</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  c_nationkey NOT IN (<span class="dv">10</span>, <span class="dv">20</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can get the number of rows in a table using <code>count(*)</code> as shown below.</p>
-<div id="8b634f49" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  COUNT(<span class="op">*</span>)</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  customer<span class="op">;</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="dv">1500</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="fa6a1bb0" class="cell" data-execution_count="22">
+<div id="cfc0d1a7" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  COUNT(<span class="op">*</span>)</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  lineitem<span class="op">;</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  customer<span class="op">;</span></span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="dv">60175</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="dv">1500</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="c12696ac" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  COUNT(<span class="op">*</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  lineitem<span class="op">;</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="dv">60175</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If we want to get the rows sorted by values in a specific column, we use <code>ORDER BY</code>, for example.</p>
-<div id="f1e119f8" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> Will show the first ten customer records <span class="cf">with</span> the lowest custkey</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> rows are ordered <span class="kw">in</span> ASC order by default</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  orders</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>ORDER BY</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  o_custkey</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="6eb5bed3" class="cell" data-execution_count="24">
+<div id="2f53faa6" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> Will show the first ten customer<span class="st">'s records with the highest custkey</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="er">SELECT</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  orders</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>ORDER BY</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  o_custkey DESC</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> Will show the first ten customer records <span class="cf">with</span> the lowest custkey</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> rows are ordered <span class="kw">in</span> ASC order by default</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>SELECT</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  orders</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>ORDER BY</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  o_custkey</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="daadbdc0" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> Will show the first ten customer<span class="st">'s records with the highest custkey</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="er">SELECT</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  orders</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>ORDER BY</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  o_custkey DESC</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="combine-data-from-multiple-tables-using-joins" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="combine-data-from-multiple-tables-using-joins"><span class="header-section-number">1.4</span> Combine data from multiple tables using JOINs</h2>
 <p>We can combine data from multiple tables using joins. When we write a join query, we have a format as shown below.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    a.<span class="op">*</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    table_a a <span class="co">-- LEFT table a</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">JOIN</span> table_b b <span class="co">-- RIGHT table b</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">ON</span> a.<span class="kw">id</span> <span class="op">=</span> b.<span class="kw">id</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The table specified first (table_a) is the left table, whereas the table established second is the right table. When we have multiple tables joined, we consider the joined dataset from the first two tables as the left table and the third table as the right table (The DB optimizes our join for performance).</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    a.<span class="op">*</span></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    table_a a <span class="co">-- LEFT table a</span></span>
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">JOIN</span> table_b b <span class="co">-- RIGHT table b</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">ON</span> a.<span class="kw">id</span> <span class="op">=</span> b.<span class="kw">id</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">JOIN</span> table_c c <span class="co">-- LEFT table is the joined data from table_a &amp; table_b, right table is table_c</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">ON</span> a.c_id <span class="op">=</span> c.<span class="kw">id</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>There are five main types of joins, they are:</p>
-<section id="inner-join-default-get-rows-with-same-join-keys-from-both-tables" class="level3" data-number="1.4.1">
-<h3 data-number="1.4.1" class="anchored" data-anchor-id="inner-join-default-get-rows-with-same-join-keys-from-both-tables"><span class="header-section-number">1.4.1</span> 1. Inner join (default): Get rows with same join keys from both tables</h3>
-<div id="78f43bfc" class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  o.o_orderkey,</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  l.l_orderkey</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  orders o</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  JOIN lineitem l ON o.o_orderkey <span class="op">=</span> l.l_orderkey</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  AND o.o_orderdate BETWEEN l.l_shipdate <span class="op">-</span> INTERVAL <span class="st">'5'</span> DAY AND l.l_shipdate  <span class="op">+</span> INTERVAL <span class="st">'5'</span> DAY</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">ON</span> a.<span class="kw">id</span> <span class="op">=</span> b.<span class="kw">id</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The table specified first (table_a) is the left table, whereas the table specified second is the right table. When we have multiple tables joined, we consider the joined dataset from the first two tables as the left table and the third table as the right table (The DB optimizes our join for performance).</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    a.<span class="op">*</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    table_a a <span class="co">-- LEFT table a</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">JOIN</span> table_b b <span class="co">-- RIGHT table b</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">ON</span> a.<span class="kw">id</span> <span class="op">=</span> b.<span class="kw">id</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">JOIN</span> table_c c <span class="co">-- LEFT table is the joined data from table_a &amp; table_b, right table is table_c</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">ON</span> a.c_id <span class="op">=</span> c.<span class="kw">id</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>There are five main types of joins:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/join_types.png" class="img-fluid figure-img"></p>
+<figcaption>Join Types</figcaption>
+</figure>
 </div>
-<div id="52410c71" class="cell" data-execution_count="26">
+<section id="inner-join-default-get-rows-with-the-same-join-keys-from-both-tables" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="inner-join-default-get-rows-with-the-same-join-keys-from-both-tables"><span class="header-section-number">1.4.1</span> 1. Inner join (default): Get rows with the same join keys from both tables</h3>
+<div id="2964698b" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  COUNT(o.o_orderkey) AS order_rows_count,</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  COUNT(l.l_orderkey) AS lineitem_rows_count</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  o.o_orderkey,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  l.l_orderkey</span>
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
 <span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  orders o</span>
 <span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  JOIN lineitem l ON o.o_orderkey <span class="op">=</span> l.l_orderkey</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  AND o.o_orderdate BETWEEN l.l_shipdate <span class="op">-</span> INTERVAL <span class="st">'5'</span> DAY AND l.l_shipdate  <span class="op">+</span> INTERVAL <span class="st">'5'</span> DAY<span class="op">;</span></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="dv">2477</span>, <span class="dv">2477</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  AND o.o_orderdate BETWEEN l.l_shipdate <span class="op">-</span> INTERVAL <span class="st">'5'</span> DAY AND l.l_shipdate  <span class="op">+</span> INTERVAL <span class="st">'5'</span> DAY</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="e123e68e" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  COUNT(o.o_orderkey) AS order_rows_count,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  COUNT(l.l_orderkey) AS lineitem_rows_count</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  orders o</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  JOIN lineitem l ON o.o_orderkey <span class="op">=</span> l.l_orderkey</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  AND o.o_orderdate BETWEEN l.l_shipdate <span class="op">-</span> INTERVAL <span class="st">'5'</span> DAY AND l.l_shipdate  <span class="op">+</span> INTERVAL <span class="st">'5'</span> DAY<span class="op">;</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="dv">2477</span>, <span class="dv">2477</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Note:</strong> <code>JOIN</code> defaults to INNER JOIN`.</p>
-<p>The output will have rows from orders and lineitem that found at least one matching row from the other table with the specified join condition (same orderkey and orderdate within ship date +/- 5 days).</p>
-<p>We can also see that 2,477 rows from orders and lineitem tables matched.</p>
+<p>The output will contain rows from orders and lineitem that match at least one row from the other table with the specified join condition (same orderkey and orderdate within a 5-day window of the ship date).</p>
+<p>We can also see that 2,477 rows from the orders and lineitem tables matched.</p>
 </section>
 <section id="left-outer-join-aka-left-join-get-all-rows-from-the-left-table-and-only-matching-rows-from-the-right-table." class="level3" data-number="1.4.2">
 <h3 data-number="1.4.2" class="anchored" data-anchor-id="left-outer-join-aka-left-join-get-all-rows-from-the-left-table-and-only-matching-rows-from-the-right-table."><span class="header-section-number">1.4.2</span> 2. Left outer join (aka left join): Get all rows from the left table and only matching rows from the right table.</h3>
-<div id="83acfec4" class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  o.o_orderkey,</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  l.l_orderkey</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  orders o</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  LEFT JOIN lineitem l ON o.o_orderkey <span class="op">=</span> l.l_orderkey</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  AND o.o_orderdate BETWEEN l.l_shipdate <span class="op">-</span> INTERVAL <span class="st">'5'</span> DAY AND l.l_shipdate  <span class="op">+</span> INTERVAL <span class="st">'5'</span> DAY</span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="f74a66dd" class="cell" data-execution_count="28">
+<div id="5b4bbbd5" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  COUNT(o.o_orderkey) AS order_rows_count,</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  COUNT(l.l_orderkey) AS lineitem_rows_count</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  orders o</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  LEFT JOIN lineitem l ON o.o_orderkey <span class="op">=</span> l.l_orderkey</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  AND o.o_orderdate BETWEEN l.l_shipdate <span class="op">-</span> INTERVAL <span class="st">'5'</span> DAY AND l.l_shipdate  <span class="op">+</span> INTERVAL <span class="st">'5'</span> DAY<span class="op">;</span></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="dv">15197</span>, <span class="dv">2477</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>SELECT</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  o.o_orderkey,</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  l.l_orderkey</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  orders o</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  LEFT JOIN lineitem l ON o.o_orderkey <span class="op">=</span> l.l_orderkey</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  AND o.o_orderdate BETWEEN l.l_shipdate <span class="op">-</span> INTERVAL <span class="st">'5'</span> DAY AND l.l_shipdate  <span class="op">+</span> INTERVAL <span class="st">'5'</span> DAY</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The output will have all the rows from orders and the rows from lineitem that were able to find at least one matching row from the orders table with the specified join condition (same orderkey and orderdate within ship date +/- 5 days).</p>
-<p>We can also see that the number of rows from the orders table is 15,197 &amp; from the lineitem table is 2,477. The number of rows in orders is 15000, but the join condition produces 15197 since some orders match with multiple lineitems.</p>
+<div id="5528b1b4" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  COUNT(o.o_orderkey) AS order_rows_count,</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  COUNT(l.l_orderkey) AS lineitem_rows_count</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  orders o</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  LEFT JOIN lineitem l ON o.o_orderkey <span class="op">=</span> l.l_orderkey</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  AND o.o_orderdate BETWEEN l.l_shipdate <span class="op">-</span> INTERVAL <span class="st">'5'</span> DAY AND l.l_shipdate  <span class="op">+</span> INTERVAL <span class="st">'5'</span> DAY<span class="op">;</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="dv">15197</span>, <span class="dv">2477</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The output will include all rows from orders and the rows from lineitem that were able to find at least one matching row from the orders table with the specified join condition (same orderkey and orderdate within a 5-day window of the ship date).</p>
+<p>We can also see that the number of rows from the orders table is 15,197 &amp; from the lineitem table is 2,477. The number of rows in orders is 15,000, but the join condition produces 15,197 since some orders match with multiple line items.</p>
 </section>
 <section id="right-outer-join-aka-right-join-get-matching-rows-from-the-left-and-all-rows-from-the-right-table." class="level3" data-number="1.4.3">
 <h3 data-number="1.4.3" class="anchored" data-anchor-id="right-outer-join-aka-right-join-get-matching-rows-from-the-left-and-all-rows-from-the-right-table."><span class="header-section-number">1.4.3</span> 3. Right outer join (aka right join): Get matching rows from the left and all rows from the right table.</h3>
-<div id="a5b56e32" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  o.o_orderkey,</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  l.l_orderkey</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  orders o</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  RIGHT JOIN lineitem l ON o.o_orderkey <span class="op">=</span> l.l_orderkey</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  AND o.o_orderdate BETWEEN l.l_shipdate <span class="op">-</span> INTERVAL <span class="st">'5'</span> DAY AND l.l_shipdate  <span class="op">+</span> INTERVAL <span class="st">'5'</span> DAY</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="488b0ae8" class="cell" data-execution_count="30">
+<div id="1717b710" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  COUNT(o.o_orderkey) AS order_rows_count,</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  COUNT(l.l_orderkey) AS lineitem_rows_count</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  o.o_orderkey,</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  l.l_orderkey</span>
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  orders o</span>
 <span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  RIGHT JOIN lineitem l ON o.o_orderkey <span class="op">=</span> l.l_orderkey</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  AND o.o_orderdate BETWEEN l.l_shipdate <span class="op">-</span> INTERVAL <span class="st">'5'</span> DAY AND l.l_shipdate  <span class="op">+</span> INTERVAL <span class="st">'5'</span> DAY<span class="op">;</span></span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="dv">2477</span>, <span class="dv">60175</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  AND o.o_orderdate BETWEEN l.l_shipdate <span class="op">-</span> INTERVAL <span class="st">'5'</span> DAY AND l.l_shipdate  <span class="op">+</span> INTERVAL <span class="st">'5'</span> DAY</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The output will have the rows from orders that found at least one matching row from the lineitem table with the specified join condition (same orderkey and orderdate within ship date +/- 5 days) and all the rows from the lineitem table.</p>
-<p>We can also see that the number of rows from the orders table is 15,197 &amp; from the lineitem table is 2,477.</p>
-</section>
-<section id="full-outer-join-get-matched-and-un-matched-rows-from-both-the-tables." class="level3" data-number="1.4.4">
-<h3 data-number="1.4.4" class="anchored" data-anchor-id="full-outer-join-get-matched-and-un-matched-rows-from-both-the-tables."><span class="header-section-number">1.4.4</span> 4. Full outer join: Get matched and un-matched rows from both the tables.</h3>
-<div id="3f2e8272" class="cell" data-execution_count="31">
+<div id="d792c142" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  o.o_orderkey,</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  l.l_orderkey</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  COUNT(o.o_orderkey) AS order_rows_count,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  COUNT(l.l_orderkey) AS lineitem_rows_count</span>
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
 <span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  orders o</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  FULL OUTER JOIN lineitem l ON o.o_orderkey <span class="op">=</span> l.l_orderkey</span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  AND o.o_orderdate BETWEEN l.l_shipdate <span class="op">-</span> INTERVAL <span class="st">'5'</span> DAY AND l.l_shipdate  <span class="op">+</span> INTERVAL <span class="st">'5'</span> DAY</span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  RIGHT JOIN lineitem l ON o.o_orderkey <span class="op">=</span> l.l_orderkey</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  AND o.o_orderdate BETWEEN l.l_shipdate <span class="op">-</span> INTERVAL <span class="st">'5'</span> DAY AND l.l_shipdate  <span class="op">+</span> INTERVAL <span class="st">'5'</span> DAY<span class="op">;</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="dv">2477</span>, <span class="dv">60175</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="ca64e5ce" class="cell" data-execution_count="32">
+<p>The output will include the rows from orders that match at least one row from the lineitem table with the specified join condition (same orderkey and orderdate within a 5-day window of the ship date) and all rows from the lineitem table.</p>
+<p>We can also see that the number of rows from the orders table is 15,197 &amp; from the lineitem table is 2,477.</p>
+</section>
+<section id="full-outer-join-get-matched-and-unmatched-rows-from-both-tables." class="level3" data-number="1.4.4">
+<h3 data-number="1.4.4" class="anchored" data-anchor-id="full-outer-join-get-matched-and-unmatched-rows-from-both-tables."><span class="header-section-number">1.4.4</span> 4. Full outer join: Get matched and unmatched rows from both tables.</h3>
+<div id="31eb9e07" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  COUNT(o.o_orderkey) AS order_rows_count,</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  COUNT(l.l_orderkey) AS lineitem_rows_count</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  o.o_orderkey,</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  l.l_orderkey</span>
 <span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
 <span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  orders o</span>
 <span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  FULL OUTER JOIN lineitem l ON o.o_orderkey <span class="op">=</span> l.l_orderkey</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  AND o.o_orderdate BETWEEN l.l_shipdate <span class="op">-</span> INTERVAL <span class="st">'5'</span> DAY AND l.l_shipdate  <span class="op">+</span> INTERVAL <span class="st">'5'</span> DAY<span class="op">;</span></span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="dv">15197</span>, <span class="dv">60175</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  AND o.o_orderdate BETWEEN l.l_shipdate <span class="op">-</span> INTERVAL <span class="st">'5'</span> DAY AND l.l_shipdate  <span class="op">+</span> INTERVAL <span class="st">'5'</span> DAY</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The output will have all the rows from orders that found at least one matching row from the lineitem table with the specified join condition (same orderkey and orderdate within ship date +/- 5 days) and all the rows from the lineitem table.</p>
-<p>We can also see that the number of rows from the orders table is 15,197 &amp; from the lineitem table is 2,477.</p>
-</section>
-<section id="cross-join-join-every-row-in-left-table-with-every-row-in-the-right-table" class="level3" data-number="1.4.5">
-<h3 data-number="1.4.5" class="anchored" data-anchor-id="cross-join-join-every-row-in-left-table-with-every-row-in-the-right-table"><span class="header-section-number">1.4.5</span> 5. Cross join: Join every row in left table with every row in the right table</h3>
-<div id="23602621" class="cell" data-execution_count="33">
+<div id="f4724877" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  n.n_name AS nation_c_name,</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  r.r_name AS region_c_name</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  COUNT(o.o_orderkey) AS order_rows_count,</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  COUNT(l.l_orderkey) AS lineitem_rows_count</span>
 <span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  nation n</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  CROSS JOIN region r<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  orders o</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  FULL OUTER JOIN lineitem l ON o.o_orderkey <span class="op">=</span> l.l_orderkey</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  AND o.o_orderdate BETWEEN l.l_shipdate <span class="op">-</span> INTERVAL <span class="st">'5'</span> DAY AND l.l_shipdate  <span class="op">+</span> INTERVAL <span class="st">'5'</span> DAY<span class="op">;</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> <span class="dv">15197</span>, <span class="dv">60175</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The output will include all rows from orders that match at least one row from the lineitem table with the specified join condition (same orderkey and orderdate within a 5-day window of the ship date) and all rows from the lineitem table.</p>
+<p>We can also see that the number of rows from the orders table is 15,197 &amp; from the lineitem table is 2,477.</p>
+</section>
+<section id="cross-join-join-every-row-in-the-left-table-with-every-row-in-the-right-table" class="level3" data-number="1.4.5">
+<h3 data-number="1.4.5" class="anchored" data-anchor-id="cross-join-join-every-row-in-the-left-table-with-every-row-in-the-right-table"><span class="header-section-number">1.4.5</span> 5. Cross join: Join every row in the left table with every row in the right table</h3>
+<div id="a7d09a2b" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  n.n_name AS nation_c_name,</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  r.r_name AS region_c_name</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  nation n</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  CROSS JOIN region r<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The output will have every row of the nation joined with every row of the region. There are 25 nations and five regions, leading to 125 rows in our result from the cross-join.</p>
-<p>There are cases where we will need to join a table with itself, called a SELF-join. Lets consider an example.</p>
+<p>There are cases where we need to join a table with itself, known as a SELF-join. Let’s consider an example.</p>
 <ol type="1">
 <li>For every customer order, get the order placed earlier in the same week (Sunday - Saturday, not the previous seven days). Only show customer orders that have at least one such order.</li>
 </ol>
-<div id="78a5b2ce" class="cell" data-execution_count="34">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql    </span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    o1.o_custkey <span class="im">as</span> o1_custkey,</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    o1.o_totalprice <span class="im">as</span> o1_totalprice,</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    o1.o_orderdate <span class="im">as</span> o1_orderdate,</span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    o2.o_totalprice <span class="im">as</span> o2_totalprice,</span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    o2.o_orderdate <span class="im">as</span> o2_orderdate</span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    orders o1</span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>    JOIN orders o2 ON o1.o_custkey <span class="op">=</span> o2.o_custkey</span>
-<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    AND year(o1.o_orderdate) <span class="op">=</span> year(o2.o_orderdate)</span>
-<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>    AND weekofyear(o1.o_orderdate) <span class="op">=</span> weekofyear(o2.o_orderdate)</span>
-<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>WHERE</span>
-<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>    o1.o_orderkey <span class="op">!=</span> o2.o_orderkey</span>
-<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
-<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="d1625bb3" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql    </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    o1.o_custkey <span class="im">as</span> o1_custkey,</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    o1.o_totalprice <span class="im">as</span> o1_totalprice,</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    o1.o_orderdate <span class="im">as</span> o1_orderdate,</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    o2.o_totalprice <span class="im">as</span> o2_totalprice,</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    o2.o_orderdate <span class="im">as</span> o2_orderdate</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>    orders o1</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>    JOIN orders o2 ON o1.o_custkey <span class="op">=</span> o2.o_custkey</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>    AND year(o1.o_orderdate) <span class="op">=</span> year(o2.o_orderdate)</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>    AND weekofyear(o1.o_orderdate) <span class="op">=</span> weekofyear(o2.o_orderdate)</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>WHERE</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>    o1.o_orderkey <span class="op">!=</span> o2.o_orderkey</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -772,15 +782,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol type="1">
 <li>Create a report that shows the number of orders per orderpriority segment.</li>
 </ol>
-<div id="f7f650b0" class="cell" data-execution_count="35">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  o_orderpriority,</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  COUNT(<span class="op">*</span>) AS num_orders</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  orders</span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>GROUP BY</span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  o_orderpriority<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="220bc8d0" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  o_orderpriority,</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  COUNT(<span class="op">*</span>) AS num_orders</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  orders</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>GROUP BY</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  o_orderpriority<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In the above query, we group the data by <code>orderpriority</code>, and the calculation <code>count(*)</code> will be applied to the rows having a specific <code>orderpriority</code> value.</p>
 <p>The calculations allowed are typically SUM/MIN/MAX/AVG/COUNT. However, some databases have more complex aggregate functions; check your DB documentation.</p>
@@ -791,101 +801,101 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="replicate-if.else-logic-with-case-statements" class="level2" data-number="1.6">
 <h2 data-number="1.6" class="anchored" data-anchor-id="replicate-if.else-logic-with-case-statements"><span class="header-section-number">1.6</span> Replicate IF.ELSE logic with CASE statements</h2>
 <p>We can do conditional logic in the <code>SELECT ... FROM</code> part of our query, as shown below.</p>
-<div id="6f7274de" class="cell" data-execution_count="36">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    o_orderkey,</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    o_totalprice,</span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    CASE</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>        WHEN o_totalprice <span class="op">&gt;</span> <span class="dv">100000</span> THEN <span class="st">'high'</span></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>        WHEN o_totalprice BETWEEN <span class="dv">25000</span></span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>        AND <span class="dv">100000</span> THEN <span class="st">'medium'</span></span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>        ELSE <span class="st">'low'</span></span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    END AS order_price_bucket</span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>    orders<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="deb9aceb" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    o_orderkey,</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    o_totalprice,</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    CASE</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>        WHEN o_totalprice <span class="op">&gt;</span> <span class="dv">100000</span> THEN <span class="st">'high'</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>        WHEN o_totalprice BETWEEN <span class="dv">25000</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>        AND <span class="dv">100000</span> THEN <span class="st">'medium'</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>        ELSE <span class="st">'low'</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>    END AS order_price_bucket</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>    orders<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can see how we display different values depending on the <code>totalprice</code> column. We can also use multiple criteria as our conditional criteria (e.g., totalprice &gt; 100000 AND orderpriority = ‘2-HIGH’).</p>
 </section>
 <section id="stack-tables-on-top-of-each-other-with-union-and-union-all-subtract-tables-with-except" class="level2" data-number="1.7">
 <h2 data-number="1.7" class="anchored" data-anchor-id="stack-tables-on-top-of-each-other-with-union-and-union-all-subtract-tables-with-except"><span class="header-section-number">1.7</span> Stack tables on top of each other with UNION and UNION ALL, subtract tables with EXCEPT</h2>
-<p>When we want to combine data from tables by stacking them on top of each other, we use UNION or UNION ALL. <code>UNION</code> removes duplicate rows, and <code>UNION ALL</code> does not remove duplicate rows. Let’s look at an example.</p>
-<div id="d670d0ab" class="cell" data-execution_count="37">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>SELECT c_custkey, c_name FROM customer WHERE c_name LIKE <span class="st">'%_91%'</span> <span class="op">--</span> <span class="dv">25</span> rows</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="45b7cbe7" class="cell" data-execution_count="38">
+<p>When we want to combine data from tables by stacking them on top of each other, we use the UNION or UNION ALL operator. <code>UNION</code> removes duplicate rows, and <code>UNION ALL</code> does not remove duplicate rows. Let’s look at an example.</p>
+<div id="46cf5b6e" class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> UNION will remove duplicate rows<span class="op">;</span> the below query will produce <span class="dv">25</span> rows</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>SELECT c_custkey, c_name FROM customer WHERE c_name LIKE<span class="st">'%_91%'</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>UNION</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>SELECT c_custkey, c_name FROM customer WHERE c_name LIKE <span class="st">'%_91%'</span></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>UNION</span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>SELECT c_custkey, c_name FROM customer WHERE c_name LIKE <span class="st">'%_91'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>SELECT c_custkey, c_name FROM customer WHERE c_name LIKE <span class="st">'%_91%'</span> <span class="op">--</span> <span class="dv">25</span> rows</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="00d92ff0" class="cell" data-execution_count="39">
+<div id="c460d8ec" class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> UNION ALL will <span class="kw">not</span> remove duplicate rows<span class="op">;</span> the below query will produce <span class="dv">75</span> rows</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>SELECT c_custkey, c_name FROM customer WHERE c_name LIKE <span class="st">'%_91%'</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>UNION ALL</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> UNION will remove duplicate rows<span class="op">;</span> the below query will produce <span class="dv">25</span> rows</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>SELECT c_custkey, c_name FROM customer WHERE c_name LIKE<span class="st">'%_91%'</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>UNION</span>
 <span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>SELECT c_custkey, c_name FROM customer WHERE c_name LIKE <span class="st">'%_91%'</span></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>UNION ALL</span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>SELECT c_custkey, c_name FROM customer WHERE c_name LIKE <span class="st">'%_91%'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>UNION</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>SELECT c_custkey, c_name FROM customer WHERE c_name LIKE <span class="st">'%_91'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>When we want to get all the rows from the first dataset that are not in the second dataset, we can use <code>EXCEPT</code>.</p>
-<div id="4ddfdfb7" class="cell" data-execution_count="40">
+<div id="ec138e39" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> EXCEPT will get the rows <span class="kw">in</span> the first query result that <span class="kw">is</span> <span class="kw">not</span> <span class="kw">in</span> the second query result, <span class="dv">0</span> rows</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> UNION ALL will <span class="kw">not</span> remove duplicate rows<span class="op">;</span> the below query will produce <span class="dv">75</span> rows</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>SELECT c_custkey, c_name FROM customer WHERE c_name LIKE <span class="st">'%_91%'</span></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>EXCEPT</span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>SELECT c_custkey, c_name FROM customer WHERE c_name LIKE <span class="st">'%_91%'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>UNION ALL</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>SELECT c_custkey, c_name FROM customer WHERE c_name LIKE <span class="st">'%_91%'</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>UNION ALL</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>SELECT c_custkey, c_name FROM customer WHERE c_name LIKE <span class="st">'%_91%'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="4b6e6e8a" class="cell" data-execution_count="41">
+<p>When we want to retrieve all rows from the first dataset that are not present in the second dataset, we can use <code>EXCEPT</code>.</p>
+<div id="e963e9d5" class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> The below query will result <span class="kw">in</span> <span class="dv">23</span> rows<span class="op">;</span> the first query has <span class="dv">25</span> rows, <span class="kw">and</span> the second has two rows</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>SELECT c_custkey, c_name FROM customer WHERE c_name LIKE<span class="st">'%_91%'</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> EXCEPT will get the rows <span class="kw">in</span> the first query result that <span class="kw">is</span> <span class="kw">not</span> <span class="kw">in</span> the second query result, <span class="dv">0</span> rows</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>SELECT c_custkey, c_name FROM customer WHERE c_name LIKE <span class="st">'%_91%'</span></span>
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>EXCEPT</span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>SELECT c_custkey, c_name FROM customer WHERE c_name LIKE <span class="st">'</span><span class="sc">%191%</span><span class="st">'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>SELECT c_custkey, c_name FROM customer WHERE c_name LIKE <span class="st">'%_91%'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="32bc07ec" class="cell" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="op">--</span> The below query will result <span class="kw">in</span> <span class="dv">23</span> rows<span class="op">;</span> the first query has <span class="dv">25</span> rows, <span class="kw">and</span> the second has two rows</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>SELECT c_custkey, c_name FROM customer WHERE c_name LIKE<span class="st">'%_91%'</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>EXCEPT</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>SELECT c_custkey, c_name FROM customer WHERE c_name LIKE <span class="st">'</span><span class="sc">%191%</span><span class="st">'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="sub-query-use-query-instead-of-a-table" class="level2" data-number="1.8">
-<h2 data-number="1.8" class="anchored" data-anchor-id="sub-query-use-query-instead-of-a-table"><span class="header-section-number">1.8</span> Sub-query: Use query instead of a table</h2>
+<section id="sub-query-use-a-query-instead-of-a-table" class="level2" data-number="1.8">
+<h2 data-number="1.8" class="anchored" data-anchor-id="sub-query-use-a-query-instead-of-a-table"><span class="header-section-number">1.8</span> Sub-query: Use a query instead of a table</h2>
 <p>When we want to use the result of a query as a table in another query, we use subqueries. Let’s consider an example:</p>
 <ol type="1">
 <li>Create a report that shows the nation, how many items it supplied (by suppliers in that nation), and how many items it purchased (by customers in that nation).</li>
 </ol>
-<div id="8600181a" class="cell" data-execution_count="42">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  n.n_name AS nation_c_name,</span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  s.quantity AS supplied_items_quantity,</span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  c.quantity AS purchased_items_quantity</span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  nation n</span>
-<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>  LEFT JOIN (</span>
-<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>    SELECT</span>
-<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>      n.n_nationkey,</span>
-<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>      SUM(l.l_quantity) AS quantity</span>
-<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>    FROM</span>
-<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>      lineitem l</span>
-<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>      JOIN supplier s ON l.l_suppkey <span class="op">=</span> s.s_suppkey</span>
-<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>      JOIN nation n ON s.s_nationkey <span class="op">=</span> n.n_nationkey</span>
-<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>    GROUP BY</span>
-<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>      n.n_nationkey</span>
-<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>  ) s ON n.n_nationkey <span class="op">=</span> s.n_nationkey</span>
-<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>  LEFT JOIN (</span>
-<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>    SELECT</span>
-<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a>      n.n_nationkey,</span>
-<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a>      SUM(l.l_quantity) AS quantity</span>
-<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a>    FROM</span>
-<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a>      lineitem l</span>
-<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a>      JOIN orders o ON l.l_orderkey <span class="op">=</span> o.o_orderkey</span>
-<span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a>      JOIN customer c ON o.o_custkey <span class="op">=</span> c.c_custkey</span>
-<span id="cb44-27"><a href="#cb44-27" aria-hidden="true" tabindex="-1"></a>      JOIN nation n ON c.c_nationkey <span class="op">=</span> n.n_nationkey</span>
-<span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a>    GROUP BY</span>
-<span id="cb44-29"><a href="#cb44-29" aria-hidden="true" tabindex="-1"></a>      n.n_nationkey</span>
-<span id="cb44-30"><a href="#cb44-30" aria-hidden="true" tabindex="-1"></a>  ) c ON n.n_nationkey <span class="op">=</span> c.n_nationkey<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="7682e9d8" class="cell" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  n.n_name AS nation_c_name,</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  s.quantity AS supplied_items_quantity,</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  c.quantity AS purchased_items_quantity</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>  nation n</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>  LEFT JOIN (</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>    SELECT</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>      n.n_nationkey,</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>      SUM(l.l_quantity) AS quantity</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>    FROM</span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>      lineitem l</span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>      JOIN supplier s ON l.l_suppkey <span class="op">=</span> s.s_suppkey</span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>      JOIN nation n ON s.s_nationkey <span class="op">=</span> n.n_nationkey</span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>    GROUP BY</span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>      n.n_nationkey</span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>  ) s ON n.n_nationkey <span class="op">=</span> s.n_nationkey</span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>  LEFT JOIN (</span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>    SELECT</span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>      n.n_nationkey,</span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>      SUM(l.l_quantity) AS quantity</span>
+<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>    FROM</span>
+<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a>      lineitem l</span>
+<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>      JOIN orders o ON l.l_orderkey <span class="op">=</span> o.o_orderkey</span>
+<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a>      JOIN customer c ON o.o_custkey <span class="op">=</span> c.c_custkey</span>
+<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a>      JOIN nation n ON c.c_nationkey <span class="op">=</span> n.n_nationkey</span>
+<span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a>    GROUP BY</span>
+<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a>      n.n_nationkey</span>
+<span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a>  ) c ON n.n_nationkey <span class="op">=</span> c.n_nationkey<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In the above query, we can see that there are two sub-queries, one to calculate the quantity supplied by a nation and the other to calculate the quantity purchased by the customers of a nation.</p>
 </section>
@@ -896,36 +906,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong><code>Numerical</code></strong>: Data types used to store numbers.
 <ol type="1">
 <li>Integer: Positive and negative numbers. Different types of Integer, such as tinyint, int, and bigint, allow storage of different ranges of values. Integers cannot have decimal digits.</li>
-<li>Floating: These can have decimal digits but stores an approximate value.</li>
+<li>Floating: These can have decimal digits but store an approximate value.</li>
 <li>Decimal: These can have decimal digits and store the exact value. The decimal type allows you to specify the scale and precision. Where scale denotes the count of numbers allowed as a whole &amp; precision denotes the count of numbers allowed after the decimal point. E.g., DECIMAL(8,3) allows eight numbers in total, with three allowed after the decimal point.</li>
 </ol></li>
 <li><strong><code>Boolean</code></strong>: Data types used to store True or False values.</li>
 <li><strong><code>String</code></strong>: Data types used to store alphanumeric characters.
 <ol type="1">
-<li>Varchar(n): Data type allows storage of variable character string, with a permitted max length n.</li>
-<li>Char(n): Data type allows storage of fixed character string. A column of char(n) type adds (length(string) - n) empty spaces to a string that does not have n characters.</li>
+<li>Varchar(n): Data type allows storage of a variable character string, with a permitted max length n.</li>
+<li>Char(n): Data type allows storage of a fixed character string. A column of char(n) type adds (length(string) - n) empty spaces to a string that does not have n characters.</li>
 </ol></li>
 <li><strong><code>Date &amp; time</code></strong>: Data types used to store dates, time, &amp; timestamps(date + time).</li>
-<li><strong><code>Objects (JSON, ARRAY)</code></strong>: Data types used to store JSON and ARRAY data.</li>
+<li><strong><code>Objects (STRUCT, ARRAY, MAP, JSON)</code></strong>: Data types used to store JSON and ARRAY data.</li>
 </ol>
 <p>Some databases have data types that are unique to them as well. We should check the database documents to understand the data types offered.</p>
-<p>Functions such as <code>DATE_DIFF</code> and <code>ROUND</code> are specific to a data type. It is best practice to use the appropriate data type for your columns. We can convert data types using the <code>CAST</code> function, as shown below.</p>
+<p>It is best practice to use the appropriate data type for your columns. We can convert data types using the <code>CAST</code> function, as shown below.</p>
 <p>A <code>NULL</code> will be used for that field when a value is not present. In cases where we want to use the first non-NULL value from a list of columns, we use <code>COALESCE</code> as shown below.</p>
-<p>Let’s consider an example as shown below. We can see how when <code>l.orderkey</code> is NULL; the DB uses <code>999999</code> as the output.</p>
-<div id="586a9a42" class="cell" data-execution_count="43">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    o.o_orderkey,</span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    o.o_orderdate,</span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    COALESCE(l.l_orderkey, <span class="dv">9999999</span>) AS lineitem_orderkey,</span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    l.l_shipdate</span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>    orders o</span>
-<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>    LEFT JOIN lineitem l ON o.o_orderkey <span class="op">=</span> l.l_orderkey</span>
-<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>    AND o.o_orderdate BETWEEN l.l_shipdate <span class="op">-</span> INTERVAL <span class="st">'5'</span> DAY</span>
-<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>    AND l.l_shipdate <span class="op">+</span> INTERVAL <span class="st">'5'</span> DAY</span>
-<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
-<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Let’s consider the following example. We can see how when <code>l.orderkey</code> is NULL, the DB uses <code>999999</code> as the output.</p>
+<div id="c9351037" class="cell" data-execution_count="44">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    o.o_orderkey,</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>    o.o_orderdate,</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>    COALESCE(l.l_orderkey, <span class="dv">9999999</span>) AS lineitem_orderkey,</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>    l.l_shipdate</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>    orders o</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>    LEFT JOIN lineitem l ON o.o_orderkey <span class="op">=</span> l.l_orderkey</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>    AND o.o_orderdate BETWEEN l.l_shipdate <span class="op">-</span> INTERVAL <span class="st">'5'</span> DAY</span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>    AND l.l_shipdate <span class="op">+</span> INTERVAL <span class="st">'5'</span> DAY</span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>LIMIT</span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="use-these-standard-inbuilt-db-functions-for-string-time-and-numeric-data-manipulation" class="level2" data-number="1.10">
@@ -935,21 +945,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong><code>String functions</code></strong>
 <ol type="1">
 <li><strong>LENGTH</strong> is used to calculate the length of a string. E.g., <code>SELECT LENGTH('hi');</code> will output 2.</li>
-<li><strong>CONCAT</strong> combines multiple string columns into one. E.g., <code>SELECT CONCAT(clerk, '-', orderpriority) FROM ORDERS LIMIT 5;</code> will concatenate clear and orderpriority columns with a dash in between them.</li>
+<li><strong>CONCAT</strong> combines multiple string columns into one. E.g., <code>SELECT CONCAT(clerk, '-', orderpriority) FROM ORDERS LIMIT 5;</code> will concatenate clerk and orderpriority columns with a dash in between them.</li>
 <li><strong>SPLIT</strong> is used to split a value into an array based on a given delimiter. E.g., <code>SELECT SPLIT(clerk, '#') FROM ORDERS LIMIT 5;</code> will output a column with arrays formed by splitting clerk values on <code>#</code>.</li>
-<li><strong>SUBSTRING</strong> is used to get a sub-string from a value, given the start and end character indices. E.g., <code>SELECT clerk, SUBSTR(clerk, 1, 5) FROM orders LIMIT 5;</code> will get the first five (1 - 5) characters of the clerk column. Note that the indexing starts from 1 in Trino.</li>
+<li><strong>SUBSTRING</strong> is used to get a sub-string from a value, given the start and length. E.g., <code>SELECT clerk, SUBSTRING(clerk, 1, 5) FROM orders LIMIT 5;</code> will get the first five characters of the clerk column. Note that indexing starts from 1 in Spark SQL.</li>
 <li><strong>TRIM</strong> is used to remove empty spaces to the left and right of the value. E.g., <code>SELECT TRIM(' hi ');</code> will output <code>hi</code> without any spaces around it. LTRIM and RTRIM are similar but only remove spaces before and after the string, respectively.</li>
 </ol></li>
 <li><strong><code>Date and Time functions</code></strong>
 <ol type="1">
-<li><p><strong>Adding and subtracting dates</strong>: Is used to add and subtract periods; the format heavily depends on the DB. E.g., In Trino, the query</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  date_diff(<span class="st">'DAY'</span>, <span class="dt">DATE</span> <span class="st">'2022-10-01'</span>, <span class="dt">DATE</span> <span class="st">'2023-11-05'</span>) diff_in_days,</span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  date_diff(<span class="st">'MONTH'</span>, <span class="dt">DATE</span> <span class="st">'2022-10-01'</span>, <span class="dt">DATE</span> <span class="st">'2023-11-05'</span>) diff_in_months,</span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  date_diff(<span class="st">'YEAR'</span>, <span class="dt">DATE</span> <span class="st">'2022-10-01'</span>, <span class="dt">DATE</span> <span class="st">'2023-11-05'</span>) diff_in_years;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>It will show the difference between the two dates in the specified period. We can also add/subtract an arbitrary period from a date/time column. E.g., <code>SELECT DATE '2022-11-05' + INTERVAL '10' DAY;</code> will show the output <code>2022-11-15</code>.</p></li>
-<li><p><strong>string &lt;=&gt; date/time conversions</strong>: When we want to change the data type of a string to date/time, we can use the <code>DATE 'YYYY-MM-DD'</code> or <code>TIMESTAMP 'YYYY-MM-DD HH:mm:SS</code> functions. But when the data is in a different date/time format such as <code>MM/DD/YYYY</code>, we will need to specify the input structure; we do this using <code>date_parse,</code> E.g. <code>SELECT date_parse('11-05-2023', '%m-%d-%Y');</code>. We can convert a timestamp/date into a string with the required format using <code>date_format</code>. E.g., <code>SELECT DATE_FORMAT(orderdate, '%Y-%m-01') AS first_month_date FROM orders LIMIT 5;</code> will map every orderdate to the first of their month.</p></li>
-<li><p><strong>Time frame functions (YEAR/MONTH/DAY)</strong>: When we want to extract specific periods from a date/time column, we can use these functions. E.g., <code>SELECT year(date '2023-11-05');</code> will return 2023. Similarly, we have month, day, hour, min, etc.</p></li>
+<li><p><strong>Adding and subtracting dates</strong>: Is used to add and subtract periods; the format heavily depends on the DB. E.g., In Spark SQL, the query</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  DATEDIFF(<span class="dt">DATE</span> <span class="st">'2023-11-05'</span>, <span class="dt">DATE</span> <span class="st">'2022-10-01'</span>) <span class="kw">AS</span> diff_in_days,</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">MONTHS_BETWEEN</span>(<span class="dt">DATE</span> <span class="st">'2023-11-05'</span>, <span class="dt">DATE</span> <span class="st">'2022-10-01'</span>) <span class="kw">AS</span> diff_in_months,</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">YEAR</span>(<span class="dt">DATE</span> <span class="st">'2023-11-05'</span>) <span class="op">-</span> <span class="dt">YEAR</span>(<span class="dt">DATE</span> <span class="st">'2022-10-01'</span>) <span class="kw">AS</span> diff_in_years;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>It will show the difference between the two dates in the specified period. We can also add/subtract an arbitrary period from a date/time column. E.g., <code>SELECT DATE_ADD(DATE '2022-11-05', 10);</code> will show the output <code>2022-11-15</code>.</p></li>
+<li><p><strong>string &lt;=&gt; date/time conversions</strong>: When we want to change the data type of a string to date/time, we can use the <code>DATE 'YYYY-MM-DD'</code> or <code>TIMESTAMP 'YYYY-MM-DD HH:mm:SS'</code> functions. But when the data is in a different date/time format such as <code>MM/DD/YYYY</code>, we will need to specify the input structure; we do this using <code>TO_DATE</code> or <code>TO_TIMESTAMP</code>. E.g. <code>SELECT TO_DATE('11-05-2023', 'MM-dd-yyyy');</code>. We can convert a timestamp/date into a string with the required format using <code>DATE_FORMAT</code>. E.g., <code>SELECT DATE_FORMAT(orderdate, 'yyyy-MM-01') AS first_month_date FROM orders LIMIT 5;</code> will map every orderdate to the first of their month.</p></li>
+<li><p><strong>Time frame functions (YEAR/MONTH/DAY)</strong>: When we want to extract specific periods from a date/time column, we can use these functions. E.g., <code>SELECT YEAR(DATE '2023-11-05');</code> will return 2023. Similarly, we have MONTH, DAY, HOUR, MINUTE, etc.</p></li>
 </ol></li>
 <li><strong><code>Numeric</code></strong>
 <ol type="1">
@@ -959,72 +969,70 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="save-queries-as-views-for-more-straightforward-reads" class="level2" data-number="1.11">
 <h2 data-number="1.11" class="anchored" data-anchor-id="save-queries-as-views-for-more-straightforward-reads"><span class="header-section-number">1.11</span> Save queries as views for more straightforward reads</h2>
-<p>When we have large/complex queries that we need to run often, we can save them as views. Views are DB objects that operate similarly to a table. The OLAP DB executes the underlying query when we query a view.</p>
+<p>When we have large/complex queries that we need to run often, we can save them as views. Views are database objects that operate similarly to tables. The OLAP DB executes the underlying query when we query a view.</p>
 <p>Use views to hide query complexities and limit column access (by exposing only specific table columns) for end-users.</p>
 <p>For example, we can create a view for the nation-level report from the above section, as shown below.</p>
-<div id="05f61561" class="cell" data-execution_count="44">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>DROP VIEW IF EXISTS nation_supplied_purchased_quantity</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="53e3bcc4" class="cell" data-execution_count="45">
+<div id="c9394fbc" class="cell" data-execution_count="45">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>CREATE VIEW nation_supplied_purchased_quantity AS</span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    n.n_name AS nation_name,</span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    s.quantity AS supplied_items_quantity,</span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>    c.quantity AS purchased_items_quantity</span>
-<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>    nation n</span>
-<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>    LEFT JOIN (</span>
-<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>        SELECT</span>
-<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>            n_nationkey <span class="im">as</span> nationkey,</span>
-<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>            <span class="bu">sum</span>(l_quantity) AS quantity</span>
-<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>        FROM</span>
-<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>            lineitem l</span>
-<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a>            JOIN supplier s ON l.l_suppkey <span class="op">=</span> s.s_suppkey</span>
-<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a>            JOIN nation n ON s.s_nationkey <span class="op">=</span> n.n_nationkey</span>
-<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a>        GROUP BY</span>
-<span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a>            n.n_nationkey</span>
-<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a>    ) s ON n.n_nationkey <span class="op">=</span> s.nationkey</span>
-<span id="cb48-20"><a href="#cb48-20" aria-hidden="true" tabindex="-1"></a>    LEFT JOIN (</span>
-<span id="cb48-21"><a href="#cb48-21" aria-hidden="true" tabindex="-1"></a>        SELECT</span>
-<span id="cb48-22"><a href="#cb48-22" aria-hidden="true" tabindex="-1"></a>            n_nationkey <span class="im">as</span> nationkey,</span>
-<span id="cb48-23"><a href="#cb48-23" aria-hidden="true" tabindex="-1"></a>            <span class="bu">sum</span>(l_quantity) AS quantity</span>
-<span id="cb48-24"><a href="#cb48-24" aria-hidden="true" tabindex="-1"></a>        FROM</span>
-<span id="cb48-25"><a href="#cb48-25" aria-hidden="true" tabindex="-1"></a>            lineitem l</span>
-<span id="cb48-26"><a href="#cb48-26" aria-hidden="true" tabindex="-1"></a>            JOIN orders o ON l.l_orderkey <span class="op">=</span> o.o_orderkey</span>
-<span id="cb48-27"><a href="#cb48-27" aria-hidden="true" tabindex="-1"></a>            JOIN customer c ON o.o_custkey <span class="op">=</span> c.c_custkey</span>
-<span id="cb48-28"><a href="#cb48-28" aria-hidden="true" tabindex="-1"></a>            JOIN nation n ON c.c_nationkey <span class="op">=</span> n.n_nationkey</span>
-<span id="cb48-29"><a href="#cb48-29" aria-hidden="true" tabindex="-1"></a>        GROUP BY</span>
-<span id="cb48-30"><a href="#cb48-30" aria-hidden="true" tabindex="-1"></a>            n.n_nationkey</span>
-<span id="cb48-31"><a href="#cb48-31" aria-hidden="true" tabindex="-1"></a>    ) c ON n.n_nationkey <span class="op">=</span> c.nationkey<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>DROP VIEW IF EXISTS nation_supplied_purchased_quantity</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="fa457898" class="cell" data-execution_count="46">
+<div id="b99ee099" class="cell" data-execution_count="46">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span></span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>    nation_supplied_purchased_quantity<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>CREATE VIEW nation_supplied_purchased_quantity AS</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>SELECT</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    n.n_name AS nation_name,</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>    s.quantity AS supplied_items_quantity,</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>    c.quantity AS purchased_items_quantity</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>    nation n</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>    LEFT JOIN (</span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>        SELECT</span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>            n_nationkey <span class="im">as</span> nationkey,</span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>            <span class="bu">sum</span>(l_quantity) AS quantity</span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>        FROM</span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>            lineitem l</span>
+<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a>            JOIN supplier s ON l.l_suppkey <span class="op">=</span> s.s_suppkey</span>
+<span id="cb49-16"><a href="#cb49-16" aria-hidden="true" tabindex="-1"></a>            JOIN nation n ON s.s_nationkey <span class="op">=</span> n.n_nationkey</span>
+<span id="cb49-17"><a href="#cb49-17" aria-hidden="true" tabindex="-1"></a>        GROUP BY</span>
+<span id="cb49-18"><a href="#cb49-18" aria-hidden="true" tabindex="-1"></a>            n.n_nationkey</span>
+<span id="cb49-19"><a href="#cb49-19" aria-hidden="true" tabindex="-1"></a>    ) s ON n.n_nationkey <span class="op">=</span> s.nationkey</span>
+<span id="cb49-20"><a href="#cb49-20" aria-hidden="true" tabindex="-1"></a>    LEFT JOIN (</span>
+<span id="cb49-21"><a href="#cb49-21" aria-hidden="true" tabindex="-1"></a>        SELECT</span>
+<span id="cb49-22"><a href="#cb49-22" aria-hidden="true" tabindex="-1"></a>            n_nationkey <span class="im">as</span> nationkey,</span>
+<span id="cb49-23"><a href="#cb49-23" aria-hidden="true" tabindex="-1"></a>            <span class="bu">sum</span>(l_quantity) AS quantity</span>
+<span id="cb49-24"><a href="#cb49-24" aria-hidden="true" tabindex="-1"></a>        FROM</span>
+<span id="cb49-25"><a href="#cb49-25" aria-hidden="true" tabindex="-1"></a>            lineitem l</span>
+<span id="cb49-26"><a href="#cb49-26" aria-hidden="true" tabindex="-1"></a>            JOIN orders o ON l.l_orderkey <span class="op">=</span> o.o_orderkey</span>
+<span id="cb49-27"><a href="#cb49-27" aria-hidden="true" tabindex="-1"></a>            JOIN customer c ON o.o_custkey <span class="op">=</span> c.c_custkey</span>
+<span id="cb49-28"><a href="#cb49-28" aria-hidden="true" tabindex="-1"></a>            JOIN nation n ON c.c_nationkey <span class="op">=</span> n.n_nationkey</span>
+<span id="cb49-29"><a href="#cb49-29" aria-hidden="true" tabindex="-1"></a>        GROUP BY</span>
+<span id="cb49-30"><a href="#cb49-30" aria-hidden="true" tabindex="-1"></a>            n.n_nationkey</span>
+<span id="cb49-31"><a href="#cb49-31" aria-hidden="true" tabindex="-1"></a>    ) c ON n.n_nationkey <span class="op">=</span> c.nationkey<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now the view <code>nation_supplied_purchased_quantity</code> will run the underlying query when used. Note here we use the <code>minio.tpch</code> schema because catalog <code>tpch</code> does not allow the creation of views. The <code>tpch</code> catalog comes with Trino and only allows read operations. Read more about <a href="https://trino.io/docs/current/overview/concepts.html#connector">connectors here</a>.</p>
+<div id="1e09f944" class="cell" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>    nation_supplied_purchased_quantity<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now the view <code>nation_supplied_purchased_quantity</code> will run the underlying query when used.</p>
 </section>
 <section id="exercises" class="level2" data-number="1.12">
 <h2 data-number="1.12" class="anchored" data-anchor-id="exercises"><span class="header-section-number">1.12</span> Exercises</h2>
 <ol type="1">
-<li>Create a report that shows the number of returns for each region name</li>
-<li>Top 10 most selling parts</li>
-<li>Sellers who sell atleast one of the top 10 selling parts</li>
-<li>Number of returns per order price bucket</li>
+<li>Create a report that shows the number of returns for each region name <strong>Topics</strong>: JOINs, GROUP BY, COUNT</li>
+<li>Top 10 most selling parts <strong>Topics</strong>: aggregations, ranking, LIMIT, top N analysis</li>
+<li>Sellers who sell at least one of the top 10 selling parts <strong>Topics</strong>: subqueries</li>
+<li>Number of returns per order price bucket <strong>Topics</strong>: CASE statements, data bucketing, conditional logic</li>
 </ol>
-<p>Assume the price bucket logic is</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a> <span class="cf">CASE</span></span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>        <span class="cf">WHEN</span> totalprice <span class="op">&gt;</span> <span class="dv">100000</span> <span class="cf">THEN</span> <span class="st">'high'</span></span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">WHEN</span> totalprice <span class="kw">BETWEEN</span> <span class="dv">25000</span></span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">AND</span> <span class="dv">100000</span> <span class="cf">THEN</span> <span class="st">'medium'</span></span>
-<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">ELSE</span> <span class="st">'low'</span></span>
-<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">END</span> <span class="kw">AS</span> order_price_bucket</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="cf">CASE</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">WHEN</span> o_totalprice <span class="op">&gt;</span> <span class="dv">100000</span> <span class="cf">THEN</span> <span class="st">'high'</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">WHEN</span> o_totalprice <span class="kw">BETWEEN</span> <span class="dv">25000</span> <span class="kw">AND</span> <span class="dv">100000</span> <span class="cf">THEN</span> <span class="st">'medium'</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">ELSE</span> <span class="st">'low'</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="cf">END</span> <span class="kw">AS</span> order_price_bucket</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="5" type="1">
-<li>Average time (in days) between receiptdate and shipdate for each nation</li>
+<li>Average time (in days) between receiptdate and shipdate for each nation <strong>Topics</strong>: date arithmetic, time calculations</li>
 </ol>
 </section>
 <section id="recommended-reading" class="level2" data-number="1.13">

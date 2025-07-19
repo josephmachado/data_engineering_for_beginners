@@ -12,6 +12,8 @@ jupyter: python3
 
 ## Setup
 
+To run the code, you need to generate the data and load it into Spark tables. Use the script below to do this:
+
 ```{python}
 %%capture
 %%bash
@@ -19,17 +21,10 @@ python ./generate_data.py
 python ./run_ddl.py
 ```
 
-```{python}
-%%sql --show
-use prod.db
-```
-
-In this chapter, we will go over SQL basics.
-
 
 ## A Spark catalog can have multiple schemas, & schemas can have multiple tables
 
-Typically database servers can have multiple databases; each database can have multiple schemas. Each schema can have multiple tables, and each table can have multiple columns.
+Typically, database servers can have multiple databases; each database can have multiple schemas. Each schema can have multiple tables, and each table can have multiple columns.
 
 **Note:** We use Trino, which has `catalogs` that allow it to connect with the different underlying systems. (e.g., Postgres, Redis, Hive, etc.)
 
@@ -59,7 +54,17 @@ show schemas IN prod;
 show tables IN prod.db -- namespace -> Table
 ```
 
-Note how, when referencing the table name, we use the full path, i.e., `database.schema.table_name`. We can skip using the full path of the table if we let Trino know which schema to use by default, as shown below.
+```{python}
+%%sql --show
+select * from prod.db.customer limit 2
+```
+
+Note how, when referencing the table name, we use the full path, i.e., `schema.table_name`. We can skip using the full path of the table if we define which schema to use for the entirety of this session, as shown below.
+
+```{python}
+%%sql --show
+use prod.db
+```
 
 ```{python}
 %%sql
@@ -74,7 +79,7 @@ DESCRIBE extended lineitem
 
 ## Use SELECT...FROM, LIMIT, WHERE, & ORDER BY to read the required data 
 
-The most common use for querying is to read data in our tables. We can do this using a `SELECT ... FROM` statement, as shown below.
+The most common use for querying is to read data from our tables. We can do this using a `SELECT ... FROM` statement, as shown below.
 
 ```{python}
 %%sql
@@ -99,9 +104,9 @@ LIMIT
   4
 ```
 
-However, running a `SELECT ... FROM` statement can cause issues when the data set is extensive. If you want to look at the data, use `LIMIT n` to tell Trino only to get n number of rows. 
+However, running a `SELECT ... FROM` statement can cause issues when the data set is extensive. If you want to examine the data, use `LIMIT n` to instruct Trino to retrieve only the first n rows. 
 
-We can use the' WHERE' clause if we want to get the rows that match specific criteria. We can specify one or more filters within the' WHERE' clause. The `WHERE` clause with more than one filter can use combinations of `AND` and `OR` criteria to combine the filter criteria, as shown below.
+We can use the 'WHERE' clause to retrieve rows that match specific criteria. We can specify one or more filters within the' WHERE' clause. The `WHERE` clause with more than one filter can use combinations of `AND` and `OR` criteria to combine the filter criteria, as shown below.
 
 ```{python}
 %%sql
@@ -220,7 +225,6 @@ WHERE
 
 We can also filter for more than one value using `IN` and `NOT IN`.
 
-
 ```{python}
 #| scrolled: true
 %%sql
@@ -232,7 +236,6 @@ FROM
 WHERE
   c_nationkey IN (10, 20);
 ```
-
 
 ```{python}
 #| scrolled: true
@@ -310,7 +313,7 @@ FROM
     ON a.id = b.id
 ```
 
-The table specified first (table_a) is the left table, whereas the table established second is the right table. When we have multiple tables joined, we consider the joined dataset from the first two tables as the left table and the third table as the right table (The DB optimizes our join for performance).
+The table specified first (table_a) is the left table, whereas the table specified second is the right table. When we have multiple tables joined, we consider the joined dataset from the first two tables as the left table and the third table as the right table (The DB optimizes our join for performance).
 
 ```sql
 SELECT
@@ -323,9 +326,11 @@ FROM
     ON a.c_id = c.id
 ```
 
-There are five main types of joins, they are:
+There are five main types of joins:
 
-### 1. Inner join (default): Get rows with same join keys from both tables
+![Join Types](./images/join_types.png)
+
+### 1. Inner join (default): Get rows with the same join keys from both tables
 
 ```{python}
 #| scrolled: true
@@ -355,9 +360,9 @@ FROM
 
 **Note:** `JOIN` defaults to INNER JOIN`.
 
-The output will have rows from orders and lineitem that found at least one matching row from the other table with the specified join condition (same orderkey and orderdate within ship date +/- 5 days). 
+The output will contain rows from orders and lineitem that match at least one row from the other table with the specified join condition (same orderkey and orderdate within a 5-day window of the ship date). 
 
-We can also see that 2,477 rows from orders and lineitem tables matched.
+We can also see that 2,477 rows from the orders and lineitem tables matched.
 
 ### 2. Left outer join (aka left join): Get all rows from the left table and only matching rows from the right table.
 
@@ -387,9 +392,9 @@ FROM
 -- 15197, 2477
 ```
 
-The output will have all the rows from orders and the rows from lineitem that were able to find at least one matching row from the orders table with the specified join condition (same orderkey and orderdate within ship date +/- 5 days). 
+The output will include all rows from orders and the rows from lineitem that were able to find at least one matching row from the orders table with the specified join condition (same orderkey and orderdate within a 5-day window of the ship date). 
 
-We can also see that the number of rows from the orders table is 15,197 & from the lineitem table is 2,477. The number of rows in orders is 15000, but the join condition produces 15197 since some orders match with multiple lineitems.
+We can also see that the number of rows from the orders table is 15,197 & from the lineitem table is 2,477. The number of rows in orders is 15,000, but the join condition produces 15,197 since some orders match with multiple line items.
 
 ### 3. Right outer join (aka right join): Get matching rows from the left and all rows from the right table.
 
@@ -418,11 +423,11 @@ FROM
 -- 2477, 60175
 ```
 
-The output will have the rows from orders that found at least one matching row from the lineitem table with the specified join condition (same orderkey and orderdate within ship date +/- 5 days) and all the rows from the lineitem table.
+The output will include the rows from orders that match at least one row from the lineitem table with the specified join condition (same orderkey and orderdate within a 5-day window of the ship date) and all rows from the lineitem table.
 
 We can also see that the number of rows from the orders table is 15,197 & from the lineitem table is 2,477.
 
-### 4. Full outer join: Get matched and un-matched rows from both the tables.
+### 4. Full outer join: Get matched and unmatched rows from both tables.
 
 ```{python}
 %%sql
@@ -449,11 +454,11 @@ FROM
 -- 15197, 60175
 ```
 
-The output will have all the rows from orders that found at least one matching row from the lineitem table with the specified join condition (same orderkey and orderdate within ship date +/- 5 days) and all the rows from the lineitem table.
+The output will include all rows from orders that match at least one row from the lineitem table with the specified join condition (same orderkey and orderdate within a 5-day window of the ship date) and all rows from the lineitem table.
 
 We can also see that the number of rows from the orders table is 15,197 & from the lineitem table is 2,477.
 
-### 5. Cross join: Join every row in left table with every row in the right table
+### 5. Cross join: Join every row in the left table with every row in the right table
 
 ```{python}
 #| scrolled: true
@@ -469,7 +474,7 @@ FROM
 The output will have every row of the nation joined with every row of the region. There are 25 nations and five regions, leading to 125 rows in our result from the cross-join.
 
 
-There are cases where we will need to join a table with itself, called a SELF-join. Lets consider an example.
+There are cases where we need to join a table with itself, known as a SELF-join. Let's consider an example.
 
 1. For every customer order, get the order placed earlier in the same week (Sunday - Saturday, not the previous seven days). Only show customer orders that have at least one such order.
 
@@ -538,7 +543,7 @@ We can see how we display different values depending on the `totalprice` column.
 
 ## Stack tables on top of each other with UNION and UNION ALL, subtract tables with EXCEPT
 
-When we want to combine data from tables by stacking them on top of each other, we use UNION or UNION ALL. `UNION` removes duplicate rows, and `UNION ALL` does not remove duplicate rows. Let's look at an example.
+When we want to combine data from tables by stacking them on top of each other, we use the UNION or UNION ALL operator. `UNION` removes duplicate rows, and `UNION ALL` does not remove duplicate rows. Let's look at an example.
 
 ```{python}
 %%sql
@@ -570,7 +575,7 @@ SELECT c_custkey, c_name FROM customer WHERE c_name LIKE '%_91%';
 
     
 
-When we want to get all the rows from the first dataset that are not in the second dataset, we can use `EXCEPT`.
+When we want to retrieve all rows from the first dataset that are not present in the second dataset, we can use `EXCEPT`.
 
 ```{python}
 %%sql
@@ -589,7 +594,7 @@ EXCEPT
 SELECT c_custkey, c_name FROM customer WHERE c_name LIKE '%191%';
 ```
 
-## Sub-query: Use query instead of a table
+## Sub-query: Use a query instead of a table
 
 When we want to use the result of a query as a table in another query, we use subqueries. Let's consider an example:
 
@@ -636,22 +641,22 @@ Every column in a table has a specific data type. The data types fall under one 
 
 1. **`Numerical`**: Data types used to store numbers.
    1. Integer: Positive and negative numbers. Different types of Integer, such as tinyint, int, and bigint, allow storage of different ranges of values. Integers cannot have decimal digits.
-   2. Floating: These can have decimal digits but stores an approximate value.
+   2. Floating: These can have decimal digits but store an approximate value.
    3. Decimal: These can have decimal digits and store the exact value. The decimal type allows you to specify the scale and precision. Where scale denotes the count of numbers allowed as a whole & precision denotes the count of numbers allowed after the decimal point. E.g., DECIMAL(8,3) allows eight numbers in total, with three allowed after the decimal point.
 2. **`Boolean`**: Data types used to store True or False values.
 3. **` String`**: Data types used to store alphanumeric characters.
-   1. Varchar(n): Data type allows storage of variable character string, with a permitted max length n.
-   2. Char(n): Data type allows storage of fixed character string. A column of char(n) type adds (length(string) - n) empty spaces to a string that does not have n characters.
+   1. Varchar(n): Data type allows storage of a variable character string, with a permitted max length n.
+   2. Char(n): Data type allows storage of a fixed character string. A column of char(n) type adds (length(string) - n) empty spaces to a string that does not have n characters.
 4. **`Date & time`**: Data types used to store dates, time, & timestamps(date + time).
-5. **` Objects (JSON, ARRAY)`**: Data types used to store JSON and ARRAY data.
+5. **` Objects (STRUCT, ARRAY, MAP, JSON)`**: Data types used to store JSON and ARRAY data.
 
 Some databases have data types that are unique to them as well. We should check the database documents to understand the data types offered.
 
-Functions such as `DATE_DIFF` and `ROUND` are specific to a data type. It is best practice to use the appropriate data type for your columns. We can convert data types using the `CAST` function, as shown below.
+It is best practice to use the appropriate data type for your columns. We can convert data types using the `CAST` function, as shown below.
 
 A `NULL` will be used for that field when a value is not present. In cases where we want to use the first non-NULL value from a list of columns, we use `COALESCE` as shown below.
 
-Let's consider an example as shown below. We can see how when `l.orderkey` is NULL; the DB uses `999999` as the output.
+Let's consider the following example. We can see how when `l.orderkey` is NULL, the DB uses `999999` as the output.
 
 ```{python}
 %%sql
@@ -670,32 +675,35 @@ LIMIT
 ```
 
 ## Use these standard inbuilt DB functions for String, Time, and Numeric data manipulation
-
 When processing data, more often than not, we will need to change values in columns; shown below are a few standard functions to be aware of:
 
 1. **` String functions`**
    1. **LENGTH** is used to calculate the length of a string. E.g., `SELECT LENGTH('hi');` will output 2.
-   2. **CONCAT** combines multiple string columns into one. E.g., `SELECT CONCAT(clerk, '-', orderpriority) FROM ORDERS LIMIT 5;` will concatenate clear and orderpriority columns with a dash in between them.
+   2. **CONCAT** combines multiple string columns into one. E.g., `SELECT CONCAT(clerk, '-', orderpriority) FROM ORDERS LIMIT 5;` will concatenate clerk and orderpriority columns with a dash in between them.
    3. **SPLIT** is used to split a value into an array based on a given delimiter. E.g., `SELECT SPLIT(clerk, '#') FROM ORDERS LIMIT 5;` will output a column with arrays formed by splitting clerk values on `#`.
-   4. **SUBSTRING** is used to get a sub-string from a value, given the start and end character indices. E.g., `SELECT clerk, SUBSTR(clerk, 1, 5) FROM orders LIMIT 5;` will get the first five (1 - 5) characters of the clerk column. Note that the indexing starts from 1 in Trino.
+   4. **SUBSTRING** is used to get a sub-string from a value, given the start and length. E.g., `SELECT clerk, SUBSTRING(clerk, 1, 5) FROM orders LIMIT 5;` will get the first five characters of the clerk column. Note that indexing starts from 1 in Spark SQL.
    5. **TRIM** is used to remove empty spaces to the left and right of the value. E.g., `SELECT TRIM(' hi ');` will output `hi` without any spaces around it. LTRIM and RTRIM are similar but only remove spaces before and after the string, respectively.
+
 2. **` Date and Time functions`**
-   1. **Adding and subtracting dates**: Is used to add and subtract periods; the format heavily depends on the DB. E.g., In Trino, the query
+   1. **Adding and subtracting dates**: Is used to add and subtract periods; the format heavily depends on the DB. E.g., In Spark SQL, the query
       ```sql
         SELECT
-        date_diff('DAY', DATE '2022-10-01', DATE '2023-11-05') diff_in_days,
-        date_diff('MONTH', DATE '2022-10-01', DATE '2023-11-05') diff_in_months,
-        date_diff('YEAR', DATE '2022-10-01', DATE '2023-11-05') diff_in_years;
+        DATEDIFF(DATE '2023-11-05', DATE '2022-10-01') AS diff_in_days,
+        MONTHS_BETWEEN(DATE '2023-11-05', DATE '2022-10-01') AS diff_in_months,
+        YEAR(DATE '2023-11-05') - YEAR(DATE '2022-10-01') AS diff_in_years;
       ```
-    It will show the difference between the two dates in the specified period. We can also add/subtract an arbitrary period from a date/time column. E.g., `SELECT DATE '2022-11-05' + INTERVAL '10' DAY;` will show the output `2022-11-15`.
-   2. **string <=> date/time conversions**: When we want to change the data type of a string to date/time, we can use the `DATE 'YYYY-MM-DD'` or `TIMESTAMP 'YYYY-MM-DD HH:mm:SS` functions. But when the data is in a different date/time format such as `MM/DD/YYYY`, we will need to specify the input structure; we do this using `date_parse,` E.g. `SELECT date_parse('11-05-2023', '%m-%d-%Y');`. We can convert a timestamp/date into a string with the required format using `date_format`. E.g., `SELECT DATE_FORMAT(orderdate, '%Y-%m-01') AS first_month_date FROM orders LIMIT 5;` will map every orderdate to the first of their month.
-   3. **Time frame functions (YEAR/MONTH/DAY)**:  When we want to extract specific periods from a date/time column, we can use these functions. E.g., `SELECT year(date '2023-11-05');` will return 2023. Similarly, we have month, day, hour, min, etc.
+    It will show the difference between the two dates in the specified period. We can also add/subtract an arbitrary period from a date/time column. E.g., `SELECT DATE_ADD(DATE '2022-11-05', 10);` will show the output `2022-11-15`.
+
+   2. **string <=> date/time conversions**: When we want to change the data type of a string to date/time, we can use the `DATE 'YYYY-MM-DD'` or `TIMESTAMP 'YYYY-MM-DD HH:mm:SS'` functions. But when the data is in a different date/time format such as `MM/DD/YYYY`, we will need to specify the input structure; we do this using `TO_DATE` or `TO_TIMESTAMP`. E.g. `SELECT TO_DATE('11-05-2023', 'MM-dd-yyyy');`. We can convert a timestamp/date into a string with the required format using `DATE_FORMAT`. E.g., `SELECT DATE_FORMAT(orderdate, 'yyyy-MM-01') AS first_month_date FROM orders LIMIT 5;` will map every orderdate to the first of their month.
+   
+   3. **Time frame functions (YEAR/MONTH/DAY)**:  When we want to extract specific periods from a date/time column, we can use these functions. E.g., `SELECT YEAR(DATE '2023-11-05');` will return 2023. Similarly, we have MONTH, DAY, HOUR, MINUTE, etc.
+
 3. **`Numeric`**
    1. **ROUND** is used to specify the number of digits allowed after the decimal point. E.g. `SELECT ROUND(100.102345, 2);`
 
 ## Save queries as views for more straightforward reads
 
-When we have large/complex queries that we need to run often, we can save them as views. Views are DB objects that operate similarly to a table. The OLAP DB executes the underlying query when we query a view. 
+When we have large/complex queries that we need to run often, we can save them as views. Views are database objects that operate similarly to tables. The OLAP DB executes the underlying query when we query a view. 
 
 Use views to hide query complexities and limit column access (by exposing only specific table columns) for end-users.
 
@@ -748,30 +756,34 @@ FROM
     nation_supplied_purchased_quantity;
 ```
 
-Now the view `nation_supplied_purchased_quantity` will run the underlying query when used. Note here we use the `minio.tpch` schema because catalog `tpch` does not allow the creation of views. The `tpch` catalog comes with Trino and only allows read operations. Read more about [connectors here](https://trino.io/docs/current/overview/concepts.html#connector).
+Now the view `nation_supplied_purchased_quantity` will run the underlying query when used.
+
 
 ## Exercises
 
-1. Create a report that shows the number of returns for each region name 
+1. Create a report that shows the number of returns for each region name
+**Topics**: JOINs, GROUP BY, COUNT
 2. Top 10 most selling parts
-3. Sellers who sell atleast one of the top 10 selling parts
+**Topics**: aggregations, ranking, LIMIT, top N analysis
+3. Sellers who sell at least one of the top 10 selling parts
+**Topics**: subqueries
 4. Number of returns per order price bucket
-
-Assume the price bucket logic is 
+**Topics**: CASE statements, data bucketing, conditional logic
 ```sql
- CASE
-        WHEN totalprice > 100000 THEN 'high'
-        WHEN totalprice BETWEEN 25000
-        AND 100000 THEN 'medium'
-        ELSE 'low'
-    END AS order_price_bucket
+CASE
+    WHEN o_totalprice > 100000 THEN 'high'
+    WHEN o_totalprice BETWEEN 25000 AND 100000 THEN 'medium'
+    ELSE 'low'
+END AS order_price_bucket
 ```
-
 5. Average time (in days) between receiptdate and shipdate for each nation
+**Topics**: date arithmetic, time calculations
+
 
 ## Recommended reading
 
 1. https://www.startdataengineering.com/post/improve-sql-skills-de/
 2. https://www.startdataengineering.com/post/n-sql-tips-de/
 3. https://www.startdataengineering.com/post/advanced-sql/
+
 
